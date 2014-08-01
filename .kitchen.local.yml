@@ -1,0 +1,5 @@
+# This is the local override file that should contain tests for this specific stack.
+suites:
+  - name: default
+    run_list: recipe[elkstack]
+    attributes:

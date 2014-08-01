@@ -1,0 +1,31 @@
+---
+# This file is managed by the stacks toolchain. It may be overwritten by
+# updates to the template. Your customizations should be placed inside the
+# .kitchen.local.yml, which will not be overwritten by newer templates.
+# If you need to override the driver, do it in ~/.kitchen/config.yml or using
+# environment variables like VAGRANT_DEFAULT_PROVIDER.
+
+driver:
+  name: vagrant
+  network:
+  - ["forwarded_port", {guest: 80, host: 8000}]
+  - ["forwarded_port", {guest: 8080, host: 8080}]
+
+driver_config:
+  require_chef_omnibus: 11.12.8
+
+provisioner:
+  name: chef_zero
+  client_rb:
+    environment: _default
+
+platforms:
+  - name: ubuntu-14.04
+    run_list:
+    - recipe[apt]
+  - name: ubuntu-12.04
+    run_list:
+    - recipe[apt]
+  - name: centos-6.5
+    run_list:
+    - recipe[yum]
