@@ -7,9 +7,6 @@
 
 driver:
   name: vagrant
-  network:
-  - ["forwarded_port", {guest: 80, host: 8000}]
-  - ["forwarded_port", {guest: 8080, host: 8080}]
 
 driver_config:
   require_chef_omnibus: 11.12.8
@@ -18,6 +15,24 @@ provisioner:
   name: chef_zero
   client_rb:
     environment: _default
+  attributes:
+    cloud:
+      public_ipv4: '127.0.0.1'
+    authorization:
+      sudo:
+        users: ['vagrant']
+        passwordless: true
+    platformstack:
+      cloud_backup:
+        enabled: false
+      cloud_monitoring:
+        enabled: false
+      omnibus_updater:
+        enabled: false
+    rackspace:
+      cloud_credentials:
+        username: 'racker'
+        api_key: 'sekrit'
 
 platforms:
   - name: ubuntu-14.04
@@ -29,3 +44,13 @@ platforms:
   - name: centos-6.5
     run_list:
     - recipe[yum]
+
+suites:
+  - name: default
+    run_list: recipe[elkstack::single]
+  - name: logstash
+    run_list: recipe[elkstack]
+  - name: kibana
+    run_list: recipe[elkstack]
+  - name: elasticsearch
+    run_list: recipe[elkstack]
