@@ -19,4 +19,5 @@ node.set['logstash']['server']['enable_embedded_es'] = false
 node.set['logstash']['instance']['server'] = 'logstash'
 include_recipe 'logstash::server'
 
-include_recipe 'elkstack::kibana'
+include_recipe 'kibana'
+include_recipe 'kibana::install'

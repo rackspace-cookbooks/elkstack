@@ -11,8 +11,7 @@ if Chef::Config[:solo]
   Chef::Log.warn('This recipe uses search. Chef Solo does not support search.')
 end
 
-es_search = "recipes:elasticsearch\\:\\:default AND chef_environment:#{node.chef_environment}"
-es = search('node', es_search).first
+es = search('node', "recipes:elasticsearch\\:\\:default AND chef_environment:#{node.chef_environment}").first
 
 node.override['kibana']['es_server'] = best_ip_for(es)
 include_recipe 'kibana'

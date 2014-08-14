@@ -5,9 +5,13 @@
 #
 # Copyright 2014, Rackspace
 #
+include_recipe 'chef-sugar'
 
-es_search = "recipes:elasticsearch\\:\\:default AND chef_environment:#{node.chef_environment}"
-es = search('node', es_search).first
+if Chef::Config[:solo]
+  Chef::Log.warn('This recipe uses search. Chef Solo does not support search.')
+end
+
+es = search('node', "recipes:elasticsearch\\:\\:default AND chef_environment:#{node.chef_environment}").first
 
 node.set['logstash']['instance']['default']['enable_embedded_es'] = false
 node.set['logstash']['instance']['default']['elasticsearch_cluster'] = 'logstash'
