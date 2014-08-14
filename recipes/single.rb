@@ -5,7 +5,7 @@
 #
 # Copyright 2014, Rackspace
 #
-
+include_recipe 'build-essential'
 include_recipe 'java'
 include_recipe 'elasticsearch::default'
 

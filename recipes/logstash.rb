@@ -5,6 +5,7 @@
 #
 # Copyright 2014, Rackspace
 #
+include_recipe 'build-essential'
 include_recipe 'chef-sugar'
 
 if Chef::Config[:solo]

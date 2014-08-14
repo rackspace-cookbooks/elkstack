@@ -7,6 +7,7 @@ description      'Installs/Configures elkstack'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version          '0.1.1'
 
+depends 'build-essential'
 depends 'java'
 depends 'elasticsearch', '~> 0.3'
 depends 'logstash', '~> 0.9'
