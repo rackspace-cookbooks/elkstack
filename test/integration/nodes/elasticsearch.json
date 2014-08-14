@@ -1,0 +1,10 @@
+{
+  "name": "elasticsearch-01",
+  "chef_environment": "_default",
+  "json_class": "Chef::Node",
+  "ipaddress": "192.168.0.24",
+  "chef_type": "node",
+  "run_list": [
+    "recipe[elasticsearch::default]"
+  ]
+}

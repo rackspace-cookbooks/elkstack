@@ -7,6 +7,8 @@
 
 driver:
   name: vagrant
+  network:
+  - ["forwarded_port", {guest: 80, host: 8080}]
 
 driver_config:
   require_chef_omnibus: 11.12.8
@@ -48,9 +50,9 @@ platforms:
 suites:
   - name: default
     run_list: recipe[elkstack::single]
+
   - name: logstash
-    run_list: recipe[elkstack]
+    run_list: recipe[elkstack::logstash]
+
   - name: kibana
-    run_list: recipe[elkstack]
-  - name: elasticsearch
-    run_list: recipe[elkstack]
+    run_list: recipe[elkstack::kibana]
