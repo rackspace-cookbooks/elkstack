@@ -13,7 +13,8 @@
 #
 if platform_family?("rhel")
   execute 'pip install -U setuptools'
-  execute 'pip install -U pip'
+  execute 'pip install -U setuptools' # yes, twice, according to links above
+  execute 'pip install -U pip'        # was the only way it worked for me.
 end
 
 # for long cloud server names :(
