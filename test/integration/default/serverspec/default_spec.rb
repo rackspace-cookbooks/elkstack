@@ -14,6 +14,10 @@ describe process('nginx') do
   it { should be_running }
 end
 
-describe process('java') do
-  its(:args) { should match(/logstash/) }
+describe service('logstash') do
+  it { should be_running }
+end
+
+describe service('elasticsearch') do
+  it { should be_running }
 end

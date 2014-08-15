@@ -6,6 +6,6 @@ describe port(9200) do
   it { should be_listening }
 end
 
-describe process('java') do
-  its(:args) { should match(/logstash/) }
+describe service('logstash') do
+  it { should be_running }
 end

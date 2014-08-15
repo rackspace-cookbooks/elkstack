@@ -5,8 +5,7 @@
 #
 # Copyright 2014, Rackspace
 #
-include_recipe 'build-essential'
-include_recipe 'chef-sugar'
+include_recipe 'elkstack::_base'
 
 if Chef::Config[:solo]
   Chef::Log.warn('This recipe uses search. Chef Solo does not support search.')
