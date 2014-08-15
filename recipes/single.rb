@@ -7,6 +7,7 @@
 #
 include_recipe 'build-essential'
 include_recipe 'chef-sugar'
+include_recipe 'elkstack::_base'
 
 include_recipe 'java'
 include_recipe 'elasticsearch::default'
