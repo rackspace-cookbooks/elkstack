@@ -9,28 +9,45 @@ include_recipe 'elkstack::_base'
 include_recipe 'java'
 include_recipe 'elasticsearch::default'
 
-node.set['logstash']['instance']['default']['enable_embedded_es'] = false
-node.set['logstash']['instance']['default']['elasticsearch_cluster'] = 'logstash'
-node.set['logstash']['instance']['default']['elasticsearch_ip'] = '127.0.0.1'
-node.set['logstash']['instance']['default']['bind_host_interface'] = '127.0.0.1'
-node.set['logstash']['instance']['default']['elasticsearch_port'] = '9200'
+node.set['logstash']['instance']['server']['enable_embedded_es'] = false
+node.set['logstash']['instance']['server']['elasticsearch_cluster'] = 'logstash'
+node.set['logstash']['instance']['server']['elasticsearch_ip'] = '127.0.0.1'
+node.set['logstash']['instance']['server']['bind_host_interface'] = '127.0.0.1'
+node.set['logstash']['instance']['server']['elasticsearch_port'] = '9200'
+node.set['logstash']['instance']['server']['basedir'] = '/opt/logstash'
+node.set['logstash']['instance']['server']['install_type'] = 'tarball'
+node.set['logstash']['instance']['server']['version'] = '1.4.1'
+node.set['logstash']['instance']['server']['checksum'] = 'a1db8eda3d8bf441430066c384578386601ae308ccabf5d723df33cee27304b4'
+node.set['logstash']['instance']['server']['source_url'] = 'https://download.elasticsearch.org/logstash/logstash/logstash-1.4.1.tar.gz'
+node.set['logstash']['instance']['server']['user'] = 'logstash'
+node.set['logstash']['instance']['server']['group'] = 'logstash'
+node.set['logstash']['instance']['server']['user_opts'] = { homedir: '/var/lib/logstash', uid: nil, gid: nil }
+node.set['logstash']['instance']['server']['logrotate_enable']  = true
+node.set['logstash']['instance']['server']['logrotate_options'] = %w(missingok notifempty compress copytruncate)
+node.set['logstash']['instance']['server']['logrotate_frequency'] = 'daily'
+node.set['logstash']['instance']['server']['logrotate_max_backup'] = 10
+node.set['logstash']['instance']['server']['logrotate_max_size'] = '10M'
+node.set['logstash']['instance']['server']['logrotate_use_filesize'] = false
+node.set['logstash']['instance']['server']['xms'] = "#{(node['memory']['total'].to_i * 0.2).floor / 1024}M"
+node.set['logstash']['instance']['server']['xmx'] = "#{(node['memory']['total'].to_i * 0.6).floor / 1024}M"
 
-node.set['logstash']['instance']['default']['xmx'] = "#{(node['memory']['total'].to_i * 0.6).floor / 1024}M"
-node.set['logstash']['instance']['default']['xms'] = "#{(node['memory']['total'].to_i * 0.2).floor / 1024}M"
+node.set['logstash']['instance']['server']['pattern_templates_cookbook'] = 'logstash'
+node.set['logstash']['instance']['server']['base_config_cookbook'] = 'logstash'
+node.set['logstash']['instance']['server']['config_templates_cookbook'] = 'logstash'
 
 node.set['logstash']['server']['enable_embedded_es'] = false
 
 include_recipe 'logstash'
 
-logstash_instance 'logstash' do
+logstash_instance 'server' do
   action 'create'
 end
 
-logstash_service 'logstash' do
+logstash_service 'server' do
   action ['enable', 'start']
 end
 
-logstash_config 'logstash' do
+logstash_config 'server' do
   action 'create'
   variables(
     elasticsearch_embedded: false
