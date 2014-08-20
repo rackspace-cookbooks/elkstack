@@ -37,8 +37,6 @@ node.set['logstash']['instance']['server']['config_templates_cookbook'] = 'logst
 
 node.set['logstash']['server']['enable_embedded_es'] = false
 
-include_recipe 'logstash'
-
 logstash_instance 'server' do
   action 'create'
 end
