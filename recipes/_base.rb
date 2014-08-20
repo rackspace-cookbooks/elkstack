@@ -9,18 +9,6 @@ include_recipe 'build-essential'
 include_recipe 'chef-sugar'
 include_recipe 'python'
 
-# upgrade -- seriously???
-upgrade_st = python_pip 'setuptools' do
-  action :nothing
-end
-upgrade_st.run_action(:upgrade)
-upgrade_st.run_action(:upgrade)
-
-upgrade_pip = python_pip 'pip' do
-  action :nothing
-end
-upgrade_pip.run_action(:upgrade)
-
 # for long cloud server names :(
 node.set['nginx']['server_names_hash_bucket_size'] = 128
 
