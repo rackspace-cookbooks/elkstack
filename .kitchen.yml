@@ -51,8 +51,8 @@ suites:
   - name: default
     run_list: recipe[elkstack::single]
 
-  - name: logstash-server
-    run_list: recipe[elkstack::logstash-server]
+  - name: logstash_server
+    run_list: recipe[elkstack::logstash_server]
 
   - name: kibana
     run_list: recipe[elkstack::kibana]
