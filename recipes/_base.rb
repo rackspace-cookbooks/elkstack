@@ -9,6 +9,14 @@ include_recipe 'build-essential'
 include_recipe 'chef-sugar'
 include_recipe 'python'
 
+# for centos on rackspace cloud
+case platform_family?
+when 'rhel'
+  python_pip 'setuptools'
+  python_pip 'setuptools'
+  python_pip 'pip'
+end
+
 # for long cloud server names :(
 node.set['nginx']['server_names_hash_bucket_size'] = 128
 
