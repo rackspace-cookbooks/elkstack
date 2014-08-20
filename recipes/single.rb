@@ -35,21 +35,35 @@ node.set['logstash']['instance']['server']['pattern_templates_cookbook'] = 'logs
 node.set['logstash']['instance']['server']['base_config_cookbook'] = 'logstash'
 node.set['logstash']['instance']['server']['config_templates_cookbook'] = 'logstash'
 
+config_templates_variables = {}
+config_templates_variables['elasticsearch_embedded']=false
+node.set['logstash']['instance']['server']['config_templates_variables'] = config_templates_variables
+
+# this is not used anywhere except the README :(
 node.set['logstash']['server']['enable_embedded_es'] = false
 
 logstash_instance 'server' do
   action 'create'
 end
 
+my_templates = {
+  'input_syslog' => 'config/input_syslog.conf.erb',
+  'output_stdout' => 'config/output_stdout.conf.erb',
+  'output_elasticsearch' => 'config/output_elasticsearch.conf.erb'
+}
+
 logstash_service 'server' do
-  action ['enable', 'start']
+  action ['enable']
 end
 
 logstash_config 'server' do
   action 'create'
-  variables(
-    elasticsearch_embedded: false
-  )
+  templates my_templates
+  notifies :restart, 'logstash_service[server]', :delayed
+end
+
+logstash_service 'server' do
+  action ['start']
 end
 
 if rhel?
