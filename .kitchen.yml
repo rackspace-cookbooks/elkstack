@@ -50,9 +50,8 @@ platforms:
 suites:
   - name: default
     run_list: recipe[elkstack::single]
-
-  - name: logstash_server
-    run_list: recipe[elkstack::logstash_server]
-
-  - name: kibana
-    run_list: recipe[elkstack::kibana]
+# remove rest until we get this working
+#  - name: logstash_server
+#    run_list: recipe[elkstack::logstash_server]
+#  - name: kibana
+#    run_list: recipe[elkstack::kibana]
