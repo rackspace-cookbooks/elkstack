@@ -7,7 +7,13 @@
 #
 include_recipe 'build-essential'
 include_recipe 'chef-sugar'
-include_recipe 'python'
+
+# we can no longer do: include_recipe 'python'
+# because it makes broken pip calls before we can
+# upgrade setuptools and pip, so we call the three
+# recipes there-in (package, pip, virtualenv)
+include_recipe "python::#{node['python']['install_method']}"
+include_recipe "python::pip"
 
 # for centos on rackspace cloud
 case platform_family?
@@ -16,6 +22,9 @@ when 'rhel'
   python_pip 'setuptools'
   python_pip 'pip'
 end
+
+# now this is safe, came from the python::default recipe
+include_recipe "python::virtualenv"
 
 # for long cloud server names :(
 node.set['nginx']['server_names_hash_bucket_size'] = 128
