@@ -15,12 +15,16 @@ include_recipe 'chef-sugar'
 include_recipe "python::#{node['python']['install_method']}"
 include_recipe "python::pip"
 
-# for centos on rackspace cloud
+# for centos on rackspace cloud, due to:
+# https://github.com/poise/python/issues/100#issuecomment-52047976
+# https://github.com/poise/python/pull/112
+# http://stackoverflow.com/questions/11425106/python-pip-install-fails-invalid-command-egg-info/25288078#25288078
 case platform_family?
 when 'rhel'
-  python_pip 'setuptools'
-  python_pip 'setuptools'
-  python_pip 'pip'
+  commands = ['pip install -U pip', 'pip install -U setuptools', 'pip install -U setuptools']
+  commands.each do |cmd|
+    execute cmd # would love to guard this w/ pip versions, but at compile time, pip isn't installed
+  end
 end
 
 # now this is safe, came from the python::default recipe
