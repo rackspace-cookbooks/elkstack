@@ -13,7 +13,6 @@ include_recipe 'chef-sugar'
 # upgrade setuptools and pip, so we call the three
 # recipes there-in (package, pip, virtualenv)
 include_recipe "python::#{node['python']['install_method']}"
-include_recipe "python::pip"
 
 # for centos on rackspace cloud, due to:
 # https://github.com/poise/python/issues/100#issuecomment-52047976
