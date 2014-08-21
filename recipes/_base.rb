@@ -20,7 +20,7 @@ include_recipe "python::#{node['python']['install_method']}"
 # http://stackoverflow.com/questions/11425106/python-pip-install-fails-invalid-command-egg-info/25288078#25288078
 case platform_family?
 when 'rhel'
-  commands = ['pip install -U pip', 'pip install -U setuptools', 'pip install -U setuptools']
+  commands = ['pip install -U setuptools', 'pip install -U setuptools', 'pip install -U pip']
   commands.each do |cmd|
     execute cmd # would love to guard this w/ pip versions, but at compile time, pip isn't installed
   end
