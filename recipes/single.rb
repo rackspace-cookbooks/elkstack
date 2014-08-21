@@ -28,8 +28,13 @@ node.set['logstash']['instance']['server']['logrotate_frequency'] = 'daily'
 node.set['logstash']['instance']['server']['logrotate_max_backup'] = 10
 node.set['logstash']['instance']['server']['logrotate_max_size'] = '10M'
 node.set['logstash']['instance']['server']['logrotate_use_filesize'] = false
+
+# restrict logstash to 20% of the box
 node.set['logstash']['instance']['server']['xms'] = "#{(node['memory']['total'].to_i * 0.2).floor / 1024}M"
-node.set['logstash']['instance']['server']['xmx'] = "#{(node['memory']['total'].to_i * 0.4).floor / 1024}M"
+node.set['logstash']['instance']['server']['xmx'] = "#{(node['memory']['total'].to_i * 0.2).floor / 1024}M"
+
+# restrict elasticsearch to 40% of the box
+node.set['elasticsearch']['allocated_memory'] = "#{(node.memory.total.to_i * 0.4 ).floor / 1024}m"
 
 node.set['logstash']['instance']['server']['pattern_templates_cookbook'] = 'logstash'
 node.set['logstash']['instance']['server']['base_config_cookbook'] = 'logstash'
