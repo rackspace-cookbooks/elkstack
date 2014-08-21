@@ -29,7 +29,7 @@ node.set['logstash']['instance']['server']['logrotate_max_backup'] = 10
 node.set['logstash']['instance']['server']['logrotate_max_size'] = '10M'
 node.set['logstash']['instance']['server']['logrotate_use_filesize'] = false
 node.set['logstash']['instance']['server']['xms'] = "#{(node['memory']['total'].to_i * 0.2).floor / 1024}M"
-node.set['logstash']['instance']['server']['xmx'] = "#{(node['memory']['total'].to_i * 0.6).floor / 1024}M"
+node.set['logstash']['instance']['server']['xmx'] = "#{(node['memory']['total'].to_i * 0.4).floor / 1024}M"
 
 node.set['logstash']['instance']['server']['pattern_templates_cookbook'] = 'logstash'
 node.set['logstash']['instance']['server']['base_config_cookbook'] = 'logstash'
