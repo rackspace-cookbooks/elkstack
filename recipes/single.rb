@@ -34,18 +34,20 @@ node.set['logstash']['instance']['server']['xms'] = "#{(node['memory']['total'].
 node.set['logstash']['instance']['server']['xmx'] = "#{(node['memory']['total'].to_i * 0.2).floor / 1024}M"
 
 # restrict elasticsearch to 40% of the box
-node.set['elasticsearch']['allocated_memory'] = "#{(node.memory.total.to_i * 0.4 ).floor / 1024}m"
+node.set['elasticsearch']['allocated_memory'] = "#{(node.memory.total.to_i * 0.4).floor / 1024}m"
 
 node.set['logstash']['instance']['server']['pattern_templates_cookbook'] = 'logstash'
 node.set['logstash']['instance']['server']['base_config_cookbook'] = 'logstash'
 node.set['logstash']['instance']['server']['config_templates_cookbook'] = 'logstash'
 
 config_templates_variables = {}
-config_templates_variables['elasticsearch_embedded']=false
+config_templates_variables['elasticsearch_embedded'] = false
 node.set['logstash']['instance']['server']['config_templates_variables'] = config_templates_variables
 
 # this is not used anywhere except the README :(
 node.set['logstash']['server']['enable_embedded_es'] = false
+
+include_recipe 'logstash::default'
 
 logstash_instance 'server' do
   action 'create'
