@@ -2,7 +2,7 @@
 
 require_relative 'spec_helper'
 
-describe 'pythonstack::default' do
+describe 'elkstack::default' do
   before { stub_resources }
   describe 'ubuntu' do
     let(:chef_run) { ChefSpec::Runner.new.converge(described_recipe) }

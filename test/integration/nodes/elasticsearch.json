@@ -1,0 +1,27 @@
+{
+  "name": "elasticsearch-01",
+  "tags": "elasticsearch",
+  "chef_environment": "_default",
+  "json_class": "Chef::Node",
+  "automatic": {
+    "hostname": "vagrant.vm",
+    "recipes": [
+      "java::default",
+      "elasticsearch::default"
+    ],
+    "roles": [
+      "elasticsearch"
+    ]
+  },
+  "normal": {
+  },
+  "chef_type": "node",
+  "default": {
+  },
+  "override": {
+  },
+  "run_list": [
+    "role[elasticsearch]"
+  ],
+  "ipaddress": "192.168.0.23"
+}
