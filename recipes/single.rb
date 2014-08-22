@@ -59,10 +59,6 @@ my_templates = {
   'output_elasticsearch' => 'config/output_elasticsearch.conf.erb'
 }
 
-logstash_service 'server' do
-  action ['enable']
-end
-
 logstash_config 'server' do
   action 'create'
   templates my_templates
@@ -70,7 +66,7 @@ logstash_config 'server' do
 end
 
 logstash_service 'server' do
-  action ['start']
+  action ['enable','start']
 end
 
 if rhel?
