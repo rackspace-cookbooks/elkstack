@@ -19,13 +19,17 @@ my_templates = {
   'output_elasticsearch' => 'config/output_elasticsearch.conf.erb'
 }
 
+logstash_service 'server' do
+  action :enable
+end
+
 logstash_config 'server' do
   action 'create'
   templates my_templates
   templates_cookbook 'elkstack'
-  notifies :restart, 'logstash_service[server]', :delayed
+  # don't need notifies since the LWRP does it
 end
 
 logstash_service 'server' do
-  action ['enable', 'start']
+  action :start
 end
