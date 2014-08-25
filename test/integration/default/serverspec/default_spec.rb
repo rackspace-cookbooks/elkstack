@@ -2,22 +2,19 @@
 
 require_relative 'spec_helper'
 
-describe port(9200) do
-  it { should be_listening }
+describe command('java -version') do
+  it { should return_exit_status 0 }
 end
 
-describe port(80) do
-  it { should be_listening }
+describe command('ruby -v') do
+  it { should return_exit_status 0 }
 end
 
-describe process('nginx') do
-  it { should be_running }
+describe command('python -V') do
+  it { should return_exit_status 0 }
 end
 
-describe service('logstash') do
-  it { should be_running }
-end
-
-describe service('elasticsearch') do
-  it { should be_running }
-end
+require_relative 'elasticsearch'
+require_relative 'logstash'
+require_relative 'end2end'
+require_relative 'kibana'
