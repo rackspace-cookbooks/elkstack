@@ -1,9 +1,22 @@
 # elkstack
 
-Template for new stacks that includes best practices and default files for
-Rubocop, Foodcritic (including custom [Rackspace rules](https://github.com/AutomationSupport/foodcritic-rackspace-rules)),
-Rake, Thor, etc. Eventually, and ideally, this would be used by [stackbuilder](https://github.com/rackerlabs/stackbuilder)
-to initialize new stacks.
+Elasticsearch, Logstash, and Kibana stack. Due to the recommendations of the
+community, we are not using the embedded elasticsearch functionality of logstash
+at this point. This cookbook provides recipes for all three components, along
+with wrapper recipes such as `single` or `cluster` to facilitate different use
+cases.
+
+This stack's design is intended for one or many standalone nodes, with a full
+stack of elasticsearch, logstash, and kibana. The only difference between one
+and many nodes is that elasticsearch is clustered together. Data dispatched to  
+Logstash on a particular node will use the local elasticsearch transport
+interface to index those logs to the node (and thus, the cluster). HTTP traffic
+dispatched to Kibana on port 80 on any node will also use the local
+elasticsearch HTTP interface to fetch and manipulate data.
+
+Please read the individual recipe summaries to understand what each recipe does,
+as well as what each wrapper recipe is actually wrapping. As much as possible,
+upstream attributes have been exposed/overriden for our needs.
 
 ## [Changelog](CHANGELOG.md)
 
@@ -17,8 +30,8 @@ CentOS 6.5
 
 ## Attributes
 
-Please describe any attributes exposed by this stack, and what the default values are. There shouldn't be any attributes without a default value (e.g. no required attributes, sensible defaults).
-
+This stack does not offer any specific attributes beyond the upstream cookbook attributes, many of which it overrides.
+<!--
 <table>
   <tr>
     <th>Key</th>
@@ -33,16 +46,49 @@ Please describe any attributes exposed by this stack, and what the default value
     <td><tt>true</tt></td>
   </tr>
 </table>
-
+-->
 ## Usage
 
 ### elkstack::default
 
-This is where you should define what the default recipe does, if anything.
+Default recipe, does not do anything.
 
-### elkstack::bacon
+### elkstack::java
 
-Please define what the other recipes do as well.
+Wrapper for a java recipe. This is not included on the run list normally, so if
+you don't already, you must include this recipe or get another JVM installed
+before including anything else in this cookbook.
+
+### elkstack::kibana
+
+Leans on the upstream `lusis/chef-kibana` cookbook for most of its work. Sets up
+an nginx site for kibana by default. By default, it also does not pass through
+most of the http paths directly to elasticsearch (whitelist).
+
+### elkstack::elasticsearch
+
+Leans on the upstream `elasticsearch/cookbook-elasticsearch` cookbook for much
+of its work. We do override the default set of plugins to be installed, as well
+as the amount of JVM heap. See `attributes/default.rb` for those settings.
+
+### elkstack::logstash
+
+Leans on the upstream `lusis/chef-logstash` cookbook for much
+of its work. We do override the default set of plugins to be installed, as well
+as the amount of JVM heap. See `attributes/default.rb` for those settings.
+
+### elkstack::rsyslog
+
+Leans on the upstream `opscode-cookbooks/rsyslog` cookbook for most of its work.
+We do add the logstash user to the rsyslogd's group before we call
+`rsyslog::client` to configure the node's rsyslogd itself to send to logstash.
+
+### Miscellaneous
+
+You may do `include_recipe 'rsyslog::client'` if you'd like a local rsyslog that
+sends to the local logstash instance. The stack has already been configured with
+attributes for this use case. See `attributes/default.rb` for those settings.
+
 
 ## Contributing
 
