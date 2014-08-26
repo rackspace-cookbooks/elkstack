@@ -1,6 +1,7 @@
 # Guardfile built by Meez ( http://github.com/paulczar/meez )
 # for testing your chef cookbooks.
 
+# rubocop:disable Style/RegexpLiteral
 guard :rubocop do
   watch(%r{.+\.rb$})
   watch(%r{(?:.+/)?\.rubocop\.yml$}) { |m| File.dirname(m[0]) }
@@ -13,3 +14,4 @@ guard :foodcritic, cookbook_paths: '.', cli: ['--epic-fail', 'any'] do
   watch(%r{resources/.+\.rb$})
   watch(%r{metadata\.rb$})
 end
+# rubocop:enable Style/RegexpLiteral

@@ -7,7 +7,7 @@
 #
 include_recipe 'build-essential'
 include_recipe 'chef-sugar'
-include_recipe "python"
+include_recipe 'python'
 
 # for long cloud server names :(
 node.set['nginx']['server_names_hash_bucket_size'] = 128

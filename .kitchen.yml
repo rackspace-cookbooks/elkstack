@@ -8,10 +8,11 @@
 driver:
   name: vagrant
   network:
-  - ["forwarded_port", {guest: 80, host: 8080, auto_correct: true}]
+  - ["forwarded_port", {guest: 9200, host: 9200, auto_correct: true}] # elastic
+  - ["forwarded_port", {guest: 80,   host: 8080, auto_correct: true}] # kibana
 
 driver_config:
-  require_chef_omnibus: latest
+  require_chef_omnibus: true
 
 provisioner:
   name: chef_zero
@@ -49,7 +50,9 @@ platforms:
 
 suites:
   - name: default
-    run_list: recipe[elkstack::single]
+    run_list:
+      - recipe[elkstack::java]
+      - recipe[elkstack::single]
 # remove rest until we get this working
 #  - name: logstash_server
 #    run_list: recipe[elkstack::logstash_server]
