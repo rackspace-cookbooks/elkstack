@@ -13,11 +13,6 @@ describe service('logstash_server') do
 end
 
 describe 'logstash' do
-  it 'should report status ok' do
-    expect(command 'sleep 5 && curl localhost:9200/_status?pretty=1')
-    .to return_stdout(/.*"ok" : true.*/)
-  end
-
   # can't use process() matcher because of two java processes
   it 'should be running Logstash main class' do
     expect(command 'ps aux | grep -v grep | grep -s logstash/runner.rb')
