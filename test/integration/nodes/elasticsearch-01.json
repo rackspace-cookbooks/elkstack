@@ -1,16 +1,19 @@
 {
   "name": "elasticsearch-01",
-  "tags": "elasticsearch",
   "chef_environment": "_default",
   "json_class": "Chef::Node",
   "automatic": {
     "hostname": "vagrant.vm",
+    "ipaddress": "1.2.3.4",
     "recipes": [
       "java::default",
       "elasticsearch::default"
     ],
     "roles": [
       "elasticsearch"
+    ],
+    "tags": [
+      "elkstack_cluster"
     ]
   },
   "normal": {
@@ -19,9 +22,13 @@
   "default": {
   },
   "override": {
+    "elasticsearch" : {
+      "cluster" : {
+        "name" : "elasticsearch"
+      }
+    }
   },
   "run_list": [
     "role[elasticsearch]"
-  ],
-  "ipaddress": "192.168.0.23"
+  ]
 }

@@ -53,8 +53,8 @@ suites:
     run_list:
       - recipe[elkstack::java]
       - recipe[elkstack::single]
-# remove rest until we get this working
-#  - name: logstash_server
-#    run_list: recipe[elkstack::logstash_server]
-#  - name: kibana
-#    run_list: recipe[elkstack::kibana]
+
+  - name: clustered
+    run_list:
+      - recipe[elkstack::java]
+      - recipe[elkstack::cluster]

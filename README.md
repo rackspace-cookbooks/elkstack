@@ -26,6 +26,8 @@ See CHANGELOG.md for additional information about changes to this stack over tim
 
 Ubuntu 12.04
 
+Ubuntu 14.04
+
 CentOS 6.5
 
 ## Attributes
@@ -40,10 +42,10 @@ This stack does not offer any specific attributes beyond the upstream cookbook a
     <th>Default</th>
   </tr>
   <tr>
-    <td><tt>['elkstack']['bacon']</tt></td>
+    <td><tt>['elkstack']['config']['cluster']</tt></td>
     <td>Boolean</td>
-    <td>whether to include bacon</td>
-    <td><tt>true</tt></td>
+    <td>whether to search for and connect Elasticsearch to cluster nodes</td>
+    <td><tt>false</tt></td>
   </tr>
 </table>
 -->
@@ -53,17 +55,17 @@ This stack does not offer any specific attributes beyond the upstream cookbook a
 
 Default recipe, does not do anything.
 
-### elkstack::java
+### elkstack::single
 
-Wrapper for a java recipe. This is not included on the run list normally, so if
-you don't already, you must include this recipe or get another JVM installed
-before including anything else in this cookbook.
+A simple wrapper recipe that sets up Elasticsearch, Logstash, and Kibana. Also
+configures an rsyslog sink into logstash on the local box. Everything except
+Logstash and Kibana is locked down to listen only on localhost.
 
-### elkstack::kibana
+### elkstack::cluster
 
-Leans on the upstream `lusis/chef-kibana` cookbook for most of its work. Sets up
-an nginx site for kibana by default. By default, it also does not pass through
-most of the http paths directly to elasticsearch (whitelist).
+A simple wrapper recipe that sets up Elasticsearch, Logstash, and Kibana. Also
+configures an rsyslog sink into logstash on the local box. Sets the cluster flag
+so that the elasticsearch recipe builds it in a cluster-friendly way.
 
 ### elkstack::elasticsearch
 
@@ -71,24 +73,45 @@ Leans on the upstream `elasticsearch/cookbook-elasticsearch` cookbook for much
 of its work. We do override the default set of plugins to be installed, as well
 as the amount of JVM heap. See `attributes/default.rb` for those settings.
 
+This recipe also tags the node so that other nodes that run this recipe can
+discover it, and configure Elasticsearch appropriately to join their cluster.
+It uses a tag, the current chef environment, and the cluster name as the default
+search criteria.
+
+Most of this is configurable using the upstream Elasticsearch cookbook's
+attributes, including the chef search itself. There is not an easy toggle to
+turn off the search, however.
+
 ### elkstack::logstash
 
 Leans on the upstream `lusis/chef-logstash` cookbook for much
 of its work. We do override the default set of plugins to be installed, as well
 as the amount of JVM heap. See `attributes/default.rb` for those settings.
 
+### elkstack::kibana
+
+Leans on the upstream `lusis/chef-kibana` cookbook for most of its work. Sets up
+an nginx site for kibana by default. By default, it also does not pass through
+most of the http paths directly to elasticsearch (whitelist).
+
+### elkstack::java
+
+Wrapper for a java recipe. This is not included on the run list normally, so if
+you don't already, you must include this recipe or get another JVM installed
+before including anything else in this cookbook.
+
 ### elkstack::rsyslog
 
 Leans on the upstream `opscode-cookbooks/rsyslog` cookbook for most of its work.
-We do add the logstash user to the rsyslogd's group before we call
-`rsyslog::client` to configure the node's rsyslogd itself to send to logstash.
+Configures a local rsyslog that sends to the local logstash instance. The stack
+has already been configured with attributes for this use case. See
+`attributes/default.rb` for those settings.
 
 ### Miscellaneous
 
-You may do `include_recipe 'rsyslog::client'` if you'd like a local rsyslog that
-sends to the local logstash instance. The stack has already been configured with
-attributes for this use case. See `attributes/default.rb` for those settings.
-
+The wrapper recipes are `single` and `cluster`. These change attributes and then
+invoke `elasticsearch`, `logstash`, `kibana`, and `rsyslog`. Finally, there is a
+`java` utility recipe that just calls into the upstream java cookbook. 
 
 ## Contributing
 
