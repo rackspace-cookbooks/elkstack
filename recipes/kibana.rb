@@ -13,6 +13,9 @@ if rhel?
   node.override['nginx']['repo_source'] = 'epel'
   include_recipe 'nginx'
 
+  ssl_key = "#{node['kibana']['ssl_key']}"
+  ssl_cert = "#{node['kibana']['ssl_cert']}"
+
   # nginx cookbook doesn't remove this when !node['nginx']['default_site_enabled']
   # (the main config file template includes both sites-enabled/* and conf.d/*)
   file '/etc/nginx/conf.d/default.conf' do
