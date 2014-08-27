@@ -25,3 +25,38 @@ end
 # https://github.com/lusis/chef-kibana/blob/89e6255e7a6c01238d349ca910c58f42af7628c8/recipes/nginx.rb#L30-L37
 include_recipe 'kibana'
 include_recipe 'kibana::install'
+
+# Cloud monitoring currently doesn't provide a hook to push in files from git, just from the cookbook.
+# If the check is enabled, push the file ourselves and configure the monitor.
+if node['elkstack']['cloud_monitoring']['process_nginx']['disabled'] == 'false' do
+  process_name = 'nginx'
+
+  # make sure directory structure exists
+  directory '/usr/lib/rackspace-monitoring-agent/plugins' do
+    action :create_if_missing
+  end
+
+  # drop the file
+  remote_file '/usr/lib/rackspace-monitoring-agent/plugins/process_mon.sh' do
+    owner 'root'
+    group 'root'
+    mode 00755
+    source "https://raw.github.com/racker/rackspace-monitoring-agent-plugins-contrib/master/process_mon.sh"
+  end
+
+  # setup the monitor
+  template "process-monitor-#{process_name}-#{site['server_name']}" do
+    cookbook 'elkstack'
+    source 'monitoring-process.yaml.erb'
+    path "/etc/rackspace-monitoring-agent.conf.d/#{site['server_name']}-#{process_name}-monitor.yaml"
+    owner 'root'
+    group 'root'
+    mode '0644'
+    variables(
+      server_name: site['server_name'],
+      process_name: process_name
+    )
+    notifies 'restart', 'service[rackspace-monitoring-agent]', 'delayed'
+    action 'create'
+  end
+end
