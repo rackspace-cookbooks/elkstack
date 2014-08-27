@@ -1,4 +1,5 @@
 server = normal['logstash']['instance']['server']
+server['bind_host_interface'] = '127.0.0.1'
 server['enable_embedded_es'] = false
 server['elasticsearch_cluster'] = 'logstash'
 server['elasticsearch_ip'] = '127.0.0.1'
