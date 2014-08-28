@@ -27,4 +27,3 @@ include_recipe 'kibana'
 include_recipe 'kibana::install'
 
 add_iptables_rule('INPUT', '-p tcp --dport 80 -j ACCEPT', 9998, 'allow nginx for kibana to connect')
-

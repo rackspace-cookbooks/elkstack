@@ -35,4 +35,3 @@ logstash_service 'server' do
 end
 
 add_iptables_rule('INPUT', '-p tcp --dport 5959 -j ACCEPT', 9997, 'allow syslog to connect')
-
