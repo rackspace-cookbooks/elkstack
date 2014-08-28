@@ -11,4 +11,10 @@ cookbook 'elasticsearch', '~> 0.3', git:'git@github.com:racker/cookbook-elastics
 cookbook 'logstash', '~> 0.9', git:'git@github.com:racker/chef-logstash.git'
 
 # until https://github.com/poise/python/pull/120
-cookbook 'python', git: 'git@github.com:racker/python.git'
+cookbook 'python', git:'git@github.com:racker/python.git'
+
+# override community cron
+cookbook 'cron', git:'git@github.com:rackspace-cookbooks/cron.git'
+
+# not published
+cookbook 'rackspace_cloudbackup', git:'git@github.com:rackspace-cookbooks/rackspace_cloudbackup.git'

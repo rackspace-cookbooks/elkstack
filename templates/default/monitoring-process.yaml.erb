@@ -1,0 +1,23 @@
+# CHEF MANAGED FILE: DO NOT EDIT
+# Controlling Cookbook: <%= @cookbook_name %>
+#
+
+type: agent.plugin
+label: Local agent check for process <%= @process_name %>
+disabled: <%= node['elkstack']['cloud_monitoring']["process_#{@process_name}"]['disabled'] %>
+period: <%= node['elkstack']['cloud_monitoring']["process_#{@process_name}"]['period'] %>
+timeout: <%= node['elkstack']['cloud_monitoring']["process_#{@process_name}"]['timeout'] %>
+details:
+  file: process_mon.sh
+  args: <%= @process_name %>
+<% if node['elkstack']['cloud_monitoring']["process_#{@process_name}"]['alarm'] == true %>
+alarms:
+  process-check-<%= @process_name %>:
+    label: Local agent check for process <%= @process_name %>
+    notification_plan_id: npTechnicalContactsEmail
+    criteria: |
+      if (metric['process_mon'] == 0) {
+        return new AlarmStatus(CRITICAL, 'Process <%= @process_name %> not found.'');
+      }
+      return new AlarmStatus(OK, 'Process <%= @process_name %> found running.');
+<% end %>
