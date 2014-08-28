@@ -42,19 +42,18 @@ remote_file '/usr/lib/rackspace-monitoring-agent/plugins/process_mon.sh' do
   owner 'root'
   group 'root'
   mode 00755
-  source "https://raw.github.com/racker/rackspace-monitoring-agent-plugins-contrib/master/process_mon.sh"
+  source 'https://raw.github.com/racker/rackspace-monitoring-agent-plugins-contrib/master/process_mon.sh'
 end
 
 # setup the monitor
-template "process-monitor-#{process_name}-#{site['server_name']}" do
+template "process-monitor-#{process_name}" do
   cookbook 'elkstack'
   source 'monitoring-process.yaml.erb'
-  path "/etc/rackspace-monitoring-agent.conf.d/#{site['server_name']}-#{process_name}-monitor.yaml"
+  path "/etc/rackspace-monitoring-agent.conf.d/#{process_name}-monitor.yaml"
   owner 'root'
   group 'root'
   mode '0644'
   variables(
-    server_name: site['server_name'],
     process_name: process_name
   )
   notifies 'restart', 'service[rackspace-monitoring-agent]', 'delayed'
