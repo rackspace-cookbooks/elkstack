@@ -36,6 +36,7 @@ end
 
 # Cloud monitoring currently doesn't provide a hook to push in files from git, just from the cookbook.
 # Push the file ourselves and configure the monitor.
+
 process_name = 'logstash'
 
 # make sure directory structure exists
