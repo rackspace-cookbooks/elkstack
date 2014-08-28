@@ -40,7 +40,8 @@ process_name = 'logstash'
 
 # make sure directory structure exists
 directory '/usr/lib/rackspace-monitoring-agent/plugins' do
-  action :create_if_missing
+  recursive true
+  action :create
 end
 
 # drop the file
