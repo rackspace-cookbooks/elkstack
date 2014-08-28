@@ -25,3 +25,6 @@ end
 # https://github.com/lusis/chef-kibana/blob/89e6255e7a6c01238d349ca910c58f42af7628c8/recipes/nginx.rb#L30-L37
 include_recipe 'kibana'
 include_recipe 'kibana::install'
+
+add_iptables_rule('INPUT', '-p tcp --dport 80 -j ACCEPT', 9998, 'allow nginx for kibana to connect')
+

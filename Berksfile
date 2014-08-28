@@ -12,3 +12,11 @@ cookbook 'logstash', '~> 0.9', git:'git@github.com:racker/chef-logstash.git'
 
 # until https://github.com/poise/python/pull/120
 cookbook 'python', git: 'git@github.com:racker/python.git'
+
+cookbook 'logstash_stack', git: 'git@github.com:rackspace-cookbooks/logstash_stack.git'
+cookbook 'rackspace_iptables', git: 'git@github.com:rackspace-cookbooks/rackspace_iptables.git'
+cookbook 'rackspacecloud', git: 'git@github.com:rackspace-cookbooks/rackspacecloud.git'
+cookbook 'rackspace_cloudbackup', git: 'git@github.com:rackspace-cookbooks/rackspace_cloudbackup.git'
+cookbook 'rackspace_gluster', git: 'git@github.com:rackspace-cookbooks/rackspace_gluster.git'
+cookbook 'rackops_rolebook', git: 'git@github.com:rackops/rackops_rolebook.git'
+cookbook 'cron', git: 'git@github.com:rackspace-cookbooks/cron.git'
