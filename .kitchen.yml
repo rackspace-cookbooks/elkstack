@@ -19,6 +19,11 @@ provisioner:
   client_rb:
     environment: _default
   attributes:
+    attributes:
+    openssh:
+      server:
+        password_authentication: 'yes'
+        permit_root_login: 'yes'
     cloud:
       public_ipv4: '127.0.0.1'
     authorization:
@@ -32,6 +37,8 @@ provisioner:
         enabled: false
       omnibus_updater:
         enabled: false
+      iptables:
+        allow_ssh_from_world: true
     rackspace:
       cloud_credentials:
         username: 'racker'
