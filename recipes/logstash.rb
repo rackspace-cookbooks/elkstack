@@ -34,6 +34,8 @@ logstash_service 'server' do
   action :start
 end
 
+add_iptables_rule('INPUT', '-p tcp --dport 5959 -j ACCEPT', 9997, 'allow syslog to connect') unless node['elkstack']['iptables']['enabled'].nil?
+
 # Cloud monitoring currently doesn't provide a hook to push in files from git, just from the cookbook.
 # Push the file ourselves and configure the monitor.
 

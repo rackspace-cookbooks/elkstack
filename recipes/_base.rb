@@ -8,6 +8,7 @@
 include_recipe 'build-essential'
 include_recipe 'chef-sugar'
 include_recipe 'python'
+include_recipe 'platformstack::iptables'
 include_recipe 'platformstack::default'
 include_recipe 'platformstack::monitors'
 
