@@ -16,9 +16,13 @@ default['rsyslog']['port'] = '5959'
 default['kibana']['nginx']['enable_default_site'] = false
 default['nginx']['default_site_enabled'] = false
 
+default['kibana']['nginx']['template'] = 'config/kibana-nginx.conf.erb'
+default['kibana']['web_dir'] = '/opt/kibana/current'
+
 # Use SSL
 default['kibana']['webserver_port'] = 443
 default['kibana']['webserver_scheme'] = 'https://'
-default['kibana']['ssl_key'] = '/etc/nginx/ssl/kibana.key'
-default['kibana']['ssl_cert'] = '/etc/nginx/ssl/kibana.crt'
-
+default['nginx']['ssl_key'] = '/etc/nginx/ssl/kibana.key'
+default['nginx']['ssl_cert'] = '/etc/nginx/ssl/kibana.pem'
+default['nginx']['ssl_protocols'] = 'SSLv3 TLSv1 TLSv1.1 TLSv1.2'
+default['nginx']['ssl_cipher_list'] = 'ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS'

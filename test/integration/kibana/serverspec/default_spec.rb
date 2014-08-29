@@ -2,7 +2,7 @@
 
 require_relative 'spec_helper'
 
-describe port(80) do
+describe port(443) do
   it { should be_listening }
 end
 
