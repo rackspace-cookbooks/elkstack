@@ -34,4 +34,4 @@ logstash_service 'server' do
   action :start
 end
 
-add_iptables_rule('INPUT', '-p tcp --dport 5959 -j ACCEPT', 9997, 'allow syslog to connect')
+add_iptables_rule('INPUT', '-p tcp --dport 5959 -j ACCEPT', 9997, 'allow syslog to connect') unless node['elkstack']['iptables']['enabled'].nil?

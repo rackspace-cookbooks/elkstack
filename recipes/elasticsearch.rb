@@ -30,8 +30,9 @@ service 'elasticsearch' do
   action :start
 end
 
-add_iptables_rule('INPUT', '-p tcp --dport 9300 -j ACCEPT', 9996, 'allow es cluster to connect') unless should_cluster.nil? || !should_cluster
-add_iptables_rule('INPUT', '-p tcp --dport 9200 -j ACCEPT', 9996, 'allow es single to connect')
-
+unless node['elkstack']['iptables']['enabled'].nil?
+  add_iptables_rule('INPUT', '-p tcp --dport 9300 -j ACCEPT', 9996, 'allow es cluster to connect') unless should_cluster.nil? || !should_cluster
+  add_iptables_rule('INPUT', '-p tcp --dport 9200 -j ACCEPT', 9996, 'allow es single to connect')
+end
 tag('elkstack')
 tag('elkstack_cluster') unless should_cluster.nil? || !should_cluster
