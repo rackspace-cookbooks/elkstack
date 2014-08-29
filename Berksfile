@@ -20,3 +20,10 @@ cookbook 'rackspace_cloudbackup', git: 'git@github.com:rackspace-cookbooks/racks
 cookbook 'rackspace_gluster', git: 'git@github.com:rackspace-cookbooks/rackspace_gluster.git'
 cookbook 'rackops_rolebook', git: 'git@github.com:rackops/rackops_rolebook.git'
 cookbook 'cron', git: 'git@github.com:rackspace-cookbooks/cron.git'
+cookbook 'python', git:'git@github.com:racker/python.git'
+
+# override community cron
+cookbook 'cron', git:'git@github.com:rackspace-cookbooks/cron.git'
+
+# not published
+cookbook 'rackspace_cloudbackup', git:'git@github.com:rackspace-cookbooks/rackspace_cloudbackup.git'
