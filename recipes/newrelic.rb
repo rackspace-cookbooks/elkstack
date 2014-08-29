@@ -11,15 +11,15 @@ unless node['newrelic']['license'].nil?
   if tagged?('elkstack') || tagged?('elkstack_cluster')
     node.override['newrelic_meetme_plugin']['services'] = {
       'elasticsearch' => {
-         'name' => node['elasticsearch']['cluster']['name'],
-         'host' => 'localhost',
-         'port' => '9200',
-         'scheme' => 'http'
+        'name' => node['elasticsearch']['cluster']['name'],
+        'host' => 'localhost',
+        'port' => '9200',
+        'scheme' => 'http'
       }
     }
   end
-  
-  node.default['newrelic_meetme_plugin']['package_name'] = "newrelic-plugin-agent"
+
+  node.default['newrelic_meetme_plugin']['package_name'] = 'newrelic-plugin-agent'
 
   include_recipe 'python::package'
   include_recipe 'python::pip'
