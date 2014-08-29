@@ -21,7 +21,7 @@ default['nginx']['default_site_enabled'] = false
 default['elkstack']['config']['cluster'] = false
 
 # default to include iptables rules
-default['elkstack']['iptables']['enabled'] = true
+default['elkstack']['iptables']['enabled'] = 'true'
 
 default['elasticsearch']['discovery']['search_query'] = "tags:elkstack_cluster
   AND chef_environment:#{node.chef_environment}
