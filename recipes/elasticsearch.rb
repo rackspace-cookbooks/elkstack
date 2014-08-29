@@ -33,6 +33,8 @@ end
 tag('elkstack')
 tag('elkstack_cluster') unless should_cluster.nil? || !should_cluster
 
+include_recipe 'elkstack::newrelic'
+
 # Cloud monitoring currently doesn't provide a hook to push in files from git, just from the cookbook.
 # Push the file ourselves and configure the monitor.
 
