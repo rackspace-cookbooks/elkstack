@@ -32,7 +32,21 @@ CentOS 6.5
 
 ## Attributes
 
-This stack does not offer any specific attributes beyond the upstream cookbook attributes, many of which it overrides.
+<table>
+  <tr>
+    <th>Key</th>
+    <th>Type</th>
+    <th>Description</th>
+    <th>Default</th>
+  </tr>
+  <tr>
+    <td><tt>['elkstack']['iptables']['enabled']</tt></td>
+    <td>Boolean</td>
+    <td>Enable/Disable iptables functionality</td>
+    <td><tt>true</tt></td>
+  </tr>
+</table>
+
 <!--
 <table>
   <tr>
