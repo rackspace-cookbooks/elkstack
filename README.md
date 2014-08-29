@@ -107,6 +107,11 @@ Configures a local rsyslog that sends to the local logstash instance. The stack
 has already been configured with attributes for this use case. See
 `attributes/default.rb` for those settings.
 
+### elkstack::newrelic
+
+Validates if there is a newrelic license set and based on that, see if the node is tagged as 'elkstack' or 'elkstack_cluster' and creates a file with elasticsearch details.
+Installs python, pip and setuptools packages in order to support newrelic_meetme_plugin
+
 ### Miscellaneous
 
 The wrapper recipes are `single` and `cluster`. These change attributes and then
