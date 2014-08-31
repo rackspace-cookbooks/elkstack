@@ -23,9 +23,6 @@ default['elkstack']['config']['cluster'] = false
 # default to include iptables rules
 default['elkstack']['iptables']['enabled'] = 'true'
 
-default['elasticsearch']['discovery']['search_query'] = "tags:elkstack_cluster
-  AND chef_environment:#{node.chef_environment}
-  AND elasticsearch_cluster_name:#{node['elasticsearch']['cluster']['name']}
-  AND NOT name:#{node.name}"
+default['elasticsearch']['discovery']['search_query'] = "tags:elkstack_cluster AND chef_environment:#{node.chef_environment} AND elasticsearch_cluster_name:#{node[:elasticsearch][:cluster][:name]} AND NOT name:#{node.name}"
 
 default['elasticsearch']['discovery']['zen']['ping']['multicast']['enabled'] = false
