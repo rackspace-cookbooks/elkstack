@@ -19,7 +19,9 @@ provisioner:
   client_rb:
     environment: _default
   attributes:
-    attributes:
+    elasticsearch:
+      network:
+        host: '127.0.0.1'
     openssh:
       server:
         password_authentication: 'yes'

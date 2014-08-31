@@ -17,6 +17,7 @@ bin/*
 .bundle/*
 
 .kitchen/
+.berkshelf
 
 # chefspec
 .coverage/
