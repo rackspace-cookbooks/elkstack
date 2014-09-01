@@ -5,7 +5,11 @@
 #
 # Copyright 2014, Rackspace
 #
+
+node.set['apt']['compile_time_update'] = true
+include_recipe 'apt'
 include_recipe 'build-essential'
+
 include_recipe 'chef-sugar'
 include_recipe 'python'
 include_recipe 'platformstack::iptables'
@@ -20,4 +24,33 @@ node.set['nginx']['server_names_hash_bucket_size'] = 128
 # parsing JSON -- we could do that with python which already have.
 package 'ruby' do
   action :install
+end
+
+# begin nasty logic for logstash & kibana to find es
+# this covers es's weird _interface:ipv6/4_ syntax.
+stripped_es_network_host = node['elasticsearch']['network']['host']
+if stripped_es_network_host.include?(':') # grab ip side of pair
+  stripped_es_network_host = stripped_es_network_host.split(':').first
+end
+if stripped_es_network_host.include?('_') # strip underscores
+  stripped_es_network_host = stripped_es_network_host.sub('_', '')
+end
+
+unless node['network']['interfaces'][stripped_es_network_host].nil?
+  correct_ip = node['network']['interfaces'][stripped_es_network_host]['addresses'].keys[1]
+  node.override['logstash']['instance']['server']['elasticsearch_ip'] = correct_ip
+  node.override['logstash']['instance']['server']['config_templates_variables']['elasticsearch_ip'] = correct_ip
+  node.override['kibana']['es_server'] = correct_ip
+
+  append_if_no_line 'make sure a line is in /etc/hosts' do
+    path '/etc/hosts'
+    line "eslocal #{correct_ip} # nice shortcut for curl, etc."
+  end
+
+end
+# end nasty logic for logstash & kibana to find es
+
+# if iptables toggle is set, include host based firewall rules
+if !node['elkstack']['iptables']['enabled'].nil? && node['elkstack']['iptables']['enabled']
+  include_recipe 'elkstack::acl'
 end

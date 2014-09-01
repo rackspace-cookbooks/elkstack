@@ -7,6 +7,7 @@
 #
 
 # see attributes, will forward to logstash on localhost
+node.override['ignore-this-single-include'] = true
 include_recipe 'rsyslog::client'
 
 # eventually, this wrapper recipe could do more like configure filtering

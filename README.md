@@ -124,14 +124,22 @@ has already been configured with attributes for this use case. See
 
 ### elkstack::newrelic
 
-Validates if there is a newrelic license set and based on that, see if the node is tagged as 'elkstack' or 'elkstack_cluster' and creates a file with elasticsearch details.
-Installs python, pip and setuptools packages in order to support newrelic_meetme_plugin
+Validates if there is a newrelic license set and based on that, see if the node
+is tagged as 'elkstack' or 'elkstack_cluster' and creates a file with
+elasticsearch details. Installs python, pip and setuptools packages in order to
+support newrelic_meetme_plugin
+
+## elkstack::acl
+
+Adds basic iptables rules and cluster iptables rules if appropriate attributes
+are set.
 
 ### Miscellaneous
 
 The wrapper recipes are `single` and `cluster`. These change attributes and then
-invoke `elasticsearch`, `logstash`, `kibana`, and `rsyslog`. Finally, there is a
-`java` utility recipe that just calls into the upstream java cookbook. 
+invoke `elasticsearch`, `logstash`, `kibana`, and `rsyslog`. Finally, there are
+utility recipes like `java` and `newrelic` (not invoked otherwise), as well as
+`acl` which is called by `_base` if `node['elkstack']['iptables']['enabled']`.
 
 ## Contributing
 

@@ -14,11 +14,9 @@ include_recipe 'chef-sugar'
 should_cluster = node.deep_fetch('elkstack', 'config', 'cluster')
 if !should_cluster.nil? && should_cluster
   include_recipe 'elasticsearch::search_discovery'
-  node.override['elasticsearch']['network']['host'] = '0.0.0.0'
 else
   node.override['elasticsearch']['discovery']['zen']['ping']['multicast']['enabled'] = false
   # if the cluster flag isn't set, turn that junk off
-  # ['elasticsearch']['network']['host'] already defaults to localhost
 end
 
 # many of the interesting customizations for this were done in attributes
@@ -30,10 +28,6 @@ service 'elasticsearch' do
   action :start
 end
 
-unless node['elkstack']['iptables']['enabled'].nil?
-  add_iptables_rule('INPUT', '-p tcp --dport 9300 -j ACCEPT', 9996, 'allow es cluster to connect') unless should_cluster.nil? || !should_cluster
-  add_iptables_rule('INPUT', '-p tcp --dport 9200 -j ACCEPT', 9996, 'allow es single to connect')
-end
 tag('elkstack')
 tag('elkstack_cluster') unless should_cluster.nil? || !should_cluster
 
