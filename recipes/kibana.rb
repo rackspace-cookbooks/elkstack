@@ -67,7 +67,7 @@ end
 kibana_web 'kibana' do
   type node['kibana']['webserver']
   docroot "#{node['kibana']['install_dir']}/current"
-  template_cookbook 'elkstack'
+  template_cookbook node['kibana']['nginx']['template_cookbook']
   template node['kibana']['nginx']['template']
   es_server node['kibana']['es_server']
   not_if { node['kibana']['webserver'].empty? }
