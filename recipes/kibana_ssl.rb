@@ -6,6 +6,15 @@
 # Copyright 2014, Rackspace
 #
 
+include_recipe 'openssl'
+directory "#{node['nginx']['dir']}/ssl" do
+  owner 'root'
+  group 'root'
+  mode 0755
+  action :create
+  recursive true
+end
+
 ::Chef::Recipe.send(:include, Opscode::OpenSSL::Password)
 basic_auth_password = secure_password
 htpasswd "#{node['nginx']['dir']}/htpassword" do
@@ -21,15 +30,6 @@ file basic_auth_file do
   mode 0600
   content "user = \"kibana:#{basic_auth_password}\""
   action :create_if_missing
-end
-
-include_recipe 'openssl'
-directory "#{node['nginx']['dir']}/ssl" do
-  owner 'root'
-  group 'root'
-  mode 0755
-  action :create
-  recursive true
 end
 
 site_name = node['elkstack']['config']['site_name']
