@@ -1,5 +1,9 @@
 # elkstack
 
+**Please note that this cookbook does not restart elasticsearch automatically,
+in order to avoid causing an outage of the cluster. It does restart nginx and
+logstash, however.**
+
 Elasticsearch, Logstash, and Kibana stack. Due to the recommendations of the
 community, we are not using the embedded elasticsearch functionality of logstash
 at this point. This cookbook provides recipes for all three components, along
@@ -40,19 +44,16 @@ CentOS 6.5
     <th>Default</th>
   </tr>
   <tr>
+    <td><tt>['elkstack']['config']['cluster']</tt></td>
+    <td>Boolean</td>
+    <td>whether to search for and connect Elasticsearch to cluster nodes</td>
+    <td><tt>false</tt></td>
+  </tr>
+  <tr>
     <td><tt>['elkstack']['iptables']['enabled']</tt></td>
     <td>Boolean</td>
     <td>Enable/Disable iptables functionality</td>
     <td><tt>true</tt></td>
-  </tr>
-</table>
-
-<table>
-  <tr>
-    <th>Key</th>
-    <th>Type</th>
-    <th>Description</th>
-    <th>Default</th>
   </tr>
   <tr>
     <td><tt>['elkstack']['config']['site_name']</tt></td>
@@ -60,25 +61,29 @@ CentOS 6.5
     <td>Control the name of the self-signed SSL key and cert in /etc/nginx/ssl</td>
     <td><tt>kibana</tt></td>
   </tr>
-</table>
-
-<!--
-<table>
   <tr>
-    <th>Key</th>
-    <th>Type</th>
-    <th>Description</th>
-    <th>Default</th>
-  </tr>
-  <tr>
-    <td><tt>['elkstack']['config']['cluster']</tt></td>
-    <td>Boolean</td>
-    <td>whether to search for and connect Elasticsearch to cluster nodes</td>
+    <td><tt>['elkstack']['config']['data_disk']['disk_config_type']</tt></td>
+    <td>String or Boolean</td>
+    <td>See customizing the stack section below</td>
     <td><tt>false</tt></td>
   </tr>
 </table>
--->
+
 ## Customizing the stack
+
+To override local storage for elasticsearch nodes (the stack will format and mount, as well as configure elasticsearch), set `['elkstack']['config']['data_disk']['disk_config_type']` to `custom` and provide each storage device and mount point in the following way:
+```ruby
+disk_config = {
+  'file_system' => 'ext4',
+  'mount_options' => 'rw,user',
+  'mount_path' => '/usr/local/var/data/elasticsearch/disk1',
+  'format_command' => 'mkfs -t ext4 ',
+  'fs_check_command' => 'dumpe2fs'
+}
+
+node.override['elasticsearch']['data']['devices']['/dev/xvde1'] = disk_config
+node.override['elasticsearch']['path']['data'] = disk_config['mount_path']
+```
 
 To add additional logstash configuration to this stack, simply add additional templates in your wrapper cookbook. They should be placed in `"#{@basedir}/#{@instance}/etc/conf.d"` (see the config provider in the logstash cookbook).
 
@@ -156,6 +161,10 @@ support newrelic_meetme_plugin
 
 Adds basic iptables rules and cluster iptables rules if appropriate attributes
 are set.
+
+## elkstack::disk_setup
+
+Look for `node['elkstack']['config']['data_disk']['disk_config_type']` to be truthy, and configure the upstream elasticsearch cookbook to format, mount, and use devices appropriately.
 
 ## elkstack::\*\_monitoring
 

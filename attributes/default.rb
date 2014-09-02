@@ -10,3 +10,6 @@ default['elkstack']['iptables']['enabled'] = 'true'
 
 # default vhost stuff and SSL cert/key name
 default['elkstack']['config']['site_name'] = 'kibana'
+
+# attempt to use performance cloud data disk
+default['elkstack']['config']['data_disk']['disk_config_type'] = false
