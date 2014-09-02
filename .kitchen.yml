@@ -64,9 +64,4 @@ suites:
   - name: default
     run_list:
       - recipe[elkstack::java]
-      - recipe[elkstack::single]
-
-  - name: clustered
-    run_list:
-      - recipe[elkstack::java]
-      - recipe[elkstack::cluster]
+      - recipe[elkstack::cluster] # not testing single, it's practically the same
