@@ -47,6 +47,21 @@ CentOS 6.5
   </tr>
 </table>
 
+<table>
+  <tr>
+    <th>Key</th>
+    <th>Type</th>
+    <th>Description</th>
+    <th>Default</th>
+  </tr>
+  <tr>
+    <td><tt>['elkstack']['config']['site_name']</tt></td>
+    <td>String</td>
+    <td>Control the name of the self-signed SSL key and cert in /etc/nginx/ssl</td>
+    <td><tt>kibana</tt></td>
+  </tr>
+</table>
+
 <!--
 <table>
   <tr>

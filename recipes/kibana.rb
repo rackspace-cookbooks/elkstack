@@ -9,53 +9,70 @@
 # base stack requirements
 include_recipe 'elkstack::_base'
 
-if rhel?
-  node.override['nginx']['repo_source'] = 'epel'
-  include_recipe 'nginx'
+# setup nginx then kibana ()
+node.override['nginx']['repo_source'] = 'epel' if rhel?
 
-  # nginx cookbook doesn't remove this when !node['nginx']['default_site_enabled']
-  # (the main config file template includes both sites-enabled/* and conf.d/*)
-  file '/etc/nginx/conf.d/default.conf' do
-    action :delete
-    notifies :reload, 'service[nginx]'
+# configure / prepare an SSL cert and default htpassword
+include_recipe 'elkstack::kibana_ssl'
+
+# begin replaces 'kibana::install'
+if node['kibana']['user'].empty?
+  if !node['kibana']['webserver'].empty?
+    webserver = node['kibana']['webserver']
+    kibana_user = node[webserver]['user']
+  else
+    kibana_user = 'nobody'
+  end
+else
+  kibana_user = node['kibana']['user']
+  kibana_user kibana_user do
+    name kibana_user
+    group kibana_user
+    home node['kibana']['install_dir']
+    action :create
   end
 end
 
-# eventually customize this more --
-# https://github.com/lusis/chef-kibana/blob/89e6255e7a6c01238d349ca910c58f42af7628c8/recipes/nginx.rb#L30-L37
-include_recipe 'kibana'
-include_recipe 'kibana::install'
-
-# Cloud monitoring currently doesn't provide a hook to push in files from git, just from the cookbook.
-# Push the file ourselves and configure the monitor.
-
-process_name = 'nginx'
-
-# make sure directory structure exists
-directory '/usr/lib/rackspace-monitoring-agent/plugins' do
-  recursive true
+kibana_install 'kibana' do
+  user kibana_user
+  group kibana_user
+  install_dir node['kibana']['install_dir']
+  install_type node['kibana']['install_type']
   action :create
 end
 
-# drop the file
-remote_file '/usr/lib/rackspace-monitoring-agent/plugins/process_mon.sh' do
-  owner 'root'
-  group 'root'
-  mode 00755
-  source 'https://raw.github.com/racker/rackspace-monitoring-agent-plugins-contrib/master/process_mon.sh'
+template "#{node['kibana']['install_dir']}/current/config.js" do
+  source node['kibana']['config_template']
+  cookbook node['kibana']['config_cookbook']
+  mode '0750'
+  user kibana_user
 end
 
-# setup the monitor
-template "process-monitor-#{process_name}" do
-  cookbook 'elkstack'
-  source 'monitoring-process.yaml.erb'
-  path "/etc/rackspace-monitoring-agent.conf.d/#{process_name}-monitor.yaml"
-  owner 'root'
-  group 'root'
-  mode '0644'
-  variables(
-    process_name: process_name
-  )
-  notifies 'restart', 'service[rackspace-monitoring-agent]', 'delayed'
-  action 'create'
+link "#{node['kibana']['install_dir']}/current/app/dashboards/default.json" do
+  to 'logstash.json'
+  only_if { !File.symlink?("#{node['kibana']['install_dir']}/current/app/dashboards/default.json") }
 end
+
+kibana_web 'kibana' do
+  type node['kibana']['webserver']
+  docroot "#{node['kibana']['install_dir']}/current"
+  template_cookbook 'elkstack'
+  template node['kibana']['nginx']['template']
+  es_server node['kibana']['es_server']
+  not_if { node['kibana']['webserver'].empty? }
+end
+# end replaces 'kibana::install'
+
+# nginx cookbook doesn't remove this when !node['nginx']['default_site_enabled']
+# (the main config file template includes both sites-enabled/* and conf.d/*)
+node.set['nginx']['default_site_enabled'] = node['kibana']['nginx']['enable_default_site']
+node.set['nginx']['install_method'] = node['kibana']['nginx']['install_method']
+include_recipe 'nginx' # so service[nginx] exists, the one from the LWRP above is not created until runtime
+file '/etc/nginx/conf.d/default.conf' do
+  action :delete
+  notifies :reload, 'service[nginx]'
+  only_if { rhel? }
+end
+
+# monitoring
+include_recipe 'elkstack::kibana_monitoring'
