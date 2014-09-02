@@ -157,6 +157,11 @@ support newrelic_meetme_plugin
 Adds basic iptables rules and cluster iptables rules if appropriate attributes
 are set.
 
+## elkstack::\*\_monitoring
+
+These correspond with the recipes above, and just provide a way to pull out the
+monitoring work to make the original recipes cleaner.
+
 ### Miscellaneous
 
 The wrapper recipes are `single` and `cluster`. These change attributes and then

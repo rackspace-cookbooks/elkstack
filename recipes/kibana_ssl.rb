@@ -21,7 +21,7 @@ if node.run_state.key?('elkstack_password')
   basic_auth_password = node.run_state['elkstack_password']
 else
   ::Chef::Recipe.send(:include, Opscode::OpenSSL::Password)
-  basic_auth_password = secure_password  
+  basic_auth_password = secure_password
 end
 
 htpasswd "#{node['nginx']['dir']}/htpassword" do
