@@ -19,6 +19,9 @@ else
   # if the cluster flag isn't set, turn that junk off
 end
 
+# find and format and mount any relevant disks
+include_recipe 'elkstack::disk_setup'
+
 # many of the interesting customizations for this were done in attributes
 include_recipe 'elasticsearch::default'
 include_recipe 'elasticsearch::plugins'
