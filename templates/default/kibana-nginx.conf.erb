@@ -1,0 +1,58 @@
+server {
+  listen                80;
+  listen                443 ssl;
+
+  server_name           <%= @server_name %> <%= @server_aliases.join(" ") %>;
+  access_log            <%= node['nginx']['log_dir'] %>/<%= @server_name %>.access.log;
+
+  ssl_certificate_key <%= node['nginx']['ssl_key'] %>;
+  ssl_certificate <%= node['nginx']['ssl_cert'] %>;
+
+  if ( $scheme = http ){
+    rewrite ^ https://<%= @server_name %>$request_uri? permanent;
+  }
+
+  location / {
+    root  <%= @kibana_dir %>;
+    index  index.html  index.htm;
+
+    # Password protect Kibana
+    auth_basic "Restricted Access";
+    auth_basic_user_file <%= node['nginx']['dir'] %>/htpassword;
+  }
+
+  location ~ ^/_aliases$ {
+    proxy_pass <%= @es_scheme %><%= @es_server %>:<%= @es_port %>;
+    proxy_read_timeout 90;
+  }
+  location ~ ^/.*/_aliases$ {
+    proxy_pass <%= @es_scheme %><%= @es_server %>:<%= @es_port %>;
+    proxy_read_timeout 90;
+  }
+  location ~ ^/_nodes$ {
+    proxy_pass <%= @es_scheme %><%= @es_server %>:<%= @es_port %>;
+    proxy_read_timeout 90;
+  }
+  location ~ ^/.*/_search$ {
+    proxy_pass <%= @es_scheme %><%= @es_server %>:<%= @es_port %>;
+    proxy_read_timeout 90;
+  }
+  location ~ ^/.*/_mapping$ {
+    proxy_pass <%= @es_scheme %><%= @es_server %>:<%= @es_port %>;
+    proxy_read_timeout 90;
+  }
+  location ~ ^/_cluster/health$ {
+    proxy_pass <%= @es_scheme %><%= @es_server %>:<%= @es_port %>;
+    proxy_read_timeout 90;
+  }
+
+  # password protected end points
+  location ~ ^/kibana-int/dashboard/.*$ {
+    proxy_pass <%= @es_scheme %><%= @es_server %>:<%= @es_port %>;
+    proxy_read_timeout 90;
+  }
+  location ~ ^/kibana-int/temp.*$ {
+    proxy_pass <%= @es_scheme %><%= @es_server %>:<%= @es_port %>;
+    proxy_read_timeout 90;
+  }
+}
