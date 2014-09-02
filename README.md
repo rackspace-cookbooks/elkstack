@@ -78,6 +78,14 @@ CentOS 6.5
   </tr>
 </table>
 -->
+## Customizing the stack
+
+To add additional logstash configuration to this stack, simply add additional templates in your wrapper cookbook. They should be placed in `"#{@basedir}/#{@instance}/etc/conf.d"` (see the config provider in the logstash cookbook).
+
+To override the nginx configuration, simply supply a new template and specify your cookbook using `['kibana']['nginx']['template_cookbook']` and `['kibana']['nginx']['template']`. You can also override just the password for the reverse proxy using `node.run_state['elkstack_password']`.
+
+To override anything else, set the appropriate node hash (`logstash`, `kibana`, or `elasticsearch`).
+
 ## Usage
 
 ### elkstack::default
@@ -148,6 +156,11 @@ support newrelic_meetme_plugin
 
 Adds basic iptables rules and cluster iptables rules if appropriate attributes
 are set.
+
+## elkstack::\*\_monitoring
+
+These correspond with the recipes above, and just provide a way to pull out the
+monitoring work to make the original recipes cleaner.
 
 ### Miscellaneous
 
