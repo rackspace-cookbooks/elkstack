@@ -1,0 +1,22 @@
+# CHEF MANAGED FILE: DO NOT EDIT
+# Controlling Cookbook: <%= @cookbook_name %>
+#
+
+type: remote.tcp
+label: Remote check for port <%= @port %>
+disabled: <%= node['elkstack']['cloud_monitoring']["port_#{@port}"]['disabled'] %>
+period: <%= node['elkstack']['cloud_monitoring']["port_#{@port}"]['period'] %>
+timeout: <%= node['elkstack']['cloud_monitoring']["port_#{@port}"]['timeout'] %>
+details:
+  port: <%= @port %>
+<% if node['elkstack']['cloud_monitoring']["port_#{@port}"]['alarm'] == true %>
+alarms:
+  port-check-<%= @port %>:
+    label: Remote check for port <%= @port %>
+    notification_plan_id: npTechnicalContactsEmail
+    criteria: |
+      if (metric['tt_connect'] >= 1000) {
+        return new AlarmStatus(CRITICAL, 'Could not connect to port <%= @port %> within 1000 milliseconds.');
+      }
+      return new AlarmStatus(OK, 'Connected to port <%= @port %> within 1000 milliseconds.');
+<% end %>
