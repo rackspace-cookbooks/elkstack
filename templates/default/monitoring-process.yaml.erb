@@ -9,7 +9,7 @@ period: <%= node['elkstack']['cloud_monitoring']["process_#{@process_name}"]['pe
 timeout: <%= node['elkstack']['cloud_monitoring']["process_#{@process_name}"]['timeout'] %>
 details:
   file: process_mon.sh
-  args: <%= @process_name %>
+  args: [ <%= @process_name %> ]
 <% if node['elkstack']['cloud_monitoring']["process_#{@process_name}"]['alarm'] == true %>
 alarms:
   process-check-<%= @process_name %>:

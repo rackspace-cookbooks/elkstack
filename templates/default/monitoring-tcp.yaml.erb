@@ -7,6 +7,11 @@ label: Remote check for port <%= @port %>
 disabled: <%= node['elkstack']['cloud_monitoring']["port_#{@port}"]['disabled'] %>
 period: <%= node['elkstack']['cloud_monitoring']["port_#{@port}"]['period'] %>
 timeout: <%= node['elkstack']['cloud_monitoring']["port_#{@port}"]['timeout'] %>
+target_hostname: <%= node['cloud']['public_ipv4'] %>
+monitoring_zones_poll:
+  - mzdfw
+  - mzord
+  - mziad
 details:
   port: <%= @port %>
 <% if node['elkstack']['cloud_monitoring']["port_#{@port}"]['alarm'] == true %>

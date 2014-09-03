@@ -15,12 +15,14 @@ default['elkstack']['cloud_monitoring']['process_logstash']['period'] = '60'
 default['elkstack']['cloud_monitoring']['process_logstash']['timeout'] = '30'
 
 # port monitor for eleastic search http
-default['elkstack']['cloud_monitoring']['port_9200']['disabled'] = false
+# this port is not usually publicly accessible, disable by default
+default['elkstack']['cloud_monitoring']['port_9200']['disabled'] = true
 default['elkstack']['cloud_monitoring']['port_9200']['period'] = '60'
 default['elkstack']['cloud_monitoring']['port_9200']['timeout'] = '30'
 
 # port monitor for eleastic search transport
-default['elkstack']['cloud_monitoring']['port_9300']['disabled'] = false
+# this port is not usually publicly accessible, disable by default
+default['elkstack']['cloud_monitoring']['port_9300']['disabled'] = true
 default['elkstack']['cloud_monitoring']['port_9300']['period'] = '60'
 default['elkstack']['cloud_monitoring']['port_9300']['timeout'] = '30'
 
