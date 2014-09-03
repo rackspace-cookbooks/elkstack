@@ -25,7 +25,7 @@ remote_file '/usr/lib/rackspace-monitoring-agent/plugins/process_mon.sh' do
   source 'https://raw.github.com/racker/rackspace-monitoring-agent-plugins-contrib/master/process_mon.sh'
 end
 
-# setup the monitor
+# setup the monitors
 template "process-monitor-#{process_name}" do
   cookbook 'elkstack'
   source 'monitoring-process.yaml.erb'
@@ -35,6 +35,23 @@ template "process-monitor-#{process_name}" do
   mode '0644'
   variables(
     process_name: process_name
+  )
+  notifies 'restart', 'service[rackspace-monitoring-agent]', 'delayed'
+  action 'create'
+end
+
+# setup the port monitor
+port = node['rsyslog']['port']
+
+template "tcp-monitor-#{process_name}-#{port}" do
+  cookbook 'elkstack'
+  source 'monitoring-tcp.yaml.erb'
+  path "/etc/rackspace-monitoring-agent.conf.d/#{process_name}-#{port}-tcp-monitor.yaml"
+  owner 'root'
+  group 'root'
+  mode '0644'
+  variables(
+    port: port
   )
   notifies 'restart', 'service[rackspace-monitoring-agent]', 'delayed'
   action 'create'
