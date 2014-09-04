@@ -9,6 +9,7 @@
 # Cloud monitoring currently doesn't provide a hook to push in files from git, just from the cookbook.
 # Push the file ourselves and configure the monitor.
 
+cm = node['elkstack']['cloud_monitoring']
 process_name = 'logstash'
 
 # make sure directory structure exists
@@ -34,7 +35,11 @@ template "process-monitor-#{process_name}" do
   group 'root'
   mode '0644'
   variables(
-    process_name: process_name
+    process_name: process_name,
+    disabled: cm["process_#{process_name}"]['disabled'],
+    period: cm["process_#{process_name}"]['period'],
+    timeout: cm["process_#{process_name}"]['timeout'],
+    alarm: cm["process_#{process_name}"]['alarm']
   )
   notifies 'restart', 'service[rackspace-monitoring-agent]', 'delayed'
   action 'create'
@@ -51,7 +56,11 @@ template "tcp-monitor-#{process_name}-#{port}" do
   group 'root'
   mode '0644'
   variables(
-    port: port
+    port: port,
+    disabled: cm["port_#{port}"]['disabled'],
+    period: cm["port_#{port}"]['period'],
+    timeout: cm["port_#{port}"]['timeout'],
+    alarm: cm["port_#{port}"]['alarm']
   )
   notifies 'restart', 'service[rackspace-monitoring-agent]', 'delayed'
   action 'create'
