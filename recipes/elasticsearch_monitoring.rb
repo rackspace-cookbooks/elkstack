@@ -11,6 +11,7 @@ include_recipe 'elkstack::newrelic'
 # Cloud monitoring currently doesn't provide a hook to push in files from git, just from the cookbook.
 # Push the file ourselves and configure the monitor.
 
+cm = node['elkstack']['cloud_monitoring']
 process_name = 'elasticsearch'
 
 # make sure directory structure exists
@@ -31,12 +32,16 @@ end
 template "process-monitor-#{process_name}" do
   cookbook 'elkstack'
   source 'monitoring-process.yaml.erb'
-  path "/etc/rackspace-monitoring-agent.conf.d/#{process_name}-monitor.yaml"
+  path "/etc/rackspace-monitoring-agent.conf.d/process-#{process_name}-monitor.yaml"
   owner 'root'
   group 'root'
   mode '0644'
   variables(
-    process_name: process_name
+    process_name: process_name,
+    disabled: cm["process_#{process_name}"]['disabled'],
+    period: cm["process_#{process_name}"]['period'],
+    timeout: cm["process_#{process_name}"]['timeout'],
+    alarm: cm["process_#{process_name}"]['alarm']
   )
   notifies 'restart', 'service[rackspace-monitoring-agent]', 'delayed'
   action 'create'
@@ -61,9 +66,43 @@ ports.each do | port |
     group 'root'
     mode '0644'
     variables(
-      port: port
+      port: port,
+      disabled: cm["port_#{port}"]['disabled'],
+      period: cm["port_#{port}"]['period'],
+      timeout: cm["port_#{port}"]['timeout'],
+      alarm: cm["port_#{port}"]['alarm']
     )
     notifies 'restart', 'service[rackspace-monitoring-agent]', 'delayed'
     action 'create'
   end
+end
+
+# drop a custom elasticsearch plugin
+remote_file '/usr/lib/rackspace-monitoring-agent/plugins/elasticsearch.py' do
+  owner 'root'
+  group 'root'
+  mode 00755
+  source 'https://raw.github.com/racker/rackspace-monitoring-agent-plugins-contrib/master/elasticsearch.py'
+end
+
+# setup the custom es monitor
+template 'monitor-elasticsearch-clusterhealth' do
+  cookbook 'elkstack'
+  source 'monitoring-elasticsearch.yaml.erb'
+  path '/etc/rackspace-monitoring-agent.conf.d/monitoring-elasticsearch-clusterhealth.yaml'
+  owner 'root'
+  group 'root'
+  mode '0644'
+  variables(
+    elasticsearch_ip: 'eslocal', # from our /etc/hosts shortcut in _base.rb
+    check_type: 'cluster-health',
+    expected_value: 'green',
+    warning_value: 'yellow',
+    disabled: cm['elasticsearch_cluster-health']['disabled'],
+    period: cm['elasticsearch_cluster-health']['period'],
+    timeout: cm['elasticsearch_cluster-health']['timeout'],
+    alarm: cm['elasticsearch_cluster-health']['alarm']
+  )
+  notifies 'restart', 'service[rackspace-monitoring-agent]', 'delayed'
+  action 'create'
 end

@@ -4,9 +4,9 @@
 
 type: remote.tcp
 label: Remote check for port <%= @port %>
-disabled: <%= node['elkstack']['cloud_monitoring']["port_#{@port}"]['disabled'] %>
-period: <%= node['elkstack']['cloud_monitoring']["port_#{@port}"]['period'] %>
-timeout: <%= node['elkstack']['cloud_monitoring']["port_#{@port}"]['timeout'] %>
+disabled: <%= @disabled %>
+period: <%= @period %>
+timeout: <%= @timeout %>
 target_hostname: <%= node['cloud']['public_ipv4'] %>
 monitoring_zones_poll:
   - mzdfw
@@ -14,7 +14,7 @@ monitoring_zones_poll:
   - mziad
 details:
   port: <%= @port %>
-<% if node['elkstack']['cloud_monitoring']["port_#{@port}"]['alarm'] == true %>
+<% if @alarm %>
 alarms:
   port-check-<%= @port %>:
     label: Remote check for port <%= @port %>

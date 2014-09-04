@@ -1,0 +1,27 @@
+# CHEF MANAGED FILE: DO NOT EDIT
+# Controlling Cookbook: <%= @cookbook_name %>
+
+type: agent.plugin
+label: Local agent check for elasticsearch-<%= @check_type %>
+disabled: <%= @disabled %>
+period: <%= @period %>
+timeout: <%= @timeout %>
+details:
+  file: elasticsearch.py
+  args: [ '-H', 'http://<%= @elasticsearch_ip %>:9200', '--<%= @check_type %>' ]
+<% if @alarm %>
+alarms:
+  elasticsearch-<%= @check_type %>-check:
+    label: Local agent check for elasticsearch <%= @check_type %>
+    notification_plan_id: npTechnicalContactsEmail
+    criteria: |
+      <% if !!@warning_value %>
+      if (metric['status'] == '<%= @warning_value %>') {
+        return new AlarmStatus(WARNING, 'Elasticsearch <%= @check_type %> is warning, reported status #{status}.');
+      }
+      <% end %>
+      if (metric['status'] == '<%= @expected_value %>') {
+        return new AlarmStatus(OK, 'Elasticsearch <%= @check_type %> is ok, reported status #{status}.');
+      }
+      return new AlarmStatus(CRITICAL, 'Elasticsearch <%= @check_type %> is critical, reported status #{status}.');
+<% end %>

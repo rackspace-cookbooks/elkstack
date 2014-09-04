@@ -44,7 +44,7 @@ unless node['network']['interfaces'][stripped_es_network_host].nil?
 
   append_if_no_line 'make sure a line is in /etc/hosts' do
     path '/etc/hosts'
-    line "eslocal #{correct_ip} # nice shortcut for curl, etc."
+    line "#{correct_ip} eslocal # nice shortcut for curl, etc."
   end
 
 end
