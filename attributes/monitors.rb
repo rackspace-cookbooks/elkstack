@@ -59,8 +59,6 @@ cmd['elasticsearch_cluster-health']['timeout'] = '30'
 cmd['elasticsearch_cluster-health']['alarm'] = false
 
 # Cloud Monitoring for Processes
-maas = default['platformstack']['cloud_monitoring']
-
 # Process Monitors
 services = %w(
   elasticsearch
@@ -69,15 +67,15 @@ services = %w(
 )
 
 services.each do |service|
-  chk = maas['plugins'][service]
-  chk['cookbook'] = 'elkstack'
+  chk = default['platformstack']['cloud_monitoring']['plugins'][service]
+  chk['cookbook'] = 'platformstack'
   chk['label'] = service
   chk['disabled'] = false
   chk['period'] = 60
   chk['timeout'] = 30
   chk['file_url'] = 'https://raw.github.com/racker/rackspace-monitoring-agent-plugins-contrib/master/process_mon.sh'
-  chk['details']['file'] = "/etc/rackspace-monitoring-agent.conf.d/#{process_name}-monitor.yaml"
-  chk['details']['args'] = []
+  chk['details']['file'] = "#{service}-monitor.sh"
+  chk['details']['args'] = [ service ]
   chk['details']['timeout'] = 60
   # Should the alarm attributes be added
   # at the wrapper level?
