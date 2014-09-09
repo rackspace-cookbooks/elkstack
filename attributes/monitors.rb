@@ -2,24 +2,6 @@
 
 cmd = default['elkstack']['cloud_monitoring']
 
-# # process monitoring elastic search
-# cmd['process_elasticsearch']['disabled'] = false
-# cmd['process_elasticsearch']['period'] = '60'
-# cmd['process_elasticsearch']['timeout'] = '30'
-# cmd['process_elasticsearch']['alarm'] = false
-#
-# # process monitoring nginx/kibana
-# cmd['process_nginx']['disabled'] = false
-# cmd['process_nginx']['period'] = '60'
-# cmd['process_nginx']['timeout'] = '30'
-# cmd['process_nginx']['alarm'] = false
-#
-# # process monitoring logstash
-# cmd['process_logstash']['disabled'] = false
-# cmd['process_logstash']['period'] = '60'
-# cmd['process_logstash']['timeout'] = '30'
-# cmd['process_logstash']['alarm'] = false
-
 # port monitor for eleastic search http
 # this port is not usually publicly accessible, disable by default
 cmd['port_9200']['disabled'] = true
