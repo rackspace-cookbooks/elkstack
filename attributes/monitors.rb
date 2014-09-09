@@ -69,24 +69,15 @@ services = %w(
 services.each do |service|
   chk = default['platformstack']['cloud_monitoring']['plugins'][service]
   chk['cookbook'] = 'platformstack'
-  chk['label'] = service
+  chk['label'] = "Process monitor for #{service}"
   chk['disabled'] = false
   chk['period'] = 60
   chk['timeout'] = 30
   chk['file_url'] = 'https://raw.github.com/racker/rackspace-monitoring-agent-plugins-contrib/master/process_mon.sh'
   chk['details']['file'] = "#{service}-monitor.sh"
-  chk['details']['args'] = [ service ]
+  chk['details']['args'] = [service]
   chk['details']['timeout'] = 60
-  # Should the alarm attributes be added
-  # at the wrapper level?
-  # chk['alarm']['label'] = service
-  # chk['alarm']['notification_plan_id'] = 'npMANAGED'
-  # chk['alarm']['criteria'] = ''
-  chk['alarm']['label'] = "Local agent check for process #{service}"
-  chk['alarm']['notification_plan_id'] = 'npTechnicalContactsEmail'
-  chk['alarm']['criteria'] =
-    "if (metric['process_mon'] == 0 {
-      return new AlarmStatus(CRITICAL, 'Process #{service} not found.');
-     }
-     return new AlarmStatus(OK, 'Process #{service} found running.');"
+  # Platformstack wants the alarm hash
+  # Can override this in the wrapper/role/env
+  chk['alarm'] = {}
 end
