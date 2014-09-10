@@ -13,3 +13,7 @@ default['elkstack']['config']['site_name'] = 'kibana'
 
 # attempt to use performance cloud data disk
 default['elkstack']['config']['data_disk']['disk_config_type'] = false
+
+# default kibana username for basic auth over ssl
+# (see kibana_ssl.rb for how to set a password using node.run_state)
+default['elkstack']['config']['kibana']['username'] = 'kibana'
