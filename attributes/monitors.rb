@@ -67,7 +67,7 @@ end
 # ElasticSearch Health Monitor
 es_health = default['platformstack']['cloud_monitoring']['plugins']['elasticsearch_health']
 es_health['cookbook'] = 'platformstack'
-es_health['label'] = 'ElasticSearch Health Monitor'
+es_health['label'] = 'ElasticSearch Cluster Health Monitor'
 es_health['disabled'] = false
 es_health['period'] = 60
 es_health['timeout'] = 30
