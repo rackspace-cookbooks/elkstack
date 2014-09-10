@@ -8,9 +8,11 @@ server {
   ssl_certificate_key <%= node['nginx']['ssl_key'] %>;
   ssl_certificate <%= node['nginx']['ssl_cert'] %>;
 
+  <% if node['elkstack']['config']['kibana']['redirect'] %>
   if ( $scheme = http ){
     rewrite ^ https://<%= @server_name %>$request_uri? permanent;
   }
+  <% end %>
 
   location / {
     root  <%= @kibana_dir %>;

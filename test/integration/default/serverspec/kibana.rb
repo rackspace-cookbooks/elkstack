@@ -15,7 +15,9 @@ describe process('nginx') do
   it { should be_running }
 end
 
+# should be this by default (there's a setting to change it, but not in the tests)
 describe command('curl -s http://localhost:80') do
+  it { should return_exit_status 0 }
   its(:stdout) { should match(/301 Moved Permanently/) }
 end
 
