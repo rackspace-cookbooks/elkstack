@@ -2,7 +2,8 @@
 
 **Please note that this cookbook does not restart elasticsearch automatically,
 in order to avoid causing an outage of the cluster. It does restart nginx and
-logstash, however.**
+logstash, however. You will have to restart elasticsearch after the initial
+bootstrap.**
 
 Elasticsearch, Logstash, and Kibana stack. Due to the recommendations of the
 community, we are not using the embedded elasticsearch functionality of logstash
@@ -66,6 +67,18 @@ CentOS 6.5
     <td>String or Boolean</td>
     <td>See customizing the stack section below</td>
     <td><tt>false</tt></td>
+  </tr>
+  <tr>
+    <td><tt>node.run_state['elkstack_kibana_username']</tt> and <tt>['elkstack']['config']['kibana']['username']</tt></td>
+    <td>String</td>
+    <td>Default username for basic auth for kibana, run_state used first</td>
+    <td><tt>kibana</tt></td>
+  </tr>
+  <tr>
+    <td><tt>node.run_state['elkstack_kibana_password']</tt></td>
+    <td>String</td>
+    <td>Password for basic auth for kibana</td>
+    <td>random from <tt>Opscode::OpenSSL::Password</tt></td>
   </tr>
 </table>
 
