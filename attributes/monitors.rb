@@ -63,3 +63,15 @@ services.each do |service|
   # Can override this in the wrapper/role/env
   chk['alarm'] = {}
 end
+
+# ElasticSearch Health Monitor
+es_health = default['platformstack']['cloud_monitoring']['plugins']['elasticsearch_health']
+es_health['cookbook'] = 'platformstack'
+es_health['label'] = 'ElasticSearch Health Monitor'
+es_health['disabled'] = false
+es_health['period'] = 60
+es_health['timeout'] = 30
+es_health['file_url'] = 'https://raw.github.com/racker/rackspace-monitoring-agent-plugins-contrib/master/elasticsearch.py'
+es_health['details']['file'] = 'elasticsearch.py'
+es_health['details']['args'] = ['-H', 'http://eslocal:9200', '--cluster-health']
+es_health['alarm'] = {}
