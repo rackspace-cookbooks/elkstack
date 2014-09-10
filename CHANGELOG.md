@@ -1,3 +1,7 @@
+# 0.2.0
+
+Added the ability to disable redirects on kibana
+
 # 0.1.2
 
 Add more options for kibana username and password fields under basic auth over SSL on nginx.

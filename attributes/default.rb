@@ -17,3 +17,6 @@ default['elkstack']['config']['data_disk']['disk_config_type'] = false
 # default kibana username for basic auth over ssl
 # (see kibana_ssl.rb for how to set a password using node.run_state)
 default['elkstack']['config']['kibana']['username'] = 'kibana'
+
+# redirect HTTP to HTTPS?
+default['elkstack']['config']['kibana']['redirect'] = true

@@ -63,6 +63,12 @@ CentOS 6.5
     <td><tt>kibana</tt></td>
   </tr>
   <tr>
+    <td><tt>['elkstack']['config']['kibana']['redirect']</tt></td>
+    <td>Boolean</td>
+    <td>Enable/Disable nginx redirect for kibana from port 80 to port 443</td>
+    <td><tt>true</tt></td>
+  </tr>
+  <tr>
     <td><tt>['elkstack']['config']['data_disk']['disk_config_type']</tt></td>
     <td>String or Boolean</td>
     <td>See customizing the stack section below</td>
