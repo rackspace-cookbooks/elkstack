@@ -17,15 +17,21 @@ directory "#{node['nginx']['dir']}/ssl" do
   recursive true
 end
 
-if node.run_state.key?('elkstack_password')
-  basic_auth_password = node.run_state['elkstack_password']
+if node.run_state.key?('elkstack_kibana_password')
+  basic_auth_password = node.run_state['elkstack_kibana_password']
 else
   ::Chef::Recipe.send(:include, Opscode::OpenSSL::Password)
   basic_auth_password = secure_password
 end
 
+if node.run_state.key?('elkstack_kibana_username')
+  basic_auth_username = node.run_state['elkstack_kibana_username']
+else
+  basic_auth_username = node['elkstack']['config']['kibana']['username']
+end
+
 htpasswd "#{node['nginx']['dir']}/htpassword" do
-  user 'kibana'
+  user basic_auth_username
   password basic_auth_password
 end
 
