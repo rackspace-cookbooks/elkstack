@@ -17,7 +17,7 @@ end
 
 describe command('curl -s http://localhost:80') do
   # could be either, depending on node['elkstack']['config']['kibana']['redirect']
-  expect(:stdout).to match(/301 Moved Permanently/).or match(/401 Authorization Required/)
+  it { is_expected.to match(/301 Moved Permanently/).or match(/401 Authorization Required/) }
 end
 
 describe command('curl -sk https://localhost:443') do
