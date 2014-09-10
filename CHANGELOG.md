@@ -2,7 +2,12 @@
 
 Added the ability to disable redirects on kibana
 
+# 0.1.3
+
+Sheppy Reno - Convert process monitors to platformstack 
+
 # 0.1.2
+=======
 
 Add more options for kibana username and password fields under basic auth over SSL on nginx.
 

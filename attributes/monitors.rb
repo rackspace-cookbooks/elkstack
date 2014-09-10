@@ -2,24 +2,6 @@
 
 cmd = default['elkstack']['cloud_monitoring']
 
-# process monitoring elastic search
-cmd['process_elasticsearch']['disabled'] = false
-cmd['process_elasticsearch']['period'] = '60'
-cmd['process_elasticsearch']['timeout'] = '30'
-cmd['process_elasticsearch']['alarm'] = false
-
-# process monitoring nginx/kibana
-cmd['process_nginx']['disabled'] = false
-cmd['process_nginx']['period'] = '60'
-cmd['process_nginx']['timeout'] = '30'
-cmd['process_nginx']['alarm'] = false
-
-# process monitoring logstash
-cmd['process_logstash']['disabled'] = false
-cmd['process_logstash']['period'] = '60'
-cmd['process_logstash']['timeout'] = '30'
-cmd['process_logstash']['alarm'] = false
-
 # port monitor for eleastic search http
 # this port is not usually publicly accessible, disable by default
 cmd['port_9200']['disabled'] = true
@@ -57,3 +39,39 @@ cmd['elasticsearch_cluster-health']['disabled'] = false
 cmd['elasticsearch_cluster-health']['period'] = '60'
 cmd['elasticsearch_cluster-health']['timeout'] = '30'
 cmd['elasticsearch_cluster-health']['alarm'] = false
+
+# Cloud Monitoring for Processes
+# Process Monitors
+services = %w(
+  elasticsearch
+  logstash
+  nginx
+)
+
+services.each do |service|
+  chk = default['platformstack']['cloud_monitoring']['plugins'][service]
+  chk['cookbook'] = 'platformstack'
+  chk['label'] = "Process monitor for #{service}"
+  chk['disabled'] = false
+  chk['period'] = 60
+  chk['timeout'] = 30
+  chk['file_url'] = 'https://raw.github.com/racker/rackspace-monitoring-agent-plugins-contrib/master/process_mon.sh'
+  chk['details']['file'] = "#{service}-monitor.sh"
+  chk['details']['args'] = [service]
+  chk['details']['timeout'] = 60
+  # Platformstack wants the alarm hash
+  # Can override this in the wrapper/role/env
+  chk['alarm'] = {}
+end
+
+# ElasticSearch Health Monitor
+es_health = default['platformstack']['cloud_monitoring']['plugins']['elasticsearch_health']
+es_health['cookbook'] = 'platformstack'
+es_health['label'] = 'ElasticSearch Cluster Health Monitor'
+es_health['disabled'] = false
+es_health['period'] = 60
+es_health['timeout'] = 30
+es_health['file_url'] = 'https://raw.github.com/racker/rackspace-monitoring-agent-plugins-contrib/master/elasticsearch.py'
+es_health['details']['file'] = 'elasticsearch.py'
+es_health['details']['args'] = ['-H', 'http://eslocal:9200', '--cluster-health']
+es_health['alarm'] = {}
