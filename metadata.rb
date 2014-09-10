@@ -22,3 +22,6 @@ depends 'newrelic_meetme_plugin'
 depends 'line'
 depends 'openssl'
 depends 'htpasswd'
+
+# until https://github.com/opscode-cookbooks/cron/issues/44
+depends 'cron', '= 1.4.0'
