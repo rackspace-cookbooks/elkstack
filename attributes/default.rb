@@ -22,9 +22,11 @@ default['elkstack']['config']['kibana']['username'] = 'kibana'
 default['elkstack']['config']['kibana']['redirect'] = true
 
 # get on a much newer elasticsearch, override precomputed attributes
-override['java']['jdk_version']            = '7' # newer ES requires
-override['elasticsearch']['version']       = '1.3.2'
-override['elasticsearch']['rpm_url']       = 'https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-1.3.2.noarch.rpm'
-override['elasticsearch']['rpm_sha']       = 'bd8c4041bf2d9ce68ff28f59926b5c793f96c478'
-override['elasticsearch']['filename']      = "elasticsearch-#{node['elasticsearch']['version']}.tar.gz"
-override['elasticsearch']['download_url']  = [node['elasticsearch']['host'], node['elasticsearch']['repository'], node['elasticsearch']['filename']].join('/')
+default['java']['jdk_version']           = '7' # newer ES requires
+
+# override the default ones from the elasticsearch cookbook
+default['elasticsearch']['version']       = '1.3.2'
+default['elasticsearch']['rpm_url']       = 'https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-1.3.2.noarch.rpm'
+default['elasticsearch']['rpm_sha']       = 'bd8c4041bf2d9ce68ff28f59926b5c793f96c478'
+default['elasticsearch']['filename']      = "elasticsearch-#{node['elasticsearch']['version']}.tar.gz"
+default['elasticsearch']['download_url']  = [node['elasticsearch']['host'], node['elasticsearch']['repository'], node['elasticsearch']['filename']].join('/')
