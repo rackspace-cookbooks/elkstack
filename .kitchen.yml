@@ -20,9 +20,6 @@ provisioner:
   client_rb:
     environment: _default
   attributes:
-    elasticsearch:
-      network:
-        host: '127.0.0.1'
     openssh:
       server:
         password_authentication: 'yes'
@@ -48,6 +45,13 @@ provisioner:
       cloud_credentials:
         username: 'racker'
         api_key: 'sekrit'
+    elasticsearch:
+      network:
+        host: '127.0.0.1'
+      index:
+        number_of_replicas: 0
+        # so the kitchen node doesn't have unallocated replica shards
+        # and comes up green (healthy) instead of yellow
 
 platforms:
   - name: ubuntu-14.04

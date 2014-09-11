@@ -19,13 +19,13 @@ end
 describe 'elasticsearch' do
   # test with curl here
   it 'should report status ok' do
-    expect(command 'sleep 5 && curl localhost:9200/_status?pretty=1')
-    .to return_stdout(/.*"ok" : true.*/)
+    expect(command 'sleep 5 && curl localhost:9200/_cluster/health?pretty=1')
+    .to return_stdout(/.*"status" : "green".*/)
   end
 
   # can't use process() matcher because of two java processes
   it 'should be running Elasticsearch main class' do
-    expect(command 'ps aux | grep -v grep | grep -s org.elasticsearch.bootstrap.ElasticSearch')
+    expect(command 'ps aux | grep -v grep | grep -si org.elasticsearch.bootstrap.Elasticsearch')
     .to return_exit_status 0
   end
 end

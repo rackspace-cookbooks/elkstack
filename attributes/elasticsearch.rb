@@ -16,4 +16,5 @@ default['elasticsearch']['network']['host'] = '_eth1:ipv4_'
 default['elasticsearch']['discovery']['search_query'] = "tags:elkstack_cluster AND chef_environment:#{node.chef_environment} AND elasticsearch_cluster_name:#{node['elasticsearch']['cluster']['name']} AND NOT name:#{node.name}"
 # rubocop:enable LineLength
 
+# by default, won't do multicast
 default['elasticsearch']['discovery']['zen']['ping']['multicast']['enabled'] = false
