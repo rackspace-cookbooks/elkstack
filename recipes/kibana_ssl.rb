@@ -41,8 +41,8 @@ file basic_auth_file do
   owner 'root'
   group 'root'
   mode 0600
-  content "user = \"kibana:#{basic_auth_password}\""
-  action :create_if_missing
+  content "user = \"#{basic_auth_username}:#{basic_auth_password}\""
+  action :create
 end
 
 site_name = node['elkstack']['config']['site_name']

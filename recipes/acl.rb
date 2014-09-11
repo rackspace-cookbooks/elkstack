@@ -20,5 +20,6 @@ if !should_cluster.nil? && should_cluster
   end
 end
 
-# allow web clients to hit kibana on port 80
+# allow web clients to hit kibana on port 80 and 443
 add_iptables_rule('INPUT', '-p tcp --dport 80 -j ACCEPT', 9998, 'allow nginx for kibana to serve pages')
+add_iptables_rule('INPUT', '-p tcp --dport 443 -j ACCEPT', 9998, 'allow nginx for kibana to serve pages')
