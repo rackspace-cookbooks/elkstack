@@ -36,7 +36,12 @@ if stripped_es_network_host.include?('_') # strip underscores
   stripped_es_network_host = stripped_es_network_host.sub('_', '')
 end
 
-unless node['network']['interfaces'][stripped_es_network_host].nil?
+if node['network']['interfaces'][stripped_es_network_host].nil?
+  append_if_no_line 'make sure a line is in /etc/hosts' do
+    path '/etc/hosts'
+    line "#{stripped_es_network_host} eslocal # nice shortcut for curl, etc."
+  end
+else
   correct_ip = node['network']['interfaces'][stripped_es_network_host]['addresses'].keys[1]
   node.override['logstash']['instance']['server']['elasticsearch_ip'] = correct_ip
   node.override['logstash']['instance']['server']['config_templates_variables']['elasticsearch_ip'] = correct_ip
@@ -51,6 +56,7 @@ end
 # end nasty logic for logstash & kibana to find es
 
 # if iptables toggle is set, include host based firewall rules
-if !node['elkstack']['iptables']['enabled'].nil? && node['elkstack']['iptables']['enabled']
+iptables_enabled = node.deep_fetch('elkstack', 'config', 'iptables')
+if !iptables_enabled.nil? && iptables_enabled
   include_recipe 'elkstack::acl'
 end

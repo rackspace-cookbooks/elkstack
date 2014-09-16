@@ -68,4 +68,5 @@ suites:
   - name: default
     run_list:
       - recipe[elkstack::java]
+      - recipe[elkstack::elasticsearch_backup]
       - recipe[elkstack::cluster] # not testing single, it's practically the same

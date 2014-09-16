@@ -6,6 +6,8 @@
 # Copyright 2014, Rackspace
 #
 
+include_recipe 'chef-sugar'
+
 add_iptables_rule('INPUT', '-i lo -j ACCEPT', 9900, 'allow services on loopback to talk to any interface')
 
 # main point of elkstack, open syslog port
