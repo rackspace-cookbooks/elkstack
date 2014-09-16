@@ -6,7 +6,10 @@ default['rsyslog']['port'] = '5959'
 default['elkstack']['config']['cluster'] = false
 
 # default to include iptables rules
-default['elkstack']['iptables']['enabled'] = 'true'
+default['elkstack']['config']['iptables'] = true
+
+# enable elasticsearch backups?
+default['elkstack']['config']['backups'] = true
 
 # default vhost stuff and SSL cert/key name
 default['elkstack']['config']['site_name'] = 'kibana'
@@ -20,13 +23,3 @@ default['elkstack']['config']['kibana']['username'] = 'kibana'
 
 # redirect HTTP to HTTPS?
 default['elkstack']['config']['kibana']['redirect'] = true
-
-# get on a much newer elasticsearch, override precomputed attributes
-default['java']['jdk_version']           = '7' # newer ES requires
-
-# override the default ones from the elasticsearch cookbook
-default['elasticsearch']['version']       = '1.3.2'
-default['elasticsearch']['rpm_url']       = 'https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-1.3.2.noarch.rpm'
-default['elasticsearch']['rpm_sha']       = 'bd8c4041bf2d9ce68ff28f59926b5c793f96c478'
-default['elasticsearch']['filename']      = "elasticsearch-#{node['elasticsearch']['version']}.tar.gz"
-default['elasticsearch']['download_url']  = [node['elasticsearch']['host'], node['elasticsearch']['repository'], node['elasticsearch']['filename']].join('/')
