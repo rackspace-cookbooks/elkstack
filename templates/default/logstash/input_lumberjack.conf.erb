@@ -1,0 +1,14 @@
+# http://logstash.net/docs/1.4.2/inputs/lumberjack
+input {
+  lumberjack {
+    # add_field => ... # hash (optional), default: {}
+    codec => json
+    host => "<%= @input_lumberjack_host %>"
+    port => "<%= @input_lumberjack_port %>"
+    ssl_certificate => "<%= @input_lumberjack_ssl_certificate %>"
+    ssl_key => "<%= @input_lumberjack_ssl_key %>"
+    # ssl_key_passphrase => ... # password (optional)
+    # tags => ... # array (optional)
+    # type => ... # string (optional)
+  }
+}

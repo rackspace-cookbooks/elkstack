@@ -7,7 +7,7 @@
 #
 
 # base stack requirements
-include_recipe 'elkstack::_base'
+include_recipe 'elkstack::_server'
 
 # do clustering magic, with custom query for our tags
 include_recipe 'chef-sugar'

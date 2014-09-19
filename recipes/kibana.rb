@@ -7,7 +7,7 @@
 #
 
 # base stack requirements
-include_recipe 'elkstack::_base'
+include_recipe 'elkstack::_server'
 
 # setup nginx then kibana ()
 node.override['nginx']['repo_source'] = 'epel' if rhel?

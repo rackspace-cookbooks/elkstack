@@ -12,7 +12,7 @@ unless node['newrelic']['license'].nil?
     node.override['newrelic_meetme_plugin']['services'] = {
       'elasticsearch' => {
         'name' => node['elasticsearch']['cluster']['name'],
-        'host' => 'localhost',
+        'host' => 'eslocal',
         'port' => '9200',
         'scheme' => 'http'
       }
