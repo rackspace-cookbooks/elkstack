@@ -37,3 +37,7 @@ WordArray:
 # Don't complain about unused block args
 UnusedBlockArgument:
   Enabled: false
+
+AllCops:
+  Include:
+    - '**/*.rb'
