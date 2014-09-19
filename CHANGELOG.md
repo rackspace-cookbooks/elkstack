@@ -1,26 +1,37 @@
+# 1.0.0
+
+- Bump logstash to version 1.4.2.
+- Added top-level `agent` recipe and test suite, intended for running logstash-agent on a regular server. Uses `elasticsearch::search_discovery` to find and list elk cluster nodes (can override this as well, see elasticsearch cookbook for how). Agent uses lumberjack protocol by default and requires a keypair before converging.
+- Switch nodes to communicate using node protocol on `eslocal:9300` between logstash and elasticsearch on the same box.
+- Write chefspec tests for default (server nodes) and agent to 100% coverage. Add `chef-sugar` to `Gemfile` to be able to converge with chefspec and fauxhai.
+- Drop dependency on `logstash_stack` (didn't need to be there any longer, wasn't used).
+- Nodes no longer forward directly to logstash on the remote side, they forward to a local logstash listening for syslog.
+- Bugfix: `/etc/hosts` is now correctly populated for all classes of elkstack, not just multi-node.
+- Bugfix: The `newrelic` plugin now monitors against eslocal, not localhost.
+
+
 # 0.3.0
 
-Bumped default Elasticsearch version to 1.3.2. Java 7 is now required, and some tests had to be adjusted.
-Fix bug in username not being used in tests because it was wrong in /etc/nginx/htpassword.curl.
-Fix bug where port 443 was not open in iptables.
+- Bumped default Elasticsearch version to 1.3.2. Java 7 is now required, and some tests had to be adjusted.
+- Fix bug in username not being used in tests because it was wrong in /etc/nginx/htpassword.curl.
+- Fix bug where port 443 was not open in iptables.
 
 # 0.2.0
 
-Added the ability to disable redirects on kibana
+- Added the ability to disable redirects on kibana
 
 # 0.1.3
 
-Sheppy Reno - Convert process monitors to platformstack
+- Sheppy Reno - Convert process monitors to platformstack
 
 # 0.1.2
-=======
 
-Add more options for kibana username and password fields under basic auth over SSL on nginx.
+- Add more options for kibana username and password fields under basic auth over SSL on nginx.
 
 # 0.1.1
 
-Seperate recipes per service, add searching and tests. Major workarounds for logstash cookbook.
+- Seperate recipes per service, add searching and tests. Major workarounds for logstash cookbook.
 
 # 0.1.0
 
-Initial release of elkstack
+- Initial release of elkstack

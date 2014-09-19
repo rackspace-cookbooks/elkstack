@@ -7,10 +7,12 @@
 #
 
 # base stack requirements for an all-in-one node
-include_recipe 'elkstack::_base'
+include_recipe 'elkstack::_server'
 
 # include components
 include_recipe 'elkstack::elasticsearch'
 include_recipe 'elkstack::logstash'
-include_recipe 'elkstack::rsyslog'
 include_recipe 'elkstack::kibana'
+
+# see attributes, will forward to logstash on localhost
+include_recipe 'rsyslog::client'

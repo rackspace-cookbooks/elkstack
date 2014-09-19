@@ -39,5 +39,5 @@ describe file('/usr/local/etc/elasticsearch/elasticsearch.yml') do
   it { should contain('http.port: 9200') }
   it { should contain('discovery.zen.minimum_master_nodes: 1') }
   it { should contain('discovery.zen.ping.multicast.enabled: false') }
-  it { should contain('discovery.zen.ping.unicast.hosts: 1.2.3.4') }
+  it { should contain('discovery.zen.ping.unicast.hosts: 1.2.3.4,1.2.3.5') }
 end

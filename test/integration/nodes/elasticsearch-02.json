@@ -1,10 +1,10 @@
 {
-  "name": "elasticsearch-02",
+  "name": "elasticsearch-01",
   "chef_environment": "_default",
   "json_class": "Chef::Node",
   "automatic": {
     "hostname": "vagrant.vm",
-    "ipaddress": "1.2.3.5",
+    "ipaddress": "1.2.3.4",
     "recipes": [
       "java::default",
       "elasticsearch::default"

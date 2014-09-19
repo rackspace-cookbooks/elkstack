@@ -40,6 +40,6 @@ ports.each do | port |
       alarm: cm["port_#{port}"]['alarm']
     )
     notifies 'restart', 'service[rackspace-monitoring-agent]', 'delayed'
-    action 'create'
+    action :create
   end
 end

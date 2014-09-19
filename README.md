@@ -1,10 +1,5 @@
 # elkstack
 
-**Please note that this cookbook does not restart elasticsearch automatically,
-in order to avoid causing an outage of the cluster. It does restart nginx and
-logstash, however. You will have to restart elasticsearch after the initial
-bootstrap.**
-
 Elasticsearch, Logstash, and Kibana stack. Due to the recommendations of the
 community, we are not using the embedded elasticsearch functionality of logstash
 at this point. This cookbook provides recipes for all three components, along
@@ -22,6 +17,23 @@ elasticsearch HTTP interface to fetch and manipulate data.
 Please read the individual recipe summaries to understand what each recipe does,
 as well as what each wrapper recipe is actually wrapping. As much as possible,
 upstream attributes have been exposed/overriden for our needs.
+
+## Pre-requistes before converging this stack
+
+- Please note that this cookbook does not restart elasticsearch automatically,
+in order to avoid causing an outage of the cluster. It does restart nginx and
+logstash, however. You will have to restart elasticsearch after the initial
+bootstrap.
+
+- The agent recipe requires a pre-generated SSL key and certificate with
+something like `openssl req -x509 -newkey rsa:2048 -keyout lumberjack.key -out
+lumberjack.crt -nodes -days 1000`. This key and certificate data should be
+placed in data bag with name `node['elkstack']['config']['lumberjack_data_bag']`
+under `key` and `certificate` keys, and base64 encoded into a single line
+string. You may also supply these with some other method and populate the
+appropriate `node.run_state` values (see `_secrets.rb` for more details). Note
+that this is not a PKI trust model, but an
+[explicit trust model](https://spaces.internet2.edu/display/InCFederation/Metadata+Trust+Models#MetadataTrustModels-ExplicitKeyTrustModel).
 
 ## [Changelog](CHANGELOG.md)
 
@@ -45,9 +57,21 @@ CentOS 6.5
     <th>Default</th>
   </tr>
   <tr>
+    <td><tt>['elkstack']['config']['logstash']['instance_name']</tt></td>
+    <td>String</td>
+    <td>Default logstash instance name</td>
+    <td><tt>server</tt></td>
+  </tr>
+  <tr>
     <td><tt>['elkstack']['config']['cluster']</tt></td>
     <td>Boolean</td>
-    <td>whether to search for and connect Elasticsearch to cluster nodes</td>
+    <td>Whether to search for and connect Elasticsearch to cluster nodes</td>
+    <td><tt>false</tt></td>
+  </tr>
+  <tr>
+    <td><tt>['elkstack']['config']['data_disk']['disk_config_type']</tt></td>
+    <td>Boolean or String</td>
+    <td>See customizing the stack section below.</td>
     <td><tt>false</tt></td>
   </tr>
   <tr>
@@ -69,12 +93,6 @@ CentOS 6.5
     <td><tt>true</tt></td>
   </tr>
   <tr>
-    <td><tt>['elkstack']['config']['data_disk']['disk_config_type']</tt></td>
-    <td>String or Boolean</td>
-    <td>See customizing the stack section below</td>
-    <td><tt>false</tt></td>
-  </tr>
-  <tr>
     <td><tt>node.run_state['elkstack_kibana_username']</tt> and <tt>['elkstack']['config']['kibana']['username']</tt></td>
     <td>String</td>
     <td>Default username for basic auth for kibana, run_state used first</td>
@@ -85,6 +103,12 @@ CentOS 6.5
     <td>String</td>
     <td>Password for basic auth for kibana</td>
     <td>random from <tt>Opscode::OpenSSL::Password</tt></td>
+  </tr>
+  <tr>
+    <td><tt>['elkstack']['config']['lumberjack_data_bag']</tt></td>
+    <td>String</td>
+    <td>Data bag name for lumberjack key and certificate</td>
+    <td><tt>lumberjack</tt></td>
   </tr>
 </table>
 
@@ -161,13 +185,6 @@ most of the http paths directly to elasticsearch (whitelist).
 Wrapper for a java recipe. This is not included on the run list normally, so if
 you don't already, you must include this recipe or get another JVM installed
 before including anything else in this cookbook.
-
-### elkstack::rsyslog
-
-Leans on the upstream `opscode-cookbooks/rsyslog` cookbook for most of its work.
-Configures a local rsyslog that sends to the local logstash instance. The stack
-has already been configured with attributes for this use case. See
-`attributes/default.rb` for those settings.
 
 ### elkstack::newrelic
 

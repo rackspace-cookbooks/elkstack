@@ -1,0 +1,17 @@
+filter {
+  mutate {
+    add_field => { "chef_environment" => "<%= @chef_environment %>" }
+  }
+}
+
+output {
+  lumberjack {
+    codec => json
+    hosts => <%= @output_lumberjack_hosts %>
+    port => "<%= @output_lumberjack_port %>"
+    ssl_certificate => "<%= @output_lumberjack_ssl_certificate %>"
+    # ssl_key => "<%= @output_lumberjack_ssl_key %>"
+    # window_size => ... # number (optional), default: 5000
+    # workers => ... # number (optional), default: 1
+  }
+}
