@@ -27,3 +27,9 @@ filter {
     }
   }
 }
+
+filter {
+  mutate {
+    replace => [ "input_chef_environment", "<%= @chef_environment %>" ]
+  }
+}

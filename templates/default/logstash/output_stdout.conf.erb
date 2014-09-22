@@ -1,3 +1,9 @@
+filter {
+  mutate {
+    replace => [ "output_chef_environment", "<%= @chef_environment %>" ]
+  }
+}
+
 output {
   stdout {
     codec => rubydebug

@@ -1,3 +1,9 @@
+# 1.1.0
+
+- Add `chef_environment` fields to be shipped to central cluster
+- Add ACL recipe for agents to open up to :9300 on the ELK cluster nodes
+- Fix protocol from node to transport on logstash agents (to avoid needing more ACLs)
+
 # 1.0.0
 
 - Bump logstash to version 1.4.2.
