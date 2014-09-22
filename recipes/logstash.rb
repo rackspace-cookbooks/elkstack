@@ -36,7 +36,8 @@ template_variables = {
   input_lumberjack_host: '0.0.0.0',
   input_lumberjack_port: 5960,
   input_syslog_host: '0.0.0.0',
-  input_syslog_port: 5959
+  input_syslog_port: 5959,
+  chef_environment: node.chef_environment
 }
 
 include_recipe 'elkstack::_secrets'

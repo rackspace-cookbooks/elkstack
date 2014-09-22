@@ -12,3 +12,9 @@ input {
     # type => ... # string (optional)
   }
 }
+
+filter {
+  mutate {
+    replace => [ "input_chef_environment", "<%= @chef_environment %>" ]
+  }
+}

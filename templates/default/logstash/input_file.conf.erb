@@ -4,3 +4,9 @@ input {
     type => ["<%= @input_file_type %>"]
   }
 }
+
+filter {
+  mutate {
+    replace => [ "input_chef_environment", "<%= @chef_environment %>" ]
+  }
+}

@@ -1,6 +1,6 @@
 filter {
   mutate {
-    add_field => { "chef_environment" => "<%= @chef_environment %>" }
+    replace => [ "output_chef_environment", "<%= @chef_environment %>" ]
   }
 }
 

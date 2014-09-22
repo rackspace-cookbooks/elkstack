@@ -14,7 +14,7 @@ agent_name = 'agent'
 include_recipe 'elasticsearch::search_discovery'
 elk_nodes = node['elasticsearch']['discovery']['zen']['ping']['unicast']['hosts']
 
-# configure logstash-forwarder
+# configure logstash for forwarding
 logstash_instance agent_name do
   action :create
 end

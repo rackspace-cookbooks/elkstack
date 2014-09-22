@@ -25,6 +25,11 @@ in order to avoid causing an outage of the cluster. It does restart nginx and
 logstash, however. You will have to restart elasticsearch after the initial
 bootstrap.
 
+- You may want to consider adjusting `node['elasticsearch']['discovery']['search_query']`
+if you are sharing one cluster among multiple environments. Just put a chef
+search in that attribute and this will use that search instead of one scoped to
+chef environments.
+
 - The agent recipe requires a pre-generated SSL key and certificate with
 something like `openssl req -x509 -newkey rsa:2048 -keyout lumberjack.key -out
 lumberjack.crt -nodes -days 1000`. This key and certificate data should be
@@ -152,6 +157,11 @@ A simple wrapper recipe that sets up Elasticsearch, Logstash, and Kibana. Also
 configures an rsyslog sink into logstash on the local box. Sets the cluster flag
 so that the elasticsearch recipe builds it in a cluster-friendly way.
 
+### elkstack::agent
+
+A simple wrapper recipe that sets up a logstash agent on the local box. Also
+configures an rsyslog sink into logstash on the local box.
+
 ### elkstack::elasticsearch
 
 Leans on the upstream `elasticsearch/cookbook-elasticsearch` cookbook for much
@@ -195,8 +205,12 @@ support newrelic_meetme_plugin
 
 ## elkstack::acl
 
-Adds basic iptables rules and cluster iptables rules if appropriate attributes
+Adds cluster node basic iptables rules and cluster iptables rules if appropriate attributes
 are set.
+
+## elkstack::agent_acl
+
+Adds agent node basic iptables rules if appropriate attributes are set.
 
 ## elkstack::disk_setup
 
