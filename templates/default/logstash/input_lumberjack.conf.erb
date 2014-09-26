@@ -2,7 +2,7 @@
 input {
   lumberjack {
     # add_field => ... # hash (optional), default: {}
-    codec => json
+    codec => plain
     host => "<%= @input_lumberjack_host %>"
     port => "<%= @input_lumberjack_port %>"
     ssl_certificate => "<%= @input_lumberjack_ssl_certificate %>"

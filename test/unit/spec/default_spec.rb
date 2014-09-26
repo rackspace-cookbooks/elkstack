@@ -47,9 +47,8 @@ describe 'elkstack::cluster' do
   it 'installs and configures logstash' do
     expect(chef_run).to create_directory('/opt/logstash')
 
-    # service
+    # service (enable includes start in LWRP in logstash cookbook)
     expect(chef_run).to enable_logstash_service('server')
-    expect(chef_run).to start_logstash_service('server')
 
     # instance lwrp
     expect(chef_run).to create_logstash_instance('server')

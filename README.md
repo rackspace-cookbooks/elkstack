@@ -23,14 +23,15 @@ upstream attributes have been exposed/overriden for our needs.
 - Please note that this cookbook does not restart elasticsearch automatically,
 in order to avoid causing an outage of the cluster. It does restart nginx and
 logstash, however. You will have to restart elasticsearch after the initial
-bootstrap.
+bootstrap. You may also need to bounce logstash if it seems confused about
+losing a connection to eleasticsearch (unusual, but happens).
 
 - You may want to consider adjusting `node['elasticsearch']['discovery']['search_query']`
 if you are sharing one cluster among multiple environments. Just put a chef
 search in that attribute and this will use that search instead of one scoped to
 chef environments.
 
-- The agent recipe requires a pre-generated SSL key and certificate with
+- The agent recipes requires a pre-generated SSL key and certificate with
 something like `openssl req -x509 -newkey rsa:2048 -keyout lumberjack.key -out
 lumberjack.crt -nodes -days 1000`. This key and certificate data should be
 placed in data bag with name `node['elkstack']['config']['lumberjack_data_bag']`
@@ -72,6 +73,18 @@ CentOS 6.5
     <td>Boolean</td>
     <td>Whether to search for and connect Elasticsearch to cluster nodes</td>
     <td><tt>false</tt></td>
+  </tr>
+  <tr>
+    <td><tt>['elasticsearch']['discovery']['search_query']</tt></td>
+    <td>String</td>
+    <td>A query to search for and connect Elasticsearch to cluster nodes</td>
+    <td>(see `attributes/elasticsearch.rb`)</td>
+  </tr>
+  <tr>
+    <td><tt>['logstash_forwarder']['config']['files']</tt></td>
+    <td>Hash</td>
+    <td>See customizing the stack section below.</td>
+    <td>Most logs in `/var/log`</td>
   </tr>
   <tr>
     <td><tt>['elkstack']['config']['data_disk']['disk_config_type']</tt></td>
@@ -133,9 +146,17 @@ node.override['elasticsearch']['data']['devices']['/dev/xvde1'] = disk_config
 node.override['elasticsearch']['path']['data'] = disk_config['mount_path']
 ```
 
-To add additional logstash configuration to this stack, simply add additional templates in your wrapper cookbook. They should be placed in `"#{@basedir}/#{@instance}/etc/conf.d"` (see the config provider in the logstash cookbook).
+To add additional logstash configuration to this stack, simply add additional
+templates in your wrapper cookbook. They should be placed in
+`"#{@basedir}/#{@instance}/etc/conf.d"` (see the config provider in the logstash
+cookbook). If you choose to use logstash-forwarder instead of the regular agent,
+please see the hash structure in `attributes/forwarder.rb` for adding additional
+files for the forwarder to watch and forward, `node['logstash_forwarder']['config']['files']`.
 
-To override the nginx configuration, simply supply a new template and specify your cookbook using `['kibana']['nginx']['template_cookbook']` and `['kibana']['nginx']['template']`. You can also override just the password for the reverse proxy using `node.run_state['elkstack_password']`.
+To override the nginx configuration, simply supply a new template and specify
+your cookbook using `['kibana']['nginx']['template_cookbook']` and
+`['kibana']['nginx']['template']`. You can also override just the password for
+the reverse proxy using `node.run_state['elkstack_password']`.
 
 To override anything else, set the appropriate node hash (`logstash`, `kibana`, or `elasticsearch`).
 
@@ -161,6 +182,15 @@ so that the elasticsearch recipe builds it in a cluster-friendly way.
 
 A simple wrapper recipe that sets up a logstash agent on the local box. Also
 configures an rsyslog sink into logstash on the local box.
+
+### elkstack::forwarder
+
+A python-based alternative to the normal agent, configured simply to watch logs
+forward them directly on to the cluster. This project is in heavy development,
+and is not publishing releases very often, so the packaged versions may be quite
+old or buggy. As of the addition of the recipe, the package was almost a year
+behind current development, but only because there also had been no releases
+either.
 
 ### elkstack::elasticsearch
 

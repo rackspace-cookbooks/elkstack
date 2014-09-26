@@ -10,4 +10,6 @@
 # a java cookbook of their choice, or perhaps eventually something that installs
 # java in a 'rackspace way' where customers have accepted the license and
 # downloaded it themselves.
+
+include_recipe 'chef-sugar'
 include_recipe 'java'

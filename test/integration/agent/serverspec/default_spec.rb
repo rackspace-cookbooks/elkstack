@@ -30,3 +30,13 @@ end
 describe command('/opt/logstash/agent/bin/logstash agent -f /opt/logstash/agent/etc/conf.d/ -t 2>&1 | grep -s "Configuration OK"') do
   it { should return_exit_status 0 }
 end
+
+describe 'lumberjack keypair' do
+  describe file('/opt/logstash/lumberjack.crt') do
+    it { should be_file }
+  end
+
+  describe file('/opt/logstash/lumberjack.key') do
+    it { should be_file }
+  end
+end
