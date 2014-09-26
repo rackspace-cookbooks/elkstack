@@ -8,8 +8,6 @@
 
 add_iptables_rule('INPUT', '-i lo -j ACCEPT', 9900, 'allow services on loopback to talk to any interface')
 
-should_cluster = node.deep_fetch('elkstack', 'config', 'cluster')
-
 include_recipe 'elasticsearch::search_discovery'
 es_nodes = node['elasticsearch']['discovery']['zen']['ping']['unicast']['hosts']
 
