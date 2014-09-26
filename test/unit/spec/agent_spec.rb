@@ -24,7 +24,6 @@ describe 'elkstack::agent' do
     # enable includes start in LWRP in logstash cookbook
     expect(chef_run).to enable_logstash_service('agent')
 
-
     expect(chef_run).to create_logstash_instance('agent')
     expect(chef_run).to create_logstash_pattern('agent')
     expect(chef_run).to create_logstash_config('agent')
