@@ -10,6 +10,7 @@ describe 'elkstack::agent' do
       node.set['memory']['total'] = 4096
       node.set['public_info']['remote_ip'] = '127.0.0.1'
       node.set['filesystem'] = []
+      node.set['platformstack']['elkstack_logging']['enabled'] = true
     end.converge(described_recipe)
   end
 

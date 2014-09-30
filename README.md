@@ -158,6 +158,11 @@ your cookbook using `['kibana']['nginx']['template_cookbook']` and
 `['kibana']['nginx']['template']`. You can also override just the password for
 the reverse proxy using `node.run_state['elkstack_password']`.
 
+By default, platformstack will call the ``::agent` recipe here. If you have a
+need for the forwarder recipe instead, just please note that you should turn off
+the platformstack flag for logging, and include the `elkstack::agent` recipe
+directly.
+
 To override anything else, set the appropriate node hash (`logstash`, `kibana`, or `elasticsearch`).
 
 ## Usage
