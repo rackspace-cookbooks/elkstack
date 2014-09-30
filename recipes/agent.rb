@@ -24,7 +24,8 @@ enable_attr = node.deep_fetch('platformstack', 'elkstack_logging', 'enabled')
 logging_enabled = !enable_attr.nil? && enable_attr # ensure this is binary logic, not nil
 logstash_service agent_name do
   action :enable
-  only_if { logging_enabled }
+  # enable this if the flag is on OR if platformstack not involved
+  only_if { logging_enabled || !node.recipe?('platformstack::logging') }
 end
 
 my_templates = {
