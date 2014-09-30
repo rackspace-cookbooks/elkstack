@@ -19,8 +19,12 @@ logstash_instance agent_name do
   action :create
 end
 
+# platformstack needs to be able to turn this off
+enable_attr = node.deep_fetch('platformstack', 'elkstack_logging', 'enabled')
+logging_enabled = !enable_attr.nil? && enable_attr # ensure this is binary logic, not nil
 logstash_service agent_name do
   action :enable
+  only_if { logging_enabled }
 end
 
 my_templates = {
