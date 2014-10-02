@@ -1,3 +1,8 @@
+# 2.1.2
+
+- Fix an upstream logstash cookbook issue, contribute it back upstream ([#360](https://github.com/lusis/chef-logstash/pull/360)). Once that is merged, we can go back to upstream.
+- Move agent attributes out more, to be their own explicit settings.
+
 # 2.1.1
 
 - Split out agent attributes into new attribute file.
