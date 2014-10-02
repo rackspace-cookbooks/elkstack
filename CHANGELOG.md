@@ -1,3 +1,7 @@
+# 2.1.0
+
+- Bump elasticsearch to version 1.3.3. This should improve memory consumption and has a host of other bug fixes. See [release notes](http://www.elasticsearch.org/blog/elasticsearch-1-3-3-released/).
+
 # 2.0.1
 
 - Add log warning for when we are automatically generating lumberjack keypairs
