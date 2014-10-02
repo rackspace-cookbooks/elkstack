@@ -1,6 +1,9 @@
 # the name for the logstash instance, affects initscript names and other things
 default['elkstack']['config']['logstash']['instance_name'] = 'server'
 
+# the name for an agent logstash instance, affects initscript names and other things
+default['elkstack']['config']['logstash']['agent_name'] = 'agent'
+
 # default to not running the cluster search recipe
 default['elkstack']['config']['cluster'] = false
 

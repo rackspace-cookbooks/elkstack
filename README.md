@@ -8,7 +8,7 @@ cases.
 
 This stack's design is intended for one or many standalone nodes, with a full
 stack of elasticsearch, logstash, and kibana. The only difference between one
-and many nodes is that elasticsearch is clustered together. Data dispatched to  
+and many nodes is that elasticsearch is clustered together. Data dispatched to
 Logstash on a particular node will use the local elasticsearch transport
 interface to index those logs to the node (and thus, the cluster). HTTP traffic
 dispatched to Kibana on port 80 on any node will also use the local
@@ -18,7 +18,7 @@ Please read the individual recipe summaries to understand what each recipe does,
 as well as what each wrapper recipe is actually wrapping. As much as possible,
 upstream attributes have been exposed/overriden for our needs.
 
-## Pre-requistes before converging this stack
+## Things you should know
 
 - Please note that this cookbook does not restart elasticsearch automatically,
 in order to avoid causing an outage of the cluster. It does restart nginx and
@@ -30,6 +30,15 @@ losing a connection to eleasticsearch (unusual, but happens).
 if you are sharing one cluster among multiple environments. Just put a chef
 search in that attribute and this will use that search instead of one scoped to
 chef environments.
+
+- You may want to consider adjusting `node['elasticsearch']['allocated_memory']`
+if you are seeing an initial convergence failure (see [#50](https://github.com/rackspace-cookbooks/elkstack/issues/50)).
+The chef client has been known to take up to 500mb or more on initial
+convergence. Combined with an initial allocation of 40% memory for ES, and 20%
+for logstash, that only leaves about 40% for the OS and chef. On a 2gb server,
+that ends up being 800mb for ES, about 400mb for logstash, leaving 800mb for
+the OS and the initial chef client run. After the initial run, memory footprint
+for the chef-client tends to be much, much lower, and ES is able to start.
 
 - The agent recipes requires a pre-generated SSL key and certificate with
 something like `openssl req -x509 -newkey rsa:2048 -keyout lumberjack.key -out

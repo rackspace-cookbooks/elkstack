@@ -30,6 +30,7 @@ end
 
 # generate our own keypair since we don't seem to have one
 if lumberjack_secrets.nil?
+  Chef::Log.warn("Generating a new lumberjack keypair and data bag item #{lumberjack_data_bag}/secrets")
   cert_file = "#{Chef::Config[:file_cache_path]}/lumberjack.crt"
   key_file = "#{Chef::Config[:file_cache_path]}/lumberjack.key"
   openssl_x509 cert_file do

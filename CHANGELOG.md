@@ -1,3 +1,24 @@
+# 2.1.2
+
+- Fix an upstream logstash cookbook issue, contribute it back upstream ([#360](https://github.com/lusis/chef-logstash/pull/360)). Once that is merged, we can go back to upstream.
+- Move agent attributes out more, to be their own explicit settings.
+
+# 2.1.1
+
+- Split out agent attributes into new attribute file.
+- Clamp down agent memory usage from 256M to 10% of system at most.
+- Fix logstash version typo, 1.4.1 vs. 1.4.2.
+
+# 2.1.0
+
+- Bump elasticsearch to version 1.3.3. This should improve memory consumption and has a host of other bug fixes. See [release notes](http://www.elasticsearch.org/blog/elasticsearch-1-3-3-released/).
+
+# 2.0.1
+
+- Add log warning for when we are automatically generating lumberjack keypairs
+- Updates to README about memory consumption and how to optimize it
+- Moved variables around in agent to make intent more clear (no logic changes)
+
 # 2.0.0
 
 - Add a `forwarder.rb` recipe that installs [logstash-forwarder](https://github.com/elasticsearch/logstash-forwarder) as an alternative to logstash as an agent, including unit and integration tests.
