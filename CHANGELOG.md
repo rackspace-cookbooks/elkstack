@@ -1,3 +1,9 @@
+# 2.0.1
+
+- Add log warning for when we are automatically generating lumberjack keypairs
+- Updates to README about memory consumption and how to optimize it
+- Moved variables around in agent to make intent more clear (no logic changes)
+
 # 2.0.0
 
 - Add a `forwarder.rb` recipe that installs [logstash-forwarder](https://github.com/elasticsearch/logstash-forwarder) as an alternative to logstash as an agent, including unit and integration tests.
