@@ -11,7 +11,6 @@ describe service('logstash_server') do
   it { should be_running }
 end
 
-
 describe 'should be running Logstash main class' do
   # can't use process() matcher because of two java processes
   describe command('ps aux | grep -v grep | grep -s logstash/runner.rb') do

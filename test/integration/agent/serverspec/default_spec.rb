@@ -21,7 +21,7 @@ end
 
 describe 'should be running Logstash main class' do
   describe command('ps aux | grep -v grep | grep -s logstash/runner.rb') do
-  # can't use process() matcher because of two java processes
+    # can't use process() matcher because of two java processes
     its(:exit_status) { should eq 0 }
   end
 end
