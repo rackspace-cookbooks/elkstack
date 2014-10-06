@@ -137,6 +137,12 @@ CentOS 6.5
     <td>Data bag name for lumberjack key and certificate</td>
     <td><tt>lumberjack</tt></td>
   </tr>
+  <tr>
+    <td><tt>['elkstack']['config']['additional_logstash_templates']</tt></td>
+    <td>Hash</td>
+    <td>Additional template files to be added by cookbooks depending on this one</td>
+    <td><tt>See attribute file for examples</tt></td>
+  </tr>
 </table>
 
 ## Customizing the stack

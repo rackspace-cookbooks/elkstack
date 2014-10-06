@@ -1,3 +1,9 @@
+# 2.1.3
+
+- Add attribute for additional templates to populate when this cookbook configures a logstash agent
+- Correct platformstack/logging-enabled check to be more accurate
+- Move lumberjack back to using JSON for exchanging data
+
 # 2.1.2
 
 - Fix an upstream logstash cookbook issue, contribute it back upstream ([#360](https://github.com/lusis/chef-logstash/pull/360)). Once that is merged, we can go back to upstream.
