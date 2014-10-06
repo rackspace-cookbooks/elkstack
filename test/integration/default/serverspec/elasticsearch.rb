@@ -18,15 +18,13 @@ end
 
 describe 'elasticsearch' do
   # test with curl here
-  it 'should report status ok' do
-    expect(command 'sleep 5 && curl localhost:9200/_cluster/health?pretty=1')
-    .to return_stdout(/.*"status" : "green".*/)
+  describe command('sleep 5 && curl localhost:9200/_cluster/health?pretty=1') do
+    its(:stdout) { should match(/.*"status" : "green".*/) }
   end
 
   # can't use process() matcher because of two java processes
-  it 'should be running Elasticsearch main class' do
-    expect(command 'ps aux | grep -v grep | grep -si org.elasticsearch.bootstrap.Elasticsearch')
-    .to return_exit_status 0
+  describe command('ps aux | grep -v grep | grep -si org.elasticsearch.bootstrap.Elasticsearch') do
+    its(:exit_status) { should eq 0 }
   end
 end
 
