@@ -11,16 +11,15 @@ describe service('logstash_server') do
   it { should be_running }
 end
 
-describe 'logstash' do
+describe 'should be running Logstash main class' do
   # can't use process() matcher because of two java processes
-  it 'should be running Logstash main class' do
-    expect(command 'ps aux | grep -v grep | grep -s logstash/runner.rb')
-    .to return_exit_status 0
+  describe command('ps aux | grep -v grep | grep -s logstash/runner.rb') do
+    its(:exit_status) { should eq 0 }
   end
 end
 
 describe command('/opt/logstash/server/bin/logstash agent -f /opt/logstash/server/etc/conf.d/ -t 2>&1 | grep -s "Configuration OK"') do
-  it { should return_exit_status 0 }
+  its(:exit_status) { should eq 0 }
 end
 
 describe 'lumberjack keypair' do

@@ -17,16 +17,16 @@ end
 
 # should be this by default (there's a setting to change it, but not in the tests)
 describe command('curl -s http://localhost:80') do
-  it { should return_exit_status 0 }
+  its(:exit_status) { should eq 0 }
   its(:stdout) { should match(/301 Moved Permanently/) }
 end
 
 describe command('curl -sk https://localhost:443') do
-  it { should return_exit_status 0 }
+  its(:exit_status) { should eq 0 }
   its(:stdout) { should match(/401 Authorization Required/) }
 end
 
 describe command('cat /etc/nginx/htpassword.curl | curl -K - -sk https://localhost:443') do
-  it { should return_exit_status 0 }
+  its(:exit_status) { should eq 0 }
   its(:stdout) { should match(/You must enable javascript to use Kibana/) }
 end

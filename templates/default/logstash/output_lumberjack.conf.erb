@@ -6,7 +6,7 @@ filter {
 
 output {
   lumberjack {
-    codec => plain
+    codec => json
     hosts => <%= @output_lumberjack_hosts %>
     port => "<%= @output_lumberjack_port %>"
     ssl_certificate => "<%= @output_lumberjack_ssl_certificate %>"
