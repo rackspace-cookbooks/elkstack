@@ -1,7 +1,7 @@
 
 logline = "#{Time.now.to_i}-elkstack-test"
 
-if os[:family] == 'RedHat'
+if os[:family] == 'redhat'
   messages = '/var/log/messages'
 else
   messages = '/var/log/syslog'
