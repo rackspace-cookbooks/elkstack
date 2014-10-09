@@ -16,7 +16,3 @@ include_recipe 'chef-sugar'
 
 # everybody loves python!
 include_recipe 'python'
-
-include_recipe 'platformstack::iptables'
-include_recipe 'platformstack::default'
-include_recipe 'platformstack::monitors'
