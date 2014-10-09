@@ -11,6 +11,7 @@ describe 'elkstack::cluster' do
       node.set['public_info']['remote_ip'] = '127.0.0.1'
       node.set['filesystem'] = []
     end.converge(described_recipe, 'platformstack::monitors')
+    # converge WITH platformstack so we can test our templates are created
   end
 
   it 'installs ruby' do
@@ -32,16 +33,16 @@ describe 'elkstack::cluster' do
     # it seems like this should exist, but it's done inside ruby lwrps, so maybe we can't test it
     # expect(chef_run).to append_if_no_line('make sure a line is in /etc/hosts')
 
-    expect(chef_run).to create_template('tcp-monitor-elasticsearch-9200')
-    expect(chef_run).to create_template('tcp-monitor-elasticsearch-9300')
+    expect(chef_run).to create_template('/etc/rackspace-monitoring-agent.conf.d/monitoring-service-tcp-elasticsearch-9200.yaml')
+    expect(chef_run).to create_template('/etc/rackspace-monitoring-agent.conf.d/monitoring-service-tcp-elasticsearch-9300.yaml')
   end
 
   it 'installs and configures nginx' do
     expect(chef_run).to enable_service('nginx')
     expect(chef_run).to start_service('nginx')
 
-    expect(chef_run).to create_template('tcp-monitor-nginx-80')
-    expect(chef_run).to create_template('tcp-monitor-nginx-443')
+    expect(chef_run).to create_template('/etc/rackspace-monitoring-agent.conf.d/monitoring-service-tcp-monitor-nginx-80.yaml')
+    expect(chef_run).to create_template('/etc/rackspace-monitoring-agent.conf.d/monitoring-service-tcp-monitor-nginx-443.yaml')
   end
 
   it 'installs and configures logstash' do
@@ -56,7 +57,7 @@ describe 'elkstack::cluster' do
     # config lwrp
     expect(chef_run).to create_logstash_config('server')
 
-    expect(chef_run).to create_template('tcp-monitor-logstash-5959')
+    expect(chef_run).to create_template('/etc/rackspace-monitoring-agent.conf.d/monitoring-service-tcp-monitor-logstash-5959.yaml')
 
     # we may eventually want some patterns defined
     # expect(chef_run).to create_logstash_pattern('server')
