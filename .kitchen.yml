@@ -69,6 +69,7 @@ suites:
     run_list:
       - recipe[elkstack::java]
       - recipe[elkstack::cluster] # not testing single, it's practically the same
+      - recipe[platformstack::monitors]
     attributes:
       elasticsearch:
         discovery:
@@ -79,6 +80,7 @@ suites:
     run_list:
       - recipe[elkstack::java]
       - recipe[elkstack::cluster] # not testing single, it's practically the same
+      - recipe[platformstack::monitors]
     attributes:
       elasticsearch:
         discovery:
