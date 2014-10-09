@@ -17,23 +17,23 @@ process_name = 'nginx'
 # these ports are currently hardcoded for kibana.
 ports = ['80', '443']
 
+# in case platformstack not loaded
+node.default_unless['platformstack']['cloud_monitoring']['service']['name'] = []
+
 # iterate through 'ports' to create a monitoring file for each port.
 ports.each do | port |
-  template "tcp-monitor-#{process_name}-#{port}" do
-    cookbook 'elkstack'
-    source 'monitoring-tcp.yaml.erb'
-    path "/etc/rackspace-monitoring-agent.conf.d/#{process_name}-#{port}-tcp-monitor.yaml"
-    owner 'root'
-    group 'root'
-    mode '0644'
-    variables(
-      port: port,
-      disabled: cm["port_#{port}"]['disabled'],
-      period: cm["port_#{port}"]['period'],
-      timeout: cm["port_#{port}"]['timeout'],
-      alarm: cm["port_#{port}"]['alarm']
-    )
-    notifies 'restart', 'service[rackspace-monitoring-agent]', 'delayed'
-    action 'create'
-  end
+  name = "tcp-monitor-#{process_name}-#{port}"
+  node.default['platformstack']['cloud_monitoring']['service']['name'].push(name)
+
+  my_variables = {
+    port: port,
+    disabled: cm["port_#{port}"]['disabled'],
+    period: cm["port_#{port}"]['period'],
+    timeout: cm["port_#{port}"]['timeout'],
+    alarm: cm["port_#{port}"]['alarm']
+  }
+
+  node.set['platformstack']['cloud_monitoring']['custom_monitors'][name]['source'] = 'monitoring-tcp.yaml.erb'
+  node.set['platformstack']['cloud_monitoring']['custom_monitors'][name]['cookbook'] = 'elkstack'
+  node.set['platformstack']['cloud_monitoring']['custom_monitors'][name]['variables'] = my_variables
 end

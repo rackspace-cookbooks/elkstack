@@ -67,9 +67,6 @@ suites:
     data_bags_path: "test/integration/default/data_bags"
     encrypted_data_bag_secret_key_path: "test/integration/default/encrypted_data_bag_secret"
     run_list:
-      - recipe[platformstack::iptables] # to test our ACL additions, monitors
-      - recipe[platformstack::default]
-      - recipe[platformstack::monitors]
       - recipe[elkstack::java]
       - recipe[elkstack::cluster] # not testing single, it's practically the same
     attributes:
@@ -80,12 +77,8 @@ suites:
 
   - name: default-nokeypair # server
     run_list:
-      - recipe[platformstack::iptables] # to test our ACL additions, monitors
-      - recipe[platformstack::default]
-      - recipe[platformstack::monitors]
       - recipe[elkstack::java]
       - recipe[elkstack::cluster] # not testing single, it's practically the same
-      - recipe[platformstack::monitors]
     attributes:
       elasticsearch:
         discovery:
