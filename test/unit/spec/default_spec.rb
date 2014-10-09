@@ -10,7 +10,7 @@ describe 'elkstack::cluster' do
       node.set['memory']['total'] = 4096
       node.set['public_info']['remote_ip'] = '127.0.0.1'
       node.set['filesystem'] = []
-    end.converge(described_recipe)
+    end.converge(described_recipe, 'platformstack::monitors')
   end
 
   it 'installs ruby' do

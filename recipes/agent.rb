@@ -28,12 +28,6 @@ logstash_service agent_name do
   only_if { logging_enabled }
 end
 
-# terrible workaround RE: http://stackoverflow.com/questions/25792383/notify-service-defined-in-included-lwrp-recipe
-service "logstash_#{agent_name}" do
-  action :nothing
-  only_if { logging_enabled }
-end
-
 my_templates = {
   'input_syslog'         => 'logstash/input_syslog.conf.erb',
   'output_stdout'        => 'logstash/output_stdout.conf.erb'
