@@ -1,3 +1,9 @@
+# 3.1.0
+
+- Remove attribute for additional templates. You should now call `logstash_` LWRPs directly to get this functionality back.
+- Remove automatic inclusion of `platformstack` cookbooks. These should be called by a downstream wrapper.
+- Better documentation for java requirement, Berkshelf requirements, and keypair requirements for Lumberjack.
+
 # 2.1.3
 
 - Add attribute for additional templates to populate when this cookbook configures a logstash agent

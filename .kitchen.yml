@@ -39,8 +39,6 @@ provisioner:
         enabled: false
       omnibus_updater:
         enabled: false
-      iptables:
-        allow_ssh_from_world: true
     rackspace:
       cloud_credentials:
         username: 'racker'

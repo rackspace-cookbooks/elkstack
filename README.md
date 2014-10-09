@@ -20,6 +20,17 @@ upstream attributes have been exposed/overriden for our needs.
 
 ## Things you should know
 
+- This cookbook requires java. Because not everyone has the same desires for
+java versions, concurrently installed versions, or particular vendor versions,
+this cookbook simply assumes you have already satisfied this requirement. If you
+want just 'some java', feel free to use the `::java` recipe and it will include
+the community java cookbook with default values.
+
+- You must update your Berksfile to use this cookbook. Due to the upstream
+changes constantly occuring, you should consult the `Berksfile` in this cookbook
+and use its sources for `kibana`, `logstash`, and `elasticsearch` cookbooks.
+Eventually, as PRs get merged, this may no longer be a hard requirement.
+
 - Please note that this cookbook does not restart elasticsearch automatically,
 in order to avoid causing an outage of the cluster. It does restart nginx and
 logstash, however. You will have to restart elasticsearch after the initial
@@ -40,15 +51,24 @@ that ends up being 800mb for ES, about 400mb for logstash, leaving 800mb for
 the OS and the initial chef client run. After the initial run, memory footprint
 for the chef-client tends to be much, much lower, and ES is able to start.
 
-- The agent recipes requires a pre-generated SSL key and certificate with
-something like `openssl req -x509 -newkey rsa:2048 -keyout lumberjack.key -out
-lumberjack.crt -nodes -days 1000`. This key and certificate data should be
-placed in data bag with name `node['elkstack']['config']['lumberjack_data_bag']`
-under `key` and `certificate` keys, and base64 encoded into a single line
-string. You may also supply these with some other method and populate the
-appropriate `node.run_state` values (see `_secrets.rb` for more details). Note
-that this is not a PKI trust model, but an
-[explicit trust model](https://spaces.internet2.edu/display/InCFederation/Metadata+Trust+Models#MetadataTrustModels-ExplicitKeyTrustModel).
+- The agent and logstash recipes requires a pre-generated SSL key and
+certificate due to the requirements of the lumberjack protocol. This cookbook
+will consult `node['elkstack']['config']['lumberjack_data_bag']` in order to
+locate and load a database that stores this key. It will first try an encrypted
+data bag, and if that doesn't work, will try an unencrypted data bag of the same
+name. If no data bag is found, it will autogenerate one and save it as an
+encrypted data bag. This means you must already have a 'secret file' on the node
+for an encryption key, as this is a require to use any encrypted data bags.
+To generate a key of your own, use something like:
+```
+openssl req -x509 -newkey rsa:2048 -keyout lumberjack.key -out lumberjack.crt -nodes -days 1000
+```
+This key and certificate data should be placed in data bag with name
+`node['elkstack']['config']['lumberjack_data_bag']` under `key` and
+`certificate` keys, and base64 encoded into a single line string. You may also
+supply these secrets with some other method and populate the appropriate
+`node.run_state` values (see `_secrets.rb` for more details). Note that this is
+not a PKI trust model, but an [explicit trust model](https://spaces.internet2.edu/display/InCFederation/Metadata+Trust+Models#MetadataTrustModels-ExplicitKeyTrustModel).
 
 ## [Changelog](CHANGELOG.md)
 
@@ -136,12 +156,6 @@ CentOS 6.5
     <td>String</td>
     <td>Data bag name for lumberjack key and certificate</td>
     <td><tt>lumberjack</tt></td>
-  </tr>
-  <tr>
-    <td><tt>['elkstack']['config']['additional_logstash_templates']</tt></td>
-    <td>Hash</td>
-    <td>Additional template files to be added by cookbooks depending on this one</td>
-    <td><tt>See attribute file for examples</tt></td>
   </tr>
 </table>
 

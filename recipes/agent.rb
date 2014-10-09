@@ -67,18 +67,5 @@ logstash_config agent_name do
   action [:create]
 end
 
-# configure any additional templates
-node['elkstack']['config']['additional_logstash_templates'].each do |logging_template|
-  template logging_template['name'] do
-    source logging_template['source']
-    cookbook logging_template['cookbook']
-    user agent_data['user']
-    group agent_data['group']
-    path "#{node['logstash']['instance_default']['basedir']}/agent/etc/conf.d/#{logging_template['name']}"
-    variables logging_template['variables']
-    notifies 'restart', "service[logstash_#{agent_name}]", 'delayed'
-  end
-end
-
 # see attributes, will forward to logstash agent on localhost
 include_recipe 'rsyslog::client'

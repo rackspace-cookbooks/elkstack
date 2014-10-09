@@ -25,12 +25,3 @@ default['elkstack']['config']['kibana']['username'] = 'kibana'
 
 # data bag for lumerjack certificate and key
 default['elkstack']['config']['lumberjack_data_bag'] = 'lumberjack'
-
-# additional logstash templates to be applied at the end, see example below
-default['elkstack']['config']['additional_logstash_templates'] = []
-# node['elkstack']['config']['additional_logstash_templates'] << {
-#   name: 'input_apache.conf',
-#   source: 'logstash/input_apache.conf.erb',
-#   cookbook: 'phpstack',
-#   variables: { path: "#{node['apache']['log_dir']}/#{node['apache']['access_log']}" }
-#  }
