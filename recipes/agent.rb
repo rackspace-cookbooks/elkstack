@@ -9,7 +9,6 @@
 # base stack requirements for an all-in-one node
 include_recipe 'elkstack::_base'
 agent_name = node['elkstack']['config']['logstash']['agent_name']
-agent_data = node['logstash']['instance'][agent_name]
 
 # find central servers
 include_recipe 'elasticsearch::search_discovery'
