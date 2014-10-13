@@ -33,7 +33,7 @@ end
 
 should_backup = node.deep_fetch('elkstack', 'config', 'backups', 'enabled')
 if !should_backup.nil? && should_backup
- include_recipe 'elkstack::elasticsearch_backup'
+  include_recipe 'elkstack::elasticsearch_backup'
 end
 
 tag('elkstack')

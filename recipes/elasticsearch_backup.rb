@@ -20,7 +20,6 @@ key = node.deep_fetch('elasticsearch', 'custom_config', 'rackspace.key')
 missing_apikey = 'Cannot perform backups without node[\'rackspace\'][\'cloud_credentials\'][\'api_key\'] or node[\'elasticsearch\'][\'customconfig\'][\'rackspace.key\']'
 fail(missing_apikey) if key.nil? || key.empty?
 
-
 # cloud files container is created automatically by plugin, so define it in elasticsearch for the plugin
 region = node.deep_fetch('elasticsearch', 'custom_config', 'rackspace.region')
 container = node.deep_fetch('elasticsearch', 'custom_config', 'rackspace.container')
@@ -50,7 +49,7 @@ end
 
 # now schedule the backup
 cron_d 'elkstack-elasticsearch-backup' do
-  predefined_value "@daily"
+  predefined_value '@daily'
   user node['elasticsearch']['user']
   command 'curl -XPUT "http://eslocal:9200/_snapshot/elkstack/$(date +%Y_%m_%d)"'
   only_if { node.deep_fetch('elkstack', 'config', 'backups', 'cron') } # used so wrappers can disable me and do their own
