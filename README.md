@@ -29,7 +29,20 @@ the community java cookbook with default values.
 - You must update your Berksfile to use this cookbook. Due to the upstream
 changes constantly occuring, you should consult the `Berksfile` in this cookbook
 and use its sources for `kibana`, `logstash`, and `elasticsearch` cookbooks.
-Eventually, as PRs get merged, this may no longer be a hard requirement.
+Eventually, as PRs get merged, this may no longer be a hard requirement. But the
+hardest thing will be that kibana in supermarket is currently a different
+actual cookbook.
+
+- You should probably disable the nginx virtualhost that comes with the `kibana`
+cookbook and create your own configuration, securing it as appropriate for your
+own requirements. See the `kibana_web` LWRP documentation for more on what
+attributes should be set to accomplish this.
+
+- If you'd like to override the backup schedule/behavior for ES, simply disable
+the backup crontab entry by setting
+`node['elkstack']['config']['backups']['cron']=false`. This cookbook will still
+configure everything except the cronjob, and then you may create another one
+with your own schedule using the `cron_d` LWRP.
 
 - Please note that this cookbook does not restart elasticsearch automatically,
 in order to avoid causing an outage of the cluster. It does restart nginx and
@@ -185,7 +198,7 @@ files for the forwarder to watch and forward, `node['logstash_forwarder']['confi
 To override the nginx configuration, simply supply a new template and specify
 your cookbook using `['kibana']['nginx']['template_cookbook']` and
 `['kibana']['nginx']['template']`. You can also override just the password for
-the reverse proxy using `node.run_state['elkstack_password']`.
+the reverse proxy using `node.run_state['elkstack_kibana_password']`.
 
 By default, platformstack will call the ``::agent` recipe here. If you have a
 need for the forwarder recipe instead, just please note that you should turn off

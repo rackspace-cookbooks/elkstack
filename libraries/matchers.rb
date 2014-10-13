@@ -56,4 +56,13 @@ if defined?(ChefSpec)
   def append_if_no_line(resource)
     ChefSpec::Matchers::ResourceMatcher.new(:append_if_no_line, :edit, resource)
   end
+
+  def put_http_request(resource)
+    ChefSpec::Matchers::ResourceMatcher.new(:http_request, :put, resource)
+  end
+
+  def create_cron_d(resource)
+    ChefSpec::Matchers::ResourceMatcher.new(:cron_d, :create, resource)
+  end
+
 end

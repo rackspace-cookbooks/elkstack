@@ -33,6 +33,7 @@ end
 htpasswd "#{node['nginx']['dir']}/htpassword" do
   user basic_auth_username
   password basic_auth_password
+  not_if { File.exists?("#{node['nginx']['dir']}/htpassword") }
 end
 
 # write this for testing
@@ -42,7 +43,8 @@ file basic_auth_file do
   group 'root'
   mode 0600
   content "user = \"#{basic_auth_username}:#{basic_auth_password}\""
-  action :create
+  action :create_if_missing
+  only_if { node.chef_environment == '_default' } # only in testing or _default
 end
 
 site_name = node['elkstack']['config']['site_name']

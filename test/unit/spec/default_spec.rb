@@ -9,6 +9,9 @@ describe 'elkstack::cluster' do
       node.set['cpu']['total'] = 8
       node.set['memory']['total'] = 4096
       node.set['public_info']['remote_ip'] = '127.0.0.1'
+      node.set['chef_environment'] = '_default' # be a dummy env for htpasswd.curl
+      node.set['rackspace']['cloud_credentials']['username'] = 'joe-test'
+      node.set['rackspace']['cloud_credentials']['api_key'] = '123abc'
       node.set['filesystem'] = []
     end.converge(described_recipe, 'platformstack::monitors')
     # converge WITH platformstack so we can test our templates are created
@@ -66,7 +69,7 @@ describe 'elkstack::cluster' do
   it 'creates htpassword and htpassword.curl to protect kibana' do
     expect(chef_run).to create_directory('/etc/nginx/ssl')
     expect(chef_run).to add_htpasswd('/etc/nginx/htpassword')
-    expect(chef_run).to create_file('/etc/nginx/htpassword.curl')
+    expect(chef_run).to create_file_if_missing('/etc/nginx/htpassword.curl')
   end
 
   it 'installs and configures kibana' do
@@ -78,6 +81,11 @@ describe 'elkstack::cluster' do
     expect(chef_run).to create_link('/opt/kibana/current/app/dashboards/default.json').with(to: 'logstash.json')
     expect(chef_run).to create_kibana_web('kibana')
     expect(chef_run).to create_openssl_x509('/etc/nginx/ssl/kibana.pem')
+  end
+
+  it 'creates a backup repo and crontab entry' do
+    expect(chef_run).to put_http_request('create elasticsearch snapshot repository for backups')
+    expect(chef_run).to create_cron_d('elkstack-elasticsearch-backup')
   end
 
 end

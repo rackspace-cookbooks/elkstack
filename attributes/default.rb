@@ -10,6 +10,12 @@ default['elkstack']['config']['cluster'] = false
 # attempt to use performance cloud data disk
 default['elkstack']['config']['data_disk']['disk_config_type'] = false
 
+# enable elasticsearch backups?
+default['elkstack']['config']['backups']['enabled'] = true
+
+# setup a backup in cron.d?
+default['elkstack']['config']['backups']['cron'] = true
+
 # default to include iptables rules
 default['elkstack']['iptables']['enabled'] = 'true'
 
