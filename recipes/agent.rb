@@ -10,21 +10,26 @@
 include_recipe 'elkstack::_base'
 agent_name = node['elkstack']['config']['logstash']['agent_name']
 
+# switch for platformstack
+enable_attr = node.deep_fetch('platformstack', 'elkstack_logging', 'enabled')
+logging_enabled = enable_attr.nil? || enable_attr # ensure this is binary logic, not nil
+
 # find central servers
 include_recipe 'elasticsearch::search_discovery'
 elk_nodes = node['elasticsearch']['discovery']['zen']['ping']['unicast']['hosts']
+unless elk_nodes
+  Chef::Log.warn('No logstash server nodes were found when configuring agent')
+  elk_nodes = ''
+end
 
 # configure logstash for forwarding
 logstash_instance agent_name do
   action :create
+  only_if { logging_enabled }
 end
 
-# platformstack needs to be able to turn this off
-enable_attr = node.deep_fetch('platformstack', 'elkstack_logging', 'enabled')
-logging_enabled = !enable_attr.nil? && enable_attr # ensure this is binary logic, not nil
 logstash_service agent_name do
   action :enable
-  # enable this if the flag is on
   only_if { logging_enabled }
 end
 
@@ -50,6 +55,7 @@ end
 
 logstash_pattern agent_name do
   action [:create]
+  only_if { logging_enabled }
 end
 
 logstash_config agent_name do
@@ -58,6 +64,7 @@ logstash_config agent_name do
   variables(template_variables)
   notifies :restart, "logstash_service[#{agent_name}]", :delayed
   action [:create]
+  only_if { logging_enabled }
 end
 
 # see attributes, will forward to logstash agent on localhost
