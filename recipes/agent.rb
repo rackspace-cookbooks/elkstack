@@ -12,7 +12,7 @@ agent_name = node['elkstack']['config']['logstash']['agent_name']
 
 # switch for platformstack
 enable_attr = node.deep_fetch('platformstack', 'elkstack_logging', 'enabled')
-logging_enabled = enable_attr.nil? || enable_attr # ensure this is binary logic, not nil
+logging_enabled = !enable_attr.nil? && enable_attr # ensure this is binary logic, not nil
 
 # find central servers
 include_recipe 'elasticsearch::search_discovery'
