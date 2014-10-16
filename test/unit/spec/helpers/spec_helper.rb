@@ -38,6 +38,7 @@ def stub_resources
   # misc commands
   stub_command('which nginx').and_return('/usr/sbin/nginx')
   stub_command('which sudo').and_return('rack')
+  stub_command("curl -sI http://eslocal:9200/_snapshot/elkstack | grep -q \"404 Not Found\"").and_return(0)
 end
 
 at_exit { ChefSpec::Coverage.report! }
