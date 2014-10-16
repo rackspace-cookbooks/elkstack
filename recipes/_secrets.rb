@@ -86,7 +86,9 @@ else
 end
 
 logstash_basedir = node.deep_fetch('logstash', 'instance_default', 'basedir')
-fail "node['logstash']['instance_default']['basedir'] was not set; please ensure you are using the racker/chef-logstash version until lusis/chef-logstash/pull/336 is merged" unless logstash_basedir
+attribute_name = "node['logstash']['instance_default']['basedir']"
+err_msg = "#{attribute_name} was not set; please ensure you are using the racker/chef-logstash version until lusis/chef-logstash/pull/336 is merged"
+fail err_msg unless logstash_basedir
 
 # if we had overrode basedir value, we'd need to use the new value here too
 file "#{logstash_basedir}/lumberjack.key" do
