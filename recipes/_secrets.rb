@@ -85,8 +85,11 @@ else
   fail 'Unable to complete lumberjack keypair configuration'
 end
 
+logstash_basedir = node.deep_fetch('logstash', 'instance_default', 'basedir')
+fail "node['logstash']['instance_default']['basedir'] was not set; please ensure you are using the racker/chef-logstash version until lusis/chef-logstash/pull/336 is merged" unless logstash_basedir
+
 # if we had overrode basedir value, we'd need to use the new value here too
-file "#{node['logstash']['instance_default']['basedir']}/lumberjack.key" do
+file "#{logstash_basedir}/lumberjack.key" do
   content node.run_state['lumberjack_decoded_key']
   owner node['logstash']['instance_default']['user']
   group node['logstash']['instance_default']['group']
@@ -95,7 +98,7 @@ file "#{node['logstash']['instance_default']['basedir']}/lumberjack.key" do
 end
 
 # if we had overrode basedir value, we'd need to use the new value here too
-file "#{node['logstash']['instance_default']['basedir']}/lumberjack.crt" do
+file "#{logstash_basedir}/lumberjack.crt" do
   content node.run_state['lumberjack_decoded_certificate']
   owner node['logstash']['instance_default']['user']
   group node['logstash']['instance_default']['group']
