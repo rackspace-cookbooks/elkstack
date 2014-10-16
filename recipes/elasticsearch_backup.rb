@@ -49,11 +49,7 @@ end
 
 # now schedule the backup
 cron_d 'elkstack-elasticsearch-backup' do
-<<<<<<< HEAD
   predefined_value '@daily'
-=======
-  predefined_value "@daily"
->>>>>>> Adds support for backups via snapshot API
   user node['elasticsearch']['user']
   command 'curl -XPUT "http://eslocal:9200/_snapshot/elkstack/$(date +%Y_%m_%d)"'
   only_if { node.deep_fetch('elkstack', 'config', 'backups', 'cron') } # used so wrappers can disable me and do their own
