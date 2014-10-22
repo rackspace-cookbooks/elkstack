@@ -1,3 +1,11 @@
+# 3.1.2
+
+- Clean up attributes so they don't error out when no cloud account is found
+
+# 3.1.1
+
+- Adds support for backups via snapshot API
+
 # 3.1.0
 
 - Remove attribute for additional templates. You should now call `logstash_` LWRPs directly to get this functionality back.

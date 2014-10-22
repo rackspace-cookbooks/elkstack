@@ -32,9 +32,9 @@ default['elasticsearch']['discovery']['zen']['ping']['multicast']['enabled'] = f
 # for storing snapshots in cloud files for backup, elasticsearch cookbook requires
 # attributes go in ['elasticsearch']['custom_config'] if it doesn't know about them
 es_rackspace = default['elasticsearch']['custom_config']
-es_rackspace['rackspace.enabled'] = 'true'
-es_rackspace['rackspace.account'] = node['rackspace']['cloud_credentials']['username']
-es_rackspace['rackspace.key'] = node['rackspace']['cloud_credentials']['api_key']
+es_rackspace['rackspace.account'] = node['rackspace'] && node['rackspace']['cloud_credentials'] && node['rackspace']['cloud_credentials']['username']
+es_rackspace['rackspace.key'] = node['rackspace'] && node['rackspace']['cloud_credentials'] && node['rackspace']['cloud_credentials']['api_key']
+es_rackspace['rackspace.enabled'] = es_rackspace['rackspace.account'] && es_rackspace['rackspace.key'] && 'true'
 
 # container: The name of the Cloud Files container to be used. This is mandatory.
 es_rackspace['repositories.cloudfiles.container'] = 'elkstack'
