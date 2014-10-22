@@ -1,16 +1,28 @@
-# 3.1.2
+# 3.1.3
 
 - Clean up attributes so they don't error out when no cloud account is found
 
-# 3.1.1
+# 3.1.2
 
 - Adds support for backups via snapshot API
+
+# 3.1.1
+
+- Update to latest Elasticsearch (v1.3.4)
 
 # 3.1.0
 
 - Remove attribute for additional templates. You should now call `logstash_` LWRPs directly to get this functionality back.
 - Remove automatic inclusion of `platformstack` cookbooks. These should be called by a downstream wrapper.
 - Better documentation for java requirement, Berkshelf requirements, and keypair requirements for Lumberjack.
+
+# 3.0.2
+
+- Check logstash base and error nicely if `node['logstash']['instance_default']['basedir']` isn't availablea
+
+# 3.0.1
+
+- Cleanup logging flags for agent
 
 # 2.1.3
 
