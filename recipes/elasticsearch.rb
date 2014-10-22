@@ -31,8 +31,13 @@ service 'elasticsearch' do
   action :start
 end
 
-should_backup = node.deep_fetch('elkstack', 'config', 'backups', 'enabled')
-if !should_backup.nil? && should_backup
+# was the module enabled? (default value for this ensures cloud credentials are set too)
+rackspace_elasticsearch_mod_enabled = node.deep_fetch('elasticsearch', 'custom_config', 'rackspace.enabled')
+
+# were backups turned on? they are by default, but check
+backups_enabled_flag = node.deep_fetch('elkstack', 'config', 'backups', 'enabled')
+
+if rackspace_elasticsearch_mod_enabled && backups_enabled_flag
   include_recipe 'elkstack::elasticsearch_backup'
 end
 
