@@ -17,7 +17,7 @@ describe 'elkstack::agent' do
       node.set['elkstack']['config']['custom_logstash']['foo']['name'] = 'my_logstashconfig'
       node.set['elkstack']['config']['custom_logstash']['foo']['source'] = 'my_logstashconfig.conf.erb'
       node.set['elkstack']['config']['custom_logstash']['foo']['cookbook'] = 'your_cookbook'
-      node.set['elkstack']['config']['custom_logstash']['foo']['variables'] = { :warning => 'foo' }
+      node.set['elkstack']['config']['custom_logstash']['foo']['variables'] = { warning: 'foo' }
     end.converge(described_recipe)
   end
 
@@ -42,7 +42,7 @@ describe 'elkstack::logstash' do
       node.set['elkstack']['config']['custom_logstash']['foo']['name'] = 'my_logstashconfig'
       node.set['elkstack']['config']['custom_logstash']['foo']['source'] = 'my_logstashconfig.conf.erb'
       node.set['elkstack']['config']['custom_logstash']['foo']['cookbook'] = 'your_cookbook'
-      node.set['elkstack']['config']['custom_logstash']['foo']['variables'] = { :warning => 'foo' }
+      node.set['elkstack']['config']['custom_logstash']['foo']['variables'] = { warning: 'foo' }
     end.converge(described_recipe)
   end
 

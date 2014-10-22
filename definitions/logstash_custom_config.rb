@@ -16,7 +16,7 @@ define :logstash_custom_config, variables: {}, service_name: nil, instance_name:
     # this is a trick to ensure the notification doesn't hurt us, if the logstash
     # cookbook is not currently available/included on this node
     begin
-      resources("logstash_service[#{params[:service_name]}]");
+      resources("logstash_service[#{params[:service_name]}]")
       if node['elkstack']['config']['restart_logstash_service']
         notifies :restart, "logstash_service[#{params[:service_name]}]", :delayed
       end
