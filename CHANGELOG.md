@@ -1,3 +1,7 @@
+# 3.2.0
+
+- Allow wrappers and other cookbooks to supply additional logstash_config template files.
+
 # 3.1.4
 
 - Don't just raise an error, actually disable backups when cloud account credentials aren't present

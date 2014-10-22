@@ -1,11 +1,11 @@
 # Encoding: utf-8
 
-require_relative 'helpers/spec_helper'
+require_relative 'spec_helper'
 
 describe 'elkstack::agent' do
   let(:chef_run) do
     stub_resources
-    ChefSpec::Runner.new(platform: 'ubuntu', version: '12.04') do |node|
+    ChefSpec::SoloRunner.new(platform: 'ubuntu', version: '12.04') do |node|
       node.set['cpu']['total'] = 8
       node.set['memory']['total'] = 4096
       node.set['public_info']['remote_ip'] = '127.0.0.1'

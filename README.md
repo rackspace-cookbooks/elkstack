@@ -170,6 +170,18 @@ CentOS 6.5
     <td>Data bag name for lumberjack key and certificate</td>
     <td><tt>lumberjack</tt></td>
   </tr>
+  <tr>
+    <td><tt>['elkstack']['config']['custom_logstash']['name']</tt></td>
+    <td>Array of strings</td>
+    <td>See `attributes/logstash.rb` for an explanation of how to use this attribute to populate additional logstash configuration file templates</td>
+    <td><tt>[]</tt></td>
+  </tr>
+  <tr>
+    <td><tt>['elkstack']['config']['restart_logstash_service']</tt></td>
+    <td>Boolean</td>
+    <td>Restart logstash if we deploy a custom config file</td>
+    <td><tt>true</tt></td>
+  </tr>
 </table>
 
 ## Customizing the stack

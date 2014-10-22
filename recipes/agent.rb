@@ -67,5 +67,22 @@ logstash_config agent_name do
   only_if { logging_enabled }
 end
 
+# install additional stacks logstash configuration
+node['elkstack']['config']['custom_logstash']['name'].each do |logcfg|
+
+  logcfg_name = node['elkstack']['config']['custom_logstash'][logcfg]['name']
+  logcfg_source = node['elkstack']['config']['custom_logstash'][logcfg]['source']
+  logcfg_cookbook = node['elkstack']['config']['custom_logstash'][logcfg]['cookbook']
+  logcfg_variables = node['elkstack']['config']['custom_logstash'][logcfg]['variables']
+
+  # add one more config for our additional logs
+  logstash_custom_config logcfg_name do
+    service_name agent_name
+    template_source_file logcfg_source
+    template_source_cookbook logcfg_cookbook
+    variables(logcfg_variables)
+  end
+end
+
 # see attributes, will forward to logstash agent on localhost
 include_recipe 'rsyslog::client'
