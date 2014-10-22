@@ -1,3 +1,7 @@
+# 3.1.4
+
+- Don't just raise an error, actually disable backups when cloud account credentials aren't present
+
 # 3.1.3
 
 - Clean up attributes so they don't error out when no cloud account is found
