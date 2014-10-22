@@ -31,3 +31,6 @@ default['elkstack']['config']['kibana']['username'] = 'kibana'
 
 # data bag for lumerjack certificate and key
 default['elkstack']['config']['lumberjack_data_bag'] = 'lumberjack'
+
+# should I restart logstash after applying a custom config file?
+default['elkstack']['config']['restart_logstash_service'] = true

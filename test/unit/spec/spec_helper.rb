@@ -5,6 +5,8 @@ require 'chefspec'
 require 'chefspec/berkshelf'
 require 'chef/application'
 
+Dir['./test/unit/spec/support/**/*.rb'].sort.each { |f| require f }
+
 def stub_resources
   # overall search stub
   chef_search_query = double('Chef::Search::Query', test_search: { foo: false })
