@@ -77,6 +77,7 @@ node['elkstack']['config']['custom_logstash']['name'].each do |logcfg|
 
   # add one more config for our additional logs
   logstash_custom_config logcfg_name do
+    instance_name agent_name
     service_name agent_name
     template_source_file logcfg_source
     template_source_cookbook logcfg_cookbook
