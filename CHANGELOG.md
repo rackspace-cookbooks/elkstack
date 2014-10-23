@@ -1,3 +1,9 @@
+# 3.2.1
+
+- Fix a bug where the agent recipe was not installing custom configuration files with the right instance name (was using 'default' instead of 'agent'). Added a test fixture/wrapper cookbook in order to verify the correct behavior.
+
+- Gave existing agent serverspec tests some easier to read description groups, to help read output easier.
+
 # 3.2.0
 
 - Allow wrappers and other cookbooks to supply additional logstash_config template files.

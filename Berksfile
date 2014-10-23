@@ -20,3 +20,9 @@ cookbook 'rackops_rolebook', git: 'git@github.com:rackops/rackops_rolebook.git'
 
 # not published
 cookbook 'rackspace_cloudbackup', git:'git@github.com:rackspace-cookbooks/rackspace_cloudbackup.git'
+
+group :integration do
+  cookbook 'wrapper', path: 'test/fixtures/cookbooks/wrapper'
+  cookbook 'apt'
+  cookbook 'yum'
+end
