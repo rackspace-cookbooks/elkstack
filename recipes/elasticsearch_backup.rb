@@ -20,13 +20,15 @@ key = node.deep_fetch('elasticsearch', 'custom_config', 'rackspace.key')
 missing_apikey = 'Cannot perform backups without node[\'rackspace\'][\'cloud_credentials\'][\'api_key\'] or node[\'elasticsearch\'][\'customconfig\'][\'rackspace.key\']'
 fail(missing_apikey) if key.nil? || key.empty?
 
-# cloud files container is created automatically by plugin, so define it in elasticsearch for the plugin
+# default region
 region = node.deep_fetch('elasticsearch', 'custom_config', 'rackspace.region')
-container = node.deep_fetch('elasticsearch', 'custom_config', 'rackspace.container')
-chunksize = node.deep_fetch('elasticsearch', 'custom_config', 'rackspace.chunk_size')
-streams = node.deep_fetch('elasticsearch', 'custom_config', 'rackspace.concurrent_streams')
-basepath = node.deep_fetch('elasticsearch', 'custom_config', 'rackspace.base_path')
-compress = node.deep_fetch('elasticsearch', 'custom_config', 'rackspace.compress')
+
+# cloud files container is created automatically by plugin when you define a snapshot repo object in ES
+container = node.deep_fetch('elasticsearch', 'custom_config', 'repositories.cloudfiles.container')
+chunksize = node.deep_fetch('elasticsearch', 'custom_config', 'repositories.cloudfiles.chunk_size')
+streams = node.deep_fetch('elasticsearch', 'custom_config', 'repositories.cloudfiles.concurrent_streams')
+basepath = node.deep_fetch('elasticsearch', 'custom_config', 'repositories.cloudfiles.base_path')
+compress = node.deep_fetch('elasticsearch', 'custom_config', 'repositories.cloudfiles.compress')
 setup_snapshot_repo = {
   type: 'cloudFiles',
   settings: {

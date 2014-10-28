@@ -21,6 +21,8 @@ unless node['newrelic']['license'].nil?
 
   node.default['newrelic_meetme_plugin']['package_name'] = 'newrelic-plugin-agent'
 
+  user node['newrelic_meetme_plugin']['user']
+
   include_recipe 'python::package'
   include_recipe 'python::pip'
   python_pip 'setuptools' do

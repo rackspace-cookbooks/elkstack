@@ -1,3 +1,8 @@
+# 3.2.2
+
+- Add newrelic user to system, so agent will start.
+- Cleanup attributes & recipe for backup based on testing, ES plugin changes
+
 # 3.2.1
 
 - Fix a bug where the agent recipe was not installing custom configuration files with the right instance name (was using 'default' instead of 'agent'). Added a test fixture/wrapper cookbook in order to verify the correct behavior.
