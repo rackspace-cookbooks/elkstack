@@ -1,7 +1,7 @@
-# next
+# 3.2.2
 
 - Add newrelic user to system, so agent will start.
-- Fix attributes for backup based on testing, ES plugin changes
+- Cleanup attributes & recipe for backup based on testing, ES plugin changes
 
 # 3.2.1
 
