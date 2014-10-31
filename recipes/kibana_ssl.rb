@@ -44,7 +44,7 @@ file basic_auth_file do
   mode 0600
   content "user = \"#{basic_auth_username}:#{basic_auth_password}\""
   action :create_if_missing
-  only_if { node.chef_environment == '_default' } # only in testing or _default
+  only_if { node.chef_environment == '_default' || node.chef_environment == 'staging' } # only in testing _default or staging
 end
 
 site_name = node['elkstack']['config']['site_name']
