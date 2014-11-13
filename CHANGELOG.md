@@ -1,7 +1,12 @@
+# 3.2.3
+
+- Version bump for dev
+
 # 3.2.2
 
 - Add newrelic user to system, so agent will start.
 - Cleanup attributes & recipe for backup based on testing, ES plugin changes
+- Fix bug in unencrypted data bag access
 
 # 3.2.1
 
