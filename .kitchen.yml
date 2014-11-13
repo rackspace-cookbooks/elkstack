@@ -93,6 +93,19 @@ suites:
       - recipe[elkstack::java]
       - recipe[elkstack::agent]
 
+  # no tests needed for this; just needed it to converge
+  - name: agent-autokeypair
+    data_bags_path: "test/integration/agent/data_bags"
+    encrypted_data_bag_secret_key_path: "test/integration/agent/encrypted_data_bag_secret"
+    attributes:
+      elkstack:
+        config:
+          lumberjack_data_bag: "lumberjack-auto"
+    run_list:
+      - recipe[wrapper::logstash_override]
+      - recipe[elkstack::java]
+      - recipe[elkstack::agent]
+
   - name: forwarder
     data_bags_path: "test/integration/agent/data_bags"
     encrypted_data_bag_secret_key_path: "test/integration/agent/encrypted_data_bag_secret"

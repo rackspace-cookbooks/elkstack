@@ -13,6 +13,7 @@ lumberjack_data_bag = node['elkstack']['config']['lumberjack_data_bag']
 lumberjack_secrets = nil
 begin
   lumberjack_secrets = Chef::EncryptedDataBagItem.load(lumberjack_data_bag, 'secrets')
+  lumberjack_secrets.to_hash # access it to force an error to be raised
 rescue
   Chef::Log.warn("Could not find encrypted data bag item #{lumberjack_data_bag}/secrets")
   lumberjack_secrets = nil
@@ -22,6 +23,7 @@ end
 if lumberjack_secrets.nil?
   begin
     lumberjack_secrets = Chef::DataBagItem.load(lumberjack_data_bag, 'secrets')
+    lumberjack_secrets.to_hash
   rescue
     Chef::Log.warn("Could not find un-encrypted data bag item #{lumberjack_data_bag}/secrets")
     lumberjack_secrets = nil
