@@ -1,3 +1,7 @@
+# 3.2.5
+
+- Bump for dev. Update poor comment.
+
 # 3.2.4
 
 - Ensure to pass the instance name to any custom templates, to be sure they end up in the correct directory
