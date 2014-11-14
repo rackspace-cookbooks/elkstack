@@ -1,6 +1,6 @@
 # 3.2.4
 
-- Bump for dev
+- Ensure to pass the instance name to any custom templates, to be sure they end up in the correct directory
 
 # 3.2.3
 
