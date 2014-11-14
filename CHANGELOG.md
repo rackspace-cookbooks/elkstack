@@ -1,3 +1,7 @@
+# 3.2.4
+
+- Bump for dev
+
 # 3.2.3
 
 - Exit the agent recipe if no servers are found, don't try to proceed
