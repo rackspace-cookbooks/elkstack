@@ -13,14 +13,25 @@ agent_name = node['elkstack']['config']['logstash']['agent_name']
 # switch for platformstack
 enable_attr = node.deep_fetch('platformstack', 'elkstack_logging', 'enabled')
 logging_enabled = !enable_attr.nil? && enable_attr # ensure this is binary logic, not nil
+unless logging_enabled
+  Chef::Log.warn('Logging with logstash using ELK stack was explicitly enabled')
+end
+
+logging_enabled = enable_attr.nil?
+unless logging_enabled
+  Chef::Log.warn('Logging with logstash using ELK stack was implicitly enabled since platformstack is not on the runlist')
+end
 
 # find central servers
 include_recipe 'elasticsearch::search_discovery'
 elk_nodes = node['elasticsearch']['discovery']['zen']['ping']['unicast']['hosts']
 unless elk_nodes
   Chef::Log.warn('No logstash server nodes were found when configuring agent')
-  elk_nodes = ''
+  elk_nodes = nil
 end
+
+return unless elk_nodes && logging_enabled
+Chef::Log.warn('Elasticsearch nodes found and logging was enabled, proceeding with configuring an agent')
 
 # configure logstash for forwarding
 logstash_instance agent_name do

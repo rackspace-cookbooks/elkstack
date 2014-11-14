@@ -1,6 +1,7 @@
 # 3.2.3
 
-- Version bump for dev
+- Exit the agent recipe if no servers are found, don't try to proceed
+- Add warnings about what the discovery logic is doing for the agent
 
 # 3.2.2
 
