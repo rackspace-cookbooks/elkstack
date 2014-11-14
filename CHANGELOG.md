@@ -2,6 +2,8 @@
 
 - Exit the agent recipe if no servers are found, don't try to proceed
 - Add warnings about what the discovery logic is doing for the agent
+- Don't search for server/cluster nodes on chef-solo, allow overrides
+- Fixup tests to handle the chef-solo case but beef up check logic for fall through
 
 # 3.2.2
 

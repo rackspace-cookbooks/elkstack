@@ -17,21 +17,26 @@ unless logging_enabled
   Chef::Log.warn('Logging with logstash using ELK stack was explicitly enabled')
 end
 
-logging_enabled = enable_attr.nil?
-unless logging_enabled
+if enable_attr.nil?
   Chef::Log.warn('Logging with logstash using ELK stack was implicitly enabled since platformstack is not on the runlist')
+  logging_enabled = enable_attr.nil?
 end
 
 # find central servers
-include_recipe 'elasticsearch::search_discovery'
-elk_nodes = node['elasticsearch']['discovery']['zen']['ping']['unicast']['hosts']
+include_recipe 'elasticsearch::search_discovery' unless Chef::Config[:solo]
+elk_nodes = node.deep_fetch('elasticsearch', 'discovery', 'zen', 'ping', 'unicast', 'hosts')
 unless elk_nodes
   Chef::Log.warn('No logstash server nodes were found when configuring agent')
   elk_nodes = nil
 end
 
-return unless elk_nodes && logging_enabled
-Chef::Log.warn('Elasticsearch nodes found and logging was enabled, proceeding with configuring an agent')
+if elk_nodes && logging_enabled
+  Chef::Log.warn('Elasticsearch nodes found and logging was enabled, proceeding with configuring an agent')
+else
+  Chef::Log.warn("Exiting agent recipe, either elk_nodes: #{elk_nodes} or logging_enabled: #{logging_enabled} was false")
+  return
+end
+
 
 # configure logstash for forwarding
 logstash_instance agent_name do
