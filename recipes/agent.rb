@@ -37,7 +37,6 @@ else
   return
 end
 
-
 # configure logstash for forwarding
 logstash_instance agent_name do
   action :create
