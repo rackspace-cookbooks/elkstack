@@ -19,8 +19,9 @@ agent['logrotate_max_size'] = '10M'
 agent['logrotate_use_filesize'] = false
 
 # restrict logstash to 10% of the box, starting at 256M
-agent['xms'] = "#{(node['memory']['total'].to_i * 0.1).floor / 1024}M"
-agent['xmx'] = '256M'
+node_memory = (node['memory']['total'].to_i * 0.1).floor / 1024
+agent['xmx'] = node_memory >= 256 ? "#{node_memory}M" : '256M' # ensure that max is always bigger or equal to min
+agent['xms'] = '256M'
 
 agent['pattern_templates_cookbook'] = 'logstash'
 agent['base_config_cookbook'] = 'logstash'
