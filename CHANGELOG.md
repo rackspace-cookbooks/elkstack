@@ -1,3 +1,7 @@
+# 3.2.6
+
+- Fixed xmx and xms error in agent
+
 # 3.2.5
 
 - Bump for dev. Update poor comment.
