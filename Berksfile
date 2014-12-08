@@ -26,3 +26,6 @@ group :integration do
   cookbook 'apt'
   cookbook 'yum'
 end
+
+# until https://github.com/opscode-cookbooks/openssl/pull/11
+cookbook 'openssl', git: 'git@github.com:racker/openssl.git'
