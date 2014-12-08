@@ -39,10 +39,6 @@ provisioner:
         enabled: false
       omnibus_updater:
         enabled: false
-    rackspace:
-      cloud_credentials:
-        username: 'racker'
-        api_key: 'sekrit'
     elasticsearch:
       network:
         host: '127.0.0.1'
