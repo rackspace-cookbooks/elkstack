@@ -70,6 +70,7 @@ kibana_web 'kibana' do
   template_cookbook node['kibana']['nginx']['template_cookbook']
   template node['kibana']['nginx']['template']
   es_server node['kibana']['es_server']
+  es_port node['kibana']['es_port']
   not_if { node['kibana']['webserver'].empty? }
 end
 # end replaces 'kibana::install'
