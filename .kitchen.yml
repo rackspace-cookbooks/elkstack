@@ -17,7 +17,7 @@ driver_config:
 
 provisioner:
   name: chef_zero
-    require_chef_omnibus: 11.16.4
+  require_chef_omnibus: 11.16.4
   client_rb:
     environment: _default
   attributes:
