@@ -1,7 +1,6 @@
 # This defintion is designed to remove the repetition used throughout this cookbook.
 
 define :logstash_custom_config, variables: {}, service_name: nil, instance_name: nil, template_name: nil, template_source_file: nil, template_source_cookbook: nil, action: nil do
-
   params[:action] ||= :create
   params[:instance_name] ||= 'default'
   params[:template_name] ||= "#{params[:name]}.conf"

@@ -87,5 +87,4 @@ describe 'elkstack::cluster' do
     expect(chef_run).to put_http_request('create elasticsearch snapshot repository for backups')
     expect(chef_run).to create_cron_d('elkstack-elasticsearch-backup')
   end
-
 end

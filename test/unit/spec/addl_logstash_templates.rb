@@ -24,7 +24,6 @@ describe 'elkstack::agent' do
   it 'creates additional custom config files' do
     expect(chef_run).to create_logstash_config('agent')
   end
-
 end
 
 describe 'elkstack::logstash' do
@@ -49,5 +48,4 @@ describe 'elkstack::logstash' do
   it 'creates additional custom config files' do
     expect(chef_run).to create_logstash_config('default')
   end
-
 end
