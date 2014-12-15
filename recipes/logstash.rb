@@ -57,7 +57,6 @@ end
 
 # install additional stacks logstash configuration
 node['elkstack']['config']['custom_logstash']['name'].each do |logcfg|
-
   logcfg_name = node['elkstack']['config']['custom_logstash'][logcfg]['name']
   logcfg_source = node['elkstack']['config']['custom_logstash'][logcfg]['source']
   logcfg_cookbook = node['elkstack']['config']['custom_logstash'][logcfg]['cookbook']

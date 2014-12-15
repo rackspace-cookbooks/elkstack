@@ -40,5 +40,4 @@ describe 'elkstack::forwarder' do
   it 'installs package for logstash forwarder' do
     expect(chef_run).to install_package('logstash-forwarder')
   end
-
 end
