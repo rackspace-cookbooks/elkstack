@@ -2,7 +2,7 @@ source "https://api.berkshelf.com"
 
 metadata
 
-cookbook 'kibana', git: 'git@github.com:lusis/chef-kibana.git', branch: 'v1.3.2'
+cookbook 'kibana', git: 'git@github.com:lusis/chef-kibana.git', branch: 'KIBANA3'
 
 # until https://github.com/elasticsearch/cookbook-elasticsearch/pull/230
 cookbook 'elasticsearch', '~> 0.3', git:'git@github.com:racker/cookbook-elasticsearch.git'
