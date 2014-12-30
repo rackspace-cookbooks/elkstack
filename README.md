@@ -38,8 +38,10 @@ cookbook and create your own configuration, securing it as appropriate for your
 own requirements. See the `kibana_web` LWRP documentation for more on what
 attributes should be set to accomplish this.
 
-- If you'd like to override the backup schedule/behavior for ES, simply disable
-the backup crontab entry by setting
+- If you'd like to disable backups using cloud files, set
+`node['elkstack']['config']['backups']['enabled'] = false` (it defaults to
+true). If you'd like to override the backup schedule/behavior for ES, simply
+disable the backup crontab entry by setting
 `node['elkstack']['config']['backups']['cron']=false`. This cookbook will still
 configure everything except the cronjob, and then you may create another one
 with your own schedule using the `cron_d` LWRP.
