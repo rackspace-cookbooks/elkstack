@@ -1,3 +1,8 @@
+# 3.2.7
+
+- Unpin and go back to chef 12
+- Fix python builds on centos with setuptools manual run
+
 # 3.2.6
 
 - Fixed xmx and xms error in agent
