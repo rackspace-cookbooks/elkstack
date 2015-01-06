@@ -14,5 +14,18 @@ include_recipe 'build-essential'
 
 include_recipe 'chef-sugar'
 
-# everybody loves python!
-include_recipe 'python'
+# everybody loves python! (this is a shortening of python::default)
+# This should be switched to stack_commons::python when that is merged.
+include_recipe "python::#{node['python']['install_method']}"
+include_recipe 'python::pip'
+
+bash 'manually upgrade setuptools' do
+  user 'root'
+  cwd '/tmp'
+  code <<-EOH
+  easy_install --upgrade setuptools
+  EOH
+  only_if { rhel? }
+end
+
+include_recipe 'python::virtualenv'
