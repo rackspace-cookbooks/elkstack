@@ -137,7 +137,7 @@ CentOS 6.5
     <td><tt>false</tt></td>
   </tr>
   <tr>
-    <td><tt>['elkstack']['iptables']['enabled']</tt></td>
+    <td><tt>['elkstack']['config']['iptables']</tt></td>
     <td>Boolean</td>
     <td>Enable/Disable iptables functionality</td>
     <td><tt>true</tt></td>
