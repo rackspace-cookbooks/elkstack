@@ -85,6 +85,8 @@ supply these secrets with some other method and populate the appropriate
 `node.run_state` values (see `_secrets.rb` for more details). Note that this is
 not a PKI trust model, but an [explicit trust model](https://spaces.internet2.edu/display/InCFederation/Metadata+Trust+Models#MetadataTrustModels-ExplicitKeyTrustModel).
 
+There exists a make-lumberjack-key.sh to help you make this.
+
 ## [Changelog](CHANGELOG.md)
 
 See CHANGELOG.md for additional information about changes to this stack over time.
