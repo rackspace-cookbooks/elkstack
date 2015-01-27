@@ -13,3 +13,6 @@ default['kibana']['es_server'] = host if host
 
 port = node['elasticsearch']['http']['port']
 default['kibana']['es_port'] = port.to_s if port
+
+default['kibana']['server_name'] = node['fqdn']
+default['kibana']['server_aliases'] = []

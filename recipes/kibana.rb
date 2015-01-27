@@ -71,6 +71,8 @@ kibana_web 'kibana' do
   template node['kibana']['nginx']['template']
   es_server node['kibana']['es_server']
   es_port node['kibana']['es_port']
+  server_name node['kibana']['server_name']
+  server_aliases node['kibana']['server_aliases']
   not_if { node['kibana']['webserver'].empty? }
 end
 # end replaces 'kibana::install'
