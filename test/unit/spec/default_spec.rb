@@ -40,10 +40,7 @@ describe 'elkstack::cluster' do
     expect(chef_run).to create_template('/etc/rackspace-monitoring-agent.conf.d/monitoring-service-tcp-elasticsearch-9300.yaml')
   end
 
-  it 'installs and configures nginx' do
-    expect(chef_run).to enable_service('nginx')
-    expect(chef_run).to start_service('nginx')
-
+  it 'monitors nginx' do
     expect(chef_run).to create_template('/etc/rackspace-monitoring-agent.conf.d/monitoring-service-tcp-monitor-nginx-80.yaml')
     expect(chef_run).to create_template('/etc/rackspace-monitoring-agent.conf.d/monitoring-service-tcp-monitor-nginx-443.yaml')
   end
@@ -72,15 +69,18 @@ describe 'elkstack::cluster' do
     expect(chef_run).to create_file_if_missing('/etc/nginx/htpassword.curl')
   end
 
-  it 'installs and configures kibana' do
+  it 'installs and configures kibana and nginx' do
     expect(chef_run).to delete_file('/etc/nginx/conf.d/default.conf') # only on RHEL
 
-    # openssl_x509[/etc/nginx/ssl/kibana.pem]   elkstack/recipes/kibana_ssl.rb:51
+    # we put an 'action :nothing' on this one
+    expect(chef_run.service('nginx')).to do_nothing
+
     expect(chef_run).to create_kibana_install('kibana')
-    expect(chef_run).to create_template('/opt/kibana/current/config.js')
-    expect(chef_run).to create_link('/opt/kibana/current/app/dashboards/default.json').with(to: 'logstash.json')
+    expect(chef_run).to create_template('/opt/kibana/current/config/kibana.yml')
     expect(chef_run).to create_kibana_web('kibana')
+    expect(chef_run).to create_kibana_user('kibana')
     expect(chef_run).to create_openssl_x509('/etc/nginx/ssl/kibana.pem')
+    expect(chef_run).to enable_runit_service('kibana')
   end
 
   it 'creates a backup repo and crontab entry' do
