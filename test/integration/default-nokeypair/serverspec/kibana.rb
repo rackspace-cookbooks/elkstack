@@ -28,5 +28,5 @@ end
 
 describe command('cat /etc/nginx/htpassword.curl | curl -K - -sk https://localhost:443') do
   its(:exit_status) { should eq 0 }
-  its(:stdout) { should match(/You must enable javascript to use Kibana/) }
+  its(:stdout) { should match(/KIBANA_COMMIT_SHA/) }
 end

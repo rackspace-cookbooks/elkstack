@@ -15,46 +15,12 @@ server {
   <% end %>
 
   location / {
-    root  <%= @kibana_dir %>;
-    index  index.html  index.htm;
+    proxy_pass http://localhost:<%= @kibana_port %>;
+    proxy_read_timeout 90;
 
     # Password protect Kibana
     auth_basic "Restricted Access";
     auth_basic_user_file <%= node['nginx']['dir'] %>/htpassword;
   }
 
-  location ~ ^/_aliases$ {
-    proxy_pass <%= @es_scheme %><%= @es_server %>:<%= @es_port %>;
-    proxy_read_timeout 90;
-  }
-  location ~ ^/.*/_aliases$ {
-    proxy_pass <%= @es_scheme %><%= @es_server %>:<%= @es_port %>;
-    proxy_read_timeout 90;
-  }
-  location ~ ^/_nodes$ {
-    proxy_pass <%= @es_scheme %><%= @es_server %>:<%= @es_port %>;
-    proxy_read_timeout 90;
-  }
-  location ~ ^/.*/_search$ {
-    proxy_pass <%= @es_scheme %><%= @es_server %>:<%= @es_port %>;
-    proxy_read_timeout 90;
-  }
-  location ~ ^/.*/_mapping$ {
-    proxy_pass <%= @es_scheme %><%= @es_server %>:<%= @es_port %>;
-    proxy_read_timeout 90;
-  }
-  location ~ ^/_cluster/health$ {
-    proxy_pass <%= @es_scheme %><%= @es_server %>:<%= @es_port %>;
-    proxy_read_timeout 90;
-  }
-
-  # password protected end points
-  location ~ ^/kibana-int/dashboard/.*$ {
-    proxy_pass <%= @es_scheme %><%= @es_server %>:<%= @es_port %>;
-    proxy_read_timeout 90;
-  }
-  location ~ ^/kibana-int/temp.*$ {
-    proxy_pass <%= @es_scheme %><%= @es_server %>:<%= @es_port %>;
-    proxy_read_timeout 90;
-  }
 }
