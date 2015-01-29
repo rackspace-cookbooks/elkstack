@@ -1,3 +1,9 @@
+# 4.0.0
+
+- Use the latest lusis/chef-kibana cookbook, now installs Kibana 4
+- Server name now defaults to `node['fqdn']`
+- Depend on kibana_lwrp from Supermarket now, no more Berksfile entries
+
 # 3.2.7
 
 - Unpin and go back to chef 12
