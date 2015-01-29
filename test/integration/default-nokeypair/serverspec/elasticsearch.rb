@@ -18,7 +18,7 @@ end
 
 describe 'elasticsearch' do
   # test with curl here
-  describe command('sleep 5 && curl localhost:9200/_cluster/health?pretty=1') do
+  describe command('sleep 60 && curl localhost:9200/_cluster/health?pretty=1') do
     its(:stdout) { should match(/.*"status" : "green".*/) }
   end
 
