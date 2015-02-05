@@ -22,7 +22,7 @@ describe 'sending a test line to /usr/bin/logger should reach elasticsearch' do
     end
   end
   describe 'should return test log line from elasticsearch' do
-    describe command("sleep 30 && curl -s -XGET 'http://localhost:9200/_search?q=#{logline}' 2>&1 | grep -sq '#{logline}'") do
+    describe command("sleep 60 && curl -s -XGET 'http://localhost:9200/_search?q=#{logline}' 2>&1 | grep -sq '#{logline}'") do
       its(:exit_status) { should eq 0 }
     end
   end
