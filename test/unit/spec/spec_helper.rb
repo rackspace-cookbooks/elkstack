@@ -43,6 +43,7 @@ def stub_resources
   stub_command('which sudo').and_return('rack')
   stub_command("curl -sI http://eslocal:9200/_snapshot/elkstack | grep -q \"404 Not Found\"").and_return(0)
   stub_command("rpm -qa | grep -q '^runit'").and_return(1)
+  stub_command("/usr/local/go/bin/go version | grep \"go1.3 \"").and_return(0)
 end
 
 at_exit { ChefSpec::Coverage.report! }
