@@ -13,7 +13,8 @@ describe 'elkstack::forwarder' do
     end.converge(described_recipe)
   end
 
-  it 'includes the _agent, elasticsearch::search_discovery, _secrets, and rsyslog::client recipes' do
+  it 'includes the _agent, elasticsearch::search_discovery, _secrets, golang, and rsyslog::client recipes' do
+    expect(chef_run).to include_recipe('golang')
     expect(chef_run).to include_recipe('elkstack::forwarder')
     expect(chef_run).to include_recipe('elasticsearch::search_discovery')
     expect(chef_run).to include_recipe('elkstack::_secrets')
@@ -29,15 +30,11 @@ describe 'elkstack::forwarder' do
     expect(chef_run).to create_file('/opt/logstash/lumberjack.crt')
   end
 
-  it 'creates logstash-forward configuration file' do
+  it 'compiles logstash-forwarder' do
+    expect(chef_run).to run_execute('/usr/local/go/bin/go build')
+  end
+
+  it 'creates logstash-forwarder configuration file' do
     expect(chef_run).to create_file('/etc/logstash-forwarder')
-  end
-
-  it 'creates an apt repository' do
-    expect(chef_run).to add_apt_repository('logstash-forwarder')
-  end
-
-  it 'installs package for logstash forwarder' do
-    expect(chef_run).to install_package('logstash-forwarder')
   end
 end

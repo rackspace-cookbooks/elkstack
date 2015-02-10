@@ -21,7 +21,7 @@ ports = ['80', '443']
 node.default_unless['platformstack']['cloud_monitoring']['service']['name'] = []
 
 # iterate through 'ports' to create a monitoring file for each port.
-ports.each do | port |
+ports.each do |port|
   name = "tcp-monitor-#{process_name}-#{port}"
   node.default['platformstack']['cloud_monitoring']['service']['name'].push(name)
 

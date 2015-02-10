@@ -9,6 +9,7 @@
 # base stack requirements for an all-in-one node
 include_recipe 'elkstack::_base'
 include_recipe 'chef-sugar'
+include_recipe 'golang'
 
 # override logstash values with forwarder ones, ensure directory exists, for _secrets.rb
 node.set['logstash']['instance_default']['user'] = node['logstash_forwarder']['user']
@@ -37,32 +38,26 @@ unless node.run_state['lumberjack_decoded_certificate'].nil? || node.run_state['
   node.set['logstash_forwarder']['config']['network']['ssl ca'] = "#{node['logstash']['instance_default']['basedir']}/lumberjack.crt"
 end
 
-# This next section was heavily inspired and adapted from https://github.com/zeroXten/logstash_forwarder
+git node['logstash_forwarder']['app_dir'] do
+  repository node['logstash_forwarder']['git_repo']
+  revision node['logstash_forwarder']['git_revision']
+  action :checkout
+end
 
-case node['platform_family']
-when 'debian'
-  apt_repository 'logstash-forwarder' do
-    uri 'http://packages.elasticsearch.org/logstashforwarder/debian'
-    components ['stable', 'main']
-    key 'http://packages.elasticsearch.org/GPG-KEY-elasticsearch'
-  end
+execute 'build_logstash_forwarder' do
+  cwd node['logstash_forwarder']['app_dir']
+  command '/usr/local/go/bin/go build'
+  action :run
+  user 'root'
+  group 'root'
+  not_if { ::File.exist?("#{node['logstash_forwarder']['app_dir']}/logstash-forwarder") }
+end
 
-  package 'logstash-forwarder'
-when 'rhel'
-  yum_repository 'logstash-forwarder' do
-    description 'logstash forwarder'
-    baseurl 'http://packages.elasticsearch.org/logstashforwarder/centos'
-    gpgkey 'http://packages.elasticsearch.org/GPG-KEY-elasticsearch'
-  end
-
-  package 'logstash-forwarder'
-
-  cookbook_file '/etc/init.d/logstash-forwarder' do
-    source 'logstash-forwarder-init-rhel'
-    owner 'root' # init script must be root, not user/group configured
-    group 'root'
-    mode 0755
-  end
+cookbook_file '/etc/init.d/logstash-forwarder' do
+  source 'logstash-forwarder-init'
+  owner 'root' # init script must be root, not user/group configured
+  group 'root'
+  mode 0755
 end
 
 require 'json'
