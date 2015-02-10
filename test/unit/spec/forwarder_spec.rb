@@ -37,5 +37,4 @@ describe 'elkstack::forwarder' do
   it 'creates logstash-forwarder configuration file' do
     expect(chef_run).to create_file('/etc/logstash-forwarder')
   end
-
 end
