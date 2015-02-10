@@ -27,7 +27,7 @@ ports.push(es_http_port.nil? ? 9200 : es_http_port)
 node.default_unless['platformstack']['cloud_monitoring']['service']['name'] = []
 
 # iterate through 'ports' to create a monitoring file for each port.
-ports.each do | port |
+ports.each do |port|
   name = "tcp-#{process_name}-#{port}"
   node.default['platformstack']['cloud_monitoring']['service']['name'].push(name)
 
