@@ -9,7 +9,7 @@ end
 describe 'logstash-forwarder service' do
   # can't use process() matcher because of two java processes
   describe 'should be running Logstash main class' do
-    describe command('ps aux | grep -v grep | grep -s /opt/logstash-forwarder/bin/logstash-forwarder') do
+    describe command('ps aux | grep -v grep | grep -s /opt/logstash-forwarder/logstash-forwarder') do
       its(:exit_status) { should eq 0 }
     end
   end

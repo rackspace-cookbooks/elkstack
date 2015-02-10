@@ -44,25 +44,20 @@ git node['logstash_forwarder']['app_dir'] do
   action :checkout
 end
 
-execute "build_logstash_forwarder" do
+execute 'build_logstash_forwarder' do
   cwd node['logstash_forwarder']['app_dir']
   command '/usr/local/go/bin/go build'
   action :run
-  user "root"
-  group "root"
-  not_if do ::File.exists?("#{node['logstash_forwarder']['app_dir']}/logstash-forwarder") end
+  user 'root'
+  group 'root'
+  not_if { ::File.exist?("#{node['logstash_forwarder']['app_dir']}/logstash-forwarder") }
 end
 
-case node['platform_family']
-when 'debian'
-  
-when 'rhel'
-  cookbook_file '/etc/init.d/logstash-forwarder' do
-    source 'logstash-forwarder-init-rhel'
-    owner 'root' # init script must be root, not user/group configured
-    group 'root'
-    mode 0755
-  end
+cookbook_file '/etc/init.d/logstash-forwarder' do
+  source 'logstash-forwarder-init'
+  owner 'root' # init script must be root, not user/group configured
+  group 'root'
+  mode 0755
 end
 
 require 'json'
