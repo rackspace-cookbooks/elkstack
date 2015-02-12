@@ -15,6 +15,7 @@ logstash_instance instance_name do
 end
 
 # for some reason, this also internally does :start, :immediate
+include_recipe 'runit'
 logstash_service instance_name do
   action :enable
 end
