@@ -1,0 +1,20 @@
+port: <%= @port %>
+elasticsearch: "<%= @elasticsearch %>"
+host: "0.0.0.0"
+request_timeout: 60
+shard_timeout: 30000
+verify_ssl: true
+kibana_index: "<%= @index %>"
+default_app_id: "discover"
+apps:
+- { id: "discover", name: "Discover" }
+- { id: "visualize", name: "Visualize" }
+- { id: "dashboard", name: "Dashboard" }
+- { id: "settings", name: "Settings" }
+bundledPluginIds:
+ - plugins/dashboard/index
+ - plugins/discover/index
+ - plugins/settings/index
+ - plugins/table_vis/index
+ - plugins/vis_types/index
+ - plugins/visualize/index

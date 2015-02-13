@@ -1,11 +1,11 @@
 # override the default ones from the elasticsearch cookbook
 
-default['elasticsearch']['version']       = '1.3.4'
-default['elasticsearch']['rpm_url']       = 'https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-1.3.4.noarch.rpm'
-default['elasticsearch']['rpm_sha']       = 'a84034d07196e58b0471c3fe30289a738715c664'
-# default['elasticsearch']['version'] = '1.4.2'
-# default['elasticsearch']['rpm_url'] = 'https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-1.4.2.noarch.rpm'
-# default['elasticsearch']['rpm_sha'] = '0f2513b0a060973497210ce150656df6290a3163'
+# default['elasticsearch']['version']       = '1.3.4'
+# default['elasticsearch']['rpm_url']       = 'https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-1.3.4.noarch.rpm'
+# default['elasticsearch']['rpm_sha']       = 'a84034d07196e58b0471c3fe30289a738715c664'
+default['elasticsearch']['version'] = '1.4.3'
+default['elasticsearch']['rpm_url'] = 'https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-1.4.3.noarch.rpm'
+default['elasticsearch']['rpm_sha'] = 'a4b31e6129f4c60bfe0998ede887d0c51a6ab403'
 
 default['elasticsearch']['filename']      = "elasticsearch-#{node['elasticsearch']['version']}.tar.gz"
 default['elasticsearch']['download_url']  = [node['elasticsearch']['host'], node['elasticsearch']['repository'], node['elasticsearch']['filename']].join('/')
@@ -33,3 +33,6 @@ default['elasticsearch']['discovery']['search_query'] = "tags:elkstack_cluster A
 
 # by default, won't do multicast
 default['elasticsearch']['discovery']['zen']['ping']['multicast']['enabled'] = false
+
+# in order to use kibana, we must enable dynamic scripting
+default['elasticsearch']['custom_config']['script.disable_dynamic'] = false
