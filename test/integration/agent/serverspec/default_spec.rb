@@ -47,7 +47,7 @@ describe 'logstash had a valid configuration file that passes its own checks' do
 end
 
 describe 'on supplying a custom logstash configuration file' do
-  describe file('/opt/logstash/agent/etc/conf.d/input_test.conf') do
+  describe file('/opt/logstash/agent/etc/conf.d/input_test') do
     it { should be_file }
     its(:content) { should match(/special_test_path/) }
   end

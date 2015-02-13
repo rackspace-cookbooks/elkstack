@@ -40,7 +40,6 @@ provisioner:
       omnibus_updater:
         enabled: false
     elasticsearch:
-      allocated_memory: '512m'
       network:
         host: '127.0.0.1'
       index:

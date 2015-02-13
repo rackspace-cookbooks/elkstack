@@ -12,6 +12,9 @@ describe 'elkstack::agent' do
       node.set['filesystem'] = []
       node.set['platformstack']['elkstack_logging']['enabled'] = true
 
+      # force a node to exist
+      node.set['elasticsearch']['discovery']['zen']['ping']['unicast']['hosts'] = '127.0.0.1'
+
       # stub an additional template
       node.set['elkstack']['config']['custom_logstash']['name'] = ['foo']
       node.set['elkstack']['config']['custom_logstash']['foo']['name'] = 'my_logstashconfig'
@@ -46,6 +49,6 @@ describe 'elkstack::logstash' do
   end
 
   it 'creates additional custom config files' do
-    expect(chef_run).to create_logstash_config('default')
+    expect(chef_run).to create_logstash_config('server')
   end
 end
