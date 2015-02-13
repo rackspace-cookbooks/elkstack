@@ -1,3 +1,11 @@
+# 4.1.0
+
+- Kibana password can now be a node attribute or run_state entry, is now respected (#99)
+- Add missing runit dependency (#107)
+- More workarounds and fixes for kibana 4 (#104)
+- Change logstash forwarder to be installed from Git since packages were removed (#109)
+- Update to newer upstream logstash cookbook to get fix for https://github.com/lusis/chef-logstash/issues/387 (#111)
+
 # 4.0.0
 
 - Use the latest lusis/chef-kibana cookbook, now installs Kibana 4
