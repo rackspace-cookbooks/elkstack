@@ -12,8 +12,8 @@ namespace :style do
   desc 'Run Chef style checks'
   FoodCritic::Rake::LintTask.new(:chef) do |t|
     t.options = { search_gems: true,
-                  fail_tags: ['correctness','rackspace'],
-                  chef_version: '11.6.0'
+                  tags: %w(~rackspace-support),
+                  fail_tags: %w(correctness,rackspace)
                 }
   end
 end
@@ -23,31 +23,46 @@ task style: ['style:chef', 'style:ruby']
 
 # Rspec and ChefSpec
 desc 'Run ChefSpec unit tests'
-RSpec::Core::RakeTask.new(:spec) do |t, args|
+RSpec::Core::RakeTask.new(:spec) do |t|
   t.rspec_opts = 'test/unit'
 end
 
-# Integration tests. Kitchen.ci
+# Integration tests - kitchen.ci
+desc 'Run Test Kitchen'
 namespace :integration do
-  desc 'Run Test Kitchen with Vagrant'
+  Kitchen.logger = Kitchen.default_file_logger
+
+  desc 'Run kitchen test with Vagrant'
   task :vagrant do
-    Kitchen.logger = Kitchen.default_file_logger
     Kitchen::Config.new.instances.each do |instance|
       instance.test(:always)
     end
   end
 
-  desc 'Run Test Kitchen with cloud plugins'
-  task :cloud do
-    if ENV['CI'] == 'true'
-      Kitchen.logger = Kitchen.default_file_logger
-      @loader = Kitchen::Loader::YAML.new(local_config: '/var/lib/jenkins/.kitchen/config.yml')
-      config = Kitchen::Config.new(loader: @loader)
-      config.instances.each do |instance|
-        instance.test(:always)
+  %w(verify destroy).each do |t|
+    desc "Run kitchen #{t} with cloud plugins"
+    namespace :cloud do
+      task t do
+        @loader = Kitchen::Loader::YAML.new(local_config: '.kitchen.cloud.yml')
+        config = Kitchen::Config.new(loader: @loader)
+        concurrency = config.instances.size
+        queue = Queue.new
+        config.instances.each { |i| queue << i }
+        concurrency.times { queue << nil }
+        threads = []
+        concurrency.times do
+          threads << Thread.new do
+            while instance = queue.pop
+              instance.send(t)
+            end
+          end
+        end
+        threads.map(&:join)
       end
     end
   end
+
+  task cloud: ['cloud:verify', 'cloud:destroy']
 end
 
 desc 'Run all tests on CI Platform'

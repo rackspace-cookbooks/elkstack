@@ -1,0 +1,25 @@
+machine:
+  ruby:
+    version: 2.1.5
+  environment:
+    KITCHEN_LOCAL_YAML: .kitchen.cloud.yml
+
+dependencies:
+  cache_directories:
+    - "~/bundle"
+  pre:
+    - ssh-keygen -y -f ~/.ssh/build_key.rsa > ~/.ssh/id_rsa.pub
+  override:
+    - bundle install --path=~/bundle --jobs=4 --retry=3:
+        timeout: 600
+
+test:
+  override:
+    - bundle exec rake style:
+        timeout: 120
+    - bundle exec rake spec:
+        timeout: 120
+    - bundle exec rake integration:cloud:verify:
+        timeout: 600
+  post:
+    - bundle exec rake integration:cloud:destroy
