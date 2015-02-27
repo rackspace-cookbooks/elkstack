@@ -1,3 +1,10 @@
+# 4.2.1
+
+Miscellaneous fixes
+
+- Array for logstash configs needed a `default_unless`
+- Go ahead and add a restart of the logstash agent before testing, to avoid CI timing weirdness
+
 # 4.2.0
 
 Workarounds and more support for Kibana 4
