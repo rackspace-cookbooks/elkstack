@@ -20,6 +20,7 @@ server['logrotate_frequency'] = 'daily'
 server['logrotate_max_backup'] = 10
 server['logrotate_max_size'] = '10M'
 server['logrotate_use_filesize'] = false
+# server['debug'] = true # use this for troubleshooting
 
 # restrict logstash to 20% of the box
 server['xms'] = "#{(node['memory']['total'].to_i * 0.2).floor / 1024}M"
@@ -37,7 +38,7 @@ config_templates_variables['elasticsearch_protocol'] = server['elasticsearch_pro
 server['config_templates_variables'] = config_templates_variables
 
 # arbitrary data structure for any arbitrary logstash config
-default['elkstack']['config']['custom_logstash']['name'] = []
+default_unless['elkstack']['config']['custom_logstash']['name'] = []
 # Currently for arbitrary logstash configs, the recipe that sets up the logstash file should add:
 # node.default['elkstack']['config']['custom_logstash']['name'].push('<service_name>')
 # and then populate node['elkstack']['config']['custom_logstash'][service_name][setting] with your values
