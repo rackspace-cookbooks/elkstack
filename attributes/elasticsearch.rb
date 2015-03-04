@@ -3,8 +3,8 @@
 # default['elasticsearch']['version']       = '1.3.4'
 # default['elasticsearch']['rpm_url']       = 'https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-1.3.4.noarch.rpm'
 # default['elasticsearch']['rpm_sha']       = 'a84034d07196e58b0471c3fe30289a738715c664'
-default['elasticsearch']['version'] = '1.4.3'
-default['elasticsearch']['rpm_url'] = 'https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-1.4.3.noarch.rpm'
+default['elasticsearch']['version'] = '1.4.4'
+default['elasticsearch']['rpm_url'] = 'https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-1.4.4.noarch.rpm'
 default['elasticsearch']['rpm_sha'] = 'a4b31e6129f4c60bfe0998ede887d0c51a6ab403'
 
 default['elasticsearch']['filename']      = "elasticsearch-#{node['elasticsearch']['version']}.tar.gz"
