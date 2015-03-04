@@ -1,5 +1,5 @@
 port: <%= @port %>
-elasticsearch: "<%= @elasticsearch %>"
+elasticsearch_url: "<%= @elasticsearch %>"
 host: "0.0.0.0"
 request_timeout: 60
 shard_timeout: 30000
@@ -11,7 +11,7 @@ apps:
 - { id: "visualize", name: "Visualize" }
 - { id: "dashboard", name: "Dashboard" }
 - { id: "settings", name: "Settings" }
-bundledPluginIds:
+bundled_plugin_ids:
  - plugins/dashboard/index
  - plugins/discover/index
  - plugins/settings/index
