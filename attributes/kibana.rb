@@ -1,5 +1,5 @@
 
-default['elkstack']['kibana4_workaround'] = true
+default['elkstack']['kibana4_workaround'] = false
 
 default['kibana']['web_dir'] = '/opt/kibana/current'
 default['kibana']['webserver_port'] = 443
