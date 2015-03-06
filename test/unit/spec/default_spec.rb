@@ -65,7 +65,7 @@ describe 'elkstack::cluster' do
 
   it 'creates htpassword and htpassword.curl to protect kibana' do
     expect(chef_run).to create_directory('/etc/nginx/ssl')
-    expect(chef_run).to add_htpasswd('/etc/nginx/htpassword')
+    expect(chef_run).to overwrite_htpasswd('/etc/nginx/htpassword')
     expect(chef_run).to create_file_if_missing('/etc/nginx/htpassword.curl')
   end
 

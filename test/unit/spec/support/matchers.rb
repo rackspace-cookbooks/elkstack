@@ -40,6 +40,10 @@ if defined?(ChefSpec)
     ChefSpec::Matchers::ResourceMatcher.new(:htpasswd, :add, resource)
   end
 
+  def overwrite_htpasswd(resource)
+    ChefSpec::Matchers::ResourceMatcher.new(:htpasswd, :overwrite, resource)
+  end
+
   # Kibana matchers
   def create_kibana_web(resource)
     ChefSpec::Matchers::ResourceMatcher.new(:kibana_web, :create, resource)

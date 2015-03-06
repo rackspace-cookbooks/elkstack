@@ -37,7 +37,7 @@ end
 htpasswd "#{node['nginx']['dir']}/htpassword" do
   user basic_auth_username
   password basic_auth_password
-  not_if { File.exist?("#{node['nginx']['dir']}/htpassword") }
+  action :overwrite
 end
 
 # write this for testing
