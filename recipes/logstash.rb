@@ -34,19 +34,10 @@ my_templates = {
 }
 
 template_variables = {
-  input_lumberjack_host: '0.0.0.0',
-  input_lumberjack_port: 5960,
   input_syslog_host: '0.0.0.0',
   input_syslog_port: 5959,
   chef_environment: node.chef_environment
 }
-
-include_recipe 'elkstack::_secrets'
-unless node.run_state['lumberjack_decoded_certificate'].nil? || node.run_state['lumberjack_decoded_certificate'].nil?
-  my_templates['input_lumberjack'] = 'logstash/input_lumberjack.conf.erb'
-  template_variables['input_lumberjack_ssl_certificate'] = "#{node['logstash']['instance_default']['basedir']}/lumberjack.crt"
-  template_variables['input_lumberjack_ssl_key'] = "#{node['logstash']['instance_default']['basedir']}/lumberjack.key"
-end
 
 logstash_config instance_name do
   action 'create'
