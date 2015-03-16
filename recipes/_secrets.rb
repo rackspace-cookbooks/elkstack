@@ -9,6 +9,11 @@
 # if there's a data bag, get the contents out, shove them in node.run_state
 lumberjack_data_bag = node['elkstack']['config']['lumberjack_data_bag']
 
+unless lumberjack_data_bag
+  Chef::Log.warn("node['elkstack']['config']['lumberjack_data_bag'] was set to false. Not configuring lumberjack or secrets.")
+  return
+end
+
 # try an encrypted data bag first
 lumberjack_secrets = nil
 begin

@@ -75,6 +75,21 @@ suites:
           zen:
             minimum_master_nodes: 1 # since search returns more than one, but they are fake
 
+  - name: lumberjack # server with lumberjack disabled
+    data_bags_path: "test/integration/default/data_bags"
+    encrypted_data_bag_secret_key_path: "test/integration/default/encrypted_data_bag_secret"
+    run_list:
+      - recipe[elkstack::java]
+      - recipe[elkstack::cluster] # not testing single, it's practically the same
+    attributes:
+      elkstack:
+        config:
+          lumberjack_data_bag: false
+      elasticsearch:
+        discovery:
+          zen:
+            minimum_master_nodes: 1 # since search returns more than one, but they are fake
+
   - name: agent
     data_bags_path: "test/integration/agent/data_bags"
     encrypted_data_bag_secret_key_path: "test/integration/agent/encrypted_data_bag_secret"
