@@ -270,7 +270,7 @@ search criteria.
 Most of this is configurable using the upstream Elasticsearch cookbook's
 attributes, including the chef search itself. There is not an easy toggle to
 turn off the search, however.
-Enables iptables rules if default['elkstack']['iptables']['enabled'] not nil
+Enables iptables rules if `node['elkstack']['iptables']['enabled']` is not `nil`.
 
 ### elkstack::logstash
 
