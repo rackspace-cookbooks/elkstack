@@ -1,8 +1,8 @@
 port: <%= @port %>
 elasticsearch_url: "<%= @elasticsearch %>"
 host: "0.0.0.0"
-request_timeout: 60
-shard_timeout: 30000
+request_timeout: <%= @request_timeout %>
+shard_timeout: <%= @shard_timeout %>
 verify_ssl: true
 kibana_index: "<%= @index %>"
 default_app_id: "discover"
