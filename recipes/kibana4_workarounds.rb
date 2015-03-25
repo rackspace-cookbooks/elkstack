@@ -17,6 +17,8 @@ template "#{node['kibana']['install_path']}/kibana/current/#{node['kibana']['fil
     port: node['kibana']['java_webserver_port'],
     elasticsearch: "#{node['kibana']['es_scheme']}#{node['kibana']['es_server']}:#{node['kibana']['es_port']}",
     default_route: node['kibana']['config']['default_route'],
-    panel_names: node['kibana']['config']['panel_names']
+    panel_names: node['kibana']['config']['panel_names'],
+    request_timeout: node['kibana']['config']['request_timeout'],
+    shard_timeout: node['kibana']['config']['shard_timeout']
   )
 end
