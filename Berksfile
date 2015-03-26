@@ -2,7 +2,7 @@ source "https://api.berkshelf.com"
 
 metadata
 
-# until https://github.com/elasticsearch/cookbook-elasticsearch/pull/230
+# until https://github.com/elastic/cookbook-elasticsearch/pull/230
 cookbook 'elasticsearch', '~> 0.3', git:'git@github.com:racker/cookbook-elasticsearch.git'
 
 # until https://github.com/poise/python/pull/120

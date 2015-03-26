@@ -86,7 +86,7 @@ supply these secrets with some other method and populate the appropriate
 not a PKI trust model, but an [explicit trust model](https://spaces.internet2.edu/display/InCFederation/Metadata+Trust+Models#MetadataTrustModels-ExplicitKeyTrustModel). You may also set the data bag key to false to disable lumberjack entirely.
 
 There exists a make-lumberjack-key.sh to help you make this. For Go 1.3+, you may be required
-by the standard libraries to create a SAN cert [as described here](https://github.com/elasticsearch/logstash-forwarder/issues/221#issuecomment-48823952).
+by the standard libraries to create a SAN cert [as described here](https://github.com/elastic/logstash-forwarder/issues/221#issuecomment-48823952).
 
 ## [Changelog](CHANGELOG.md)
 
