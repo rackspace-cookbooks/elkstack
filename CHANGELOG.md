@@ -136,7 +136,7 @@ Workarounds and more support for Kibana 4
 
 # 2.0.0
 
-- Add a `forwarder.rb` recipe that installs [logstash-forwarder](https://github.com/elasticsearch/logstash-forwarder) as an alternative to logstash as an agent, including unit and integration tests.
+- Add a `forwarder.rb` recipe that installs [logstash-forwarder](https://github.com/elastic/logstash-forwarder) as an alternative to logstash as an agent, including unit and integration tests.
 - Add additional tests for existing test-kitchen suites to ensure new lumberjack keypair is written to disk.
 - Fix a chefspec test issue where tests were checking for something that didn't make sense, didn't pass.
 
