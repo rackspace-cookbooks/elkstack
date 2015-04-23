@@ -1,3 +1,9 @@
+# 4.2.3
+
+- Update kibana configuration file to support more kibana 4 parameter names
+- Allow lumberjack functionality to be disabled
+- Replace git:// with https:// to get logstash_forwarder
+
 # 4.2.2
 
 - Bump Elasticsearch to 1.4.4
