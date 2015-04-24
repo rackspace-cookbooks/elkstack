@@ -249,12 +249,12 @@ configures an rsyslog sink into logstash on the local box.
 
 ### elkstack::forwarder
 
-A python-based alternative to the normal agent, configured simply to watch logs
-forward them directly on to the cluster. This project is in heavy development,
-and is not publishing releases very often, so the packaged versions may be quite
-old or buggy. As of the addition of the recipe, the package was almost a year
-behind current development, but only because there also had been no releases
-either.
+A [go-based alternative](https://github.com/elastic/logstash-forwarder) to the normal 
+agent, configured simply to watch logs forward them directly on to the cluster. This 
+project is in heavy development, and is not publishing releases very often, so the 
+packaged versions may be quite old or buggy. As of the addition of the recipe, the 
+package was almost a year behind current development, but only because there also 
+had been no releases either.
 
 ### elkstack::elasticsearch
 
