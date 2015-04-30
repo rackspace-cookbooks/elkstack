@@ -116,12 +116,6 @@ CentOS 6.5
     <td><tt>server</tt></td>
   </tr>
   <tr>
-    <td><tt>['elkstack']['config']['cluster']</tt></td>
-    <td>Boolean</td>
-    <td>Whether to search for and connect Elasticsearch to cluster nodes</td>
-    <td><tt>false</tt></td>
-  </tr>
-  <tr>
     <td><tt>['elasticsearch']['discovery']['search_query']</tt></td>
     <td>String</td>
     <td>A query to search for and connect Elasticsearch to cluster nodes</td>
@@ -228,19 +222,9 @@ To override anything else, set the appropriate node hash (`logstash`, `kibana`, 
 
 ### elkstack::default
 
-Default recipe, does not do anything.
-
-### elkstack::single
-
 A simple wrapper recipe that sets up Elasticsearch, Logstash, and Kibana. Also
 configures an rsyslog sink into logstash on the local box. Everything except
 Logstash and Kibana is locked down to listen only on localhost.
-
-### elkstack::cluster
-
-A simple wrapper recipe that sets up Elasticsearch, Logstash, and Kibana. Also
-configures an rsyslog sink into logstash on the local box. Sets the cluster flag
-so that the elasticsearch recipe builds it in a cluster-friendly way.
 
 ### elkstack::agent
 
@@ -293,9 +277,8 @@ before including anything else in this cookbook.
 ### elkstack::newrelic
 
 Validates if there is a newrelic license set and based on that, see if the node
-is tagged as 'elkstack' or 'elkstack_cluster' and creates a file with
-elasticsearch details. Installs python, pip and setuptools packages in order to
-support newrelic_meetme_plugin
+is tagged as 'elkstack' and creates a file with elasticsearch details. Installs
+python, pip and setuptools packages in order to support newrelic_meetme_plugin
 
 ## elkstack::acl
 

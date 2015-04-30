@@ -12,12 +12,10 @@ include_recipe 'chef-sugar'
 include_recipe 'golang'
 
 # override logstash values with forwarder ones, ensure directory exists, for _secrets.rb
-node.set['logstash']['instance_default']['user'] = node['logstash_forwarder']['user']
-node.set['logstash']['instance_default']['group'] = node['logstash_forwarder']['user']
 directory node['logstash']['instance_default']['basedir'] do
   user node['logstash']['instance_default']['user']
   group node['logstash']['instance_default']['group']
-  mode 0700
+  mode 0755
 end
 
 # find central servers and configure appropriately
@@ -31,7 +29,7 @@ elk_nodes.split(',').each do |new_node|
 end
 node.set['logstash_forwarder']['config']['network']['servers'] = forwarder_servers
 
-include_recipe 'elkstack::_secrets'
+include_recipe 'elkstack::_lumberjack_secrets'
 unless node.run_state['lumberjack_decoded_certificate'].nil? || node.run_state['lumberjack_decoded_certificate'].nil?
   node.set['logstash_forwarder']['config']['network']['ssl certificate'] = "#{node['logstash']['instance_default']['basedir']}/lumberjack.crt"
   node.set['logstash_forwarder']['config']['network']['ssl key'] = "#{node['logstash']['instance_default']['basedir']}/lumberjack.key"

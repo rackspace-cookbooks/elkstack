@@ -11,13 +11,10 @@ include_recipe 'elkstack::_server'
 
 # do clustering magic, with custom query for our tags
 include_recipe 'chef-sugar'
-should_cluster = node.deep_fetch('elkstack', 'config', 'cluster')
-if !should_cluster.nil? && should_cluster
-  include_recipe 'elasticsearch::search_discovery'
-else
-  node.override['elasticsearch']['discovery']['zen']['ping']['multicast']['enabled'] = false
-  # if the cluster flag isn't set, turn that junk off
-end
+
+# use chef search, not multicast, for cluster discovery
+node.override['elasticsearch']['discovery']['zen']['ping']['multicast']['enabled'] = false
+include_recipe 'elasticsearch::search_discovery'
 
 # find and format and mount any relevant disks
 include_recipe 'elkstack::disk_setup'
@@ -42,6 +39,5 @@ if rackspace_elasticsearch_mod_enabled && backups_enabled_flag
 end
 
 tag('elkstack')
-tag('elkstack_cluster') unless should_cluster.nil? || !should_cluster
 
 include_recipe 'elkstack::elasticsearch_monitoring'

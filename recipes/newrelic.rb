@@ -8,7 +8,7 @@
 
 unless node['newrelic']['license'].nil?
   node.default['newrelic_meetme_plugin']['license'] = node['newrelic']['license']
-  if tagged?('elkstack') || tagged?('elkstack_cluster')
+  if tagged?('elkstack')
     node.override['newrelic_meetme_plugin']['services'] = {
       'elasticsearch' => {
         'name' => node['elasticsearch']['cluster']['name'],

@@ -46,6 +46,9 @@ provisioner:
         number_of_replicas: 0
         # so the kitchen node doesn't have unallocated replica shards
         # and comes up green (healthy) instead of yellow
+      discovery:
+        zen:
+          minimum_master_nodes: 1 # since search returns more than one, but they are fake
     elkstack:
       config:
         kibana:
@@ -66,12 +69,7 @@ suites:
   - name: default # server
     run_list:
       - recipe[elkstack::java]
-      - recipe[elkstack::cluster] # not testing single, it's practically the same
-    attributes:
-      elasticsearch:
-        discovery:
-          zen:
-            minimum_master_nodes: 1 # since search returns more than one, but they are fake
+      - recipe[elkstack::default]
 
   - name: agent # java agent with server
     run_list:
@@ -80,9 +78,9 @@ suites:
       - recipe[elkstack::agent]
 
   - name: forwarder # alternative golang agent with server
-    data_bags_path: "test/integration/agent/data_bags"
-    encrypted_data_bag_secret_key_path: "test/integration/agent/encrypted_data_bag_secret"
+    data_bags_path: "test/integration/forwarder/data_bags"
+    encrypted_data_bag_secret_key_path: "test/integration/forwarder/encrypted_data_bag_secret"
     run_list:
       - recipe[elkstack::java]
-      - recipe[elkstack::cluster] # not testing single, it's practically the same
+      - recipe[elkstack::default]
       - recipe[elkstack::forwarder]

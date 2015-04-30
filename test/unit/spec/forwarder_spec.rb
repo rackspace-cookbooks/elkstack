@@ -17,7 +17,7 @@ describe 'elkstack::forwarder' do
     expect(chef_run).to include_recipe('golang')
     expect(chef_run).to include_recipe('elkstack::forwarder')
     expect(chef_run).to include_recipe('elasticsearch::search_discovery')
-    expect(chef_run).to include_recipe('elkstack::_secrets')
+    expect(chef_run).to include_recipe('elkstack::_lumberjack_secrets')
   end
 
   it 'create service for the forwarder' do

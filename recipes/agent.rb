@@ -67,15 +67,15 @@ lumberjack_keypair = node.run_state['lumberjack_decoded_key'] && node.run_state[
 
 # default is 'tcp_udp'
 if node['elkstack']['config']['agent_protocol'] == 'tcp_udp'
-    # TODO: udp and tcp senders
+  # TODO: udp and tcp senders
 
-    my_templates['output_tcp'] = 'logstash/output_tcp.conf.erb'
-    my_templates['output_udp'] = 'logstash/output_udp.conf.erb'
+  my_templates['output_tcp'] = 'logstash/output_tcp.conf.erb'
+  my_templates['output_udp'] = 'logstash/output_udp.conf.erb'
 
-    template_variables[:output_tcp_host] = elk_nodes.split(',').first
-    template_variables[:output_tcp_port] = 5961
-    template_variables[:output_udp_host] = elk_nodes.split(',').first
-    template_variables[:output_udp_port] = 5962
+  template_variables[:output_tcp_host] = elk_nodes.split(',').first
+  template_variables[:output_tcp_port] = 5961
+  template_variables[:output_udp_host] = elk_nodes.split(',').first
+  template_variables[:output_udp_port] = 5962
 
 # if flag is set *and* key & cert are available
 elsif node['elkstack']['config']['agent_protocol'] == 'lumberjack' && lumberjack_keypair
