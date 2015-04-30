@@ -61,8 +61,24 @@ template_variables = {
   chef_environment: node.chef_environment
 }
 
-include_recipe 'elkstack::_secrets'
-unless node.run_state['lumberjack_decoded_certificate'].nil? || node.run_state['lumberjack_decoded_certificate'].nil?
+# preload any lumberjack key or cert that might be available
+include_recipe 'elkstack::_lumberjack_secrets'
+lumberjack_keypair = node.run_state['lumberjack_decoded_key'] && node.run_state['lumberjack_decoded_certificate']
+
+# default is 'tcp_udp'
+if node['elkstack']['config']['agent_protocol'] == 'tcp_udp'
+    # TODO: udp and tcp senders
+
+    my_templates['output_tcp'] = 'logstash/output_tcp.conf.erb'
+    my_templates['output_udp'] = 'logstash/output_udp.conf.erb'
+
+    template_variables[:output_tcp_host] = elk_nodes.split(',').first
+    template_variables[:output_tcp_port] = 5961
+    template_variables[:output_udp_host] = elk_nodes.split(',').first
+    template_variables[:output_udp_port] = 5962
+
+# if flag is set *and* key & cert are available
+elsif node['elkstack']['config']['agent_protocol'] == 'lumberjack' && lumberjack_keypair
   my_templates['output_lumberjack'] = 'logstash/output_lumberjack.conf.erb'
   template_variables['output_lumberjack_ssl_certificate'] = "#{node['logstash']['instance_default']['basedir']}/lumberjack.crt"
   # template_variables['output_lumberjack_ssl_key'] = "#{node['logstash']['instance_default']['basedir']}/lumberjack.key"

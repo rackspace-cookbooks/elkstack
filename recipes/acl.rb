@@ -11,6 +11,8 @@ add_iptables_rule('INPUT', '-i lo -j ACCEPT', 9900, 'allow services on loopback 
 # main point of elkstack, open syslog and lumberjack ports
 add_iptables_rule('INPUT', '-p tcp --dport 5959 -j ACCEPT', 9997, 'allow syslog entries inbound')
 add_iptables_rule('INPUT', '-p tcp --dport 5960 -j ACCEPT', 9997, 'allow lumberjack protocol inbound')
+add_iptables_rule('INPUT', '-p tcp --dport 5961 -j ACCEPT', 9997, 'allow tcp protocol inbound')
+add_iptables_rule('INPUT', '-p tcp --dport 5962 -j ACCEPT', 9997, 'allow udp protocol inbound')
 
 should_cluster = node.deep_fetch('elkstack', 'config', 'cluster')
 if !should_cluster.nil? && should_cluster

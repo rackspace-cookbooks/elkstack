@@ -7,6 +7,9 @@ default['elkstack']['config']['logstash']['agent_name'] = 'agent'
 # default to not running the cluster search recipe
 default['elkstack']['config']['cluster'] = false
 
+# attempt to use lumberjack protocol for java agents?
+default['elkstack']['config']['agent_protocol'] = 'tcp_udp' # could also be lumberjack
+
 # attempt to use performance cloud data disk
 default['elkstack']['config']['data_disk']['disk_config_type'] = false
 

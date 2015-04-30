@@ -1,0 +1,12 @@
+input {
+  tcp {
+    port => "<%= @input_tcp_port %>"
+    host => "<%= @input_tcp_host %>"
+  }
+}
+
+filter {
+  mutate {
+    replace => [ "input_chef_environment", "<%= @chef_environment %>" ]
+  }
+}
