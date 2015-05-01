@@ -22,9 +22,9 @@ upstream attributes have been exposed/overriden for our needs.
 
 - This cookbook requires java. Because not everyone has the same desires for
 java versions, concurrently installed versions, or particular vendor versions,
-this cookbook simply assumes you have already satisfied this requirement. If you
-want just 'some java', feel free to use the `::java` recipe and it will include
-the community java cookbook with default values.
+this cookbook simply assumes you have already satisfied this requirement. This
+cookbook _does_ ship with default attributes to make the community cookbook use
+Java 7 over the default of Java 6.
 
 - You must update your Berksfile to use this cookbook. Due to the upstream
 changes constantly occuring, you should consult the `Berksfile` in this cookbook
@@ -267,12 +267,6 @@ as the amount of JVM heap. See `attributes/default.rb` for those settings.
 Leans on the upstream `lusis/chef-kibana` cookbook for most of its work. Sets up
 an nginx site for kibana by default. By default, it also does not pass through
 most of the http paths directly to elasticsearch (whitelist).
-
-### elkstack::java
-
-Wrapper for a java recipe. This is not included on the run list normally, so if
-you don't already, you must include this recipe or get another JVM installed
-before including anything else in this cookbook.
 
 ### elkstack::newrelic
 

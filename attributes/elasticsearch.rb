@@ -36,3 +36,6 @@ default['elasticsearch']['discovery']['zen']['ping']['multicast']['enabled'] = f
 
 # in order to use kibana, we must enable dynamic scripting
 default['elasticsearch']['custom_config']['script.disable_dynamic'] = false
+
+# get on a much newer java, required by ES
+default['java']['jdk_version']           = '7' # newer ES requires

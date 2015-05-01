@@ -68,19 +68,19 @@ platforms:
 suites:
   - name: default # server
     run_list:
-      - recipe[elkstack::java]
+      - recipe[java::default]
       - recipe[elkstack::default]
 
   - name: agent # java agent with server
     run_list:
       - recipe[wrapper::logstash_override]
-      - recipe[elkstack::java]
+      - recipe[java::default]
       - recipe[elkstack::agent]
 
   - name: forwarder # alternative golang agent with server
     data_bags_path: "test/integration/forwarder/data_bags"
     encrypted_data_bag_secret_key_path: "test/integration/forwarder/encrypted_data_bag_secret"
     run_list:
-      - recipe[elkstack::java]
+      - recipe[java::default]
       - recipe[elkstack::default]
       - recipe[elkstack::forwarder]

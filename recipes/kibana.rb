@@ -75,8 +75,6 @@ template kibana_config do
 end
 
 if install_type == 'file'
-
-  include_recipe 'java::default' if node['kibana']['install_java']
   include_recipe 'runit::default'
 
   runit_service 'kibana' do
