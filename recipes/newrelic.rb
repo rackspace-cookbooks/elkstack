@@ -23,13 +23,6 @@ unless node['newrelic']['license'].nil?
 
   user node['newrelic_meetme_plugin']['user']
 
-  include_recipe 'python::package'
-  include_recipe 'python::pip'
-  python_pip 'setuptools' do
-    action :upgrade
-    version node['python']['setuptools_version']
-  end
-
-  include_recipe 'python'
+  include_recipe 'stack_commons::python'
   include_recipe 'newrelic_meetme_plugin'
 end
