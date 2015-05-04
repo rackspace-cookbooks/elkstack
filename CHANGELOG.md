@@ -1,3 +1,20 @@
+# 5.0.0
+
+- Remove the kibana.yml Kibana 4 workaround, now that kibana works again out of the box.
+- Stop shipping Java wrappers. You must include `java::default` or get Java some other way, fixes #138.
+- Clean up Berksfile. Many dependencies have since been fixed and/or released to Supermarket.
+- Move back to logstash-forwarder pkg repos and removes golang deps. Fixes #139.
+- Stop making a distinction between a cluster install vs. a single all-in-one install without any agent, fixes #135.
+- Merge default and cluster and single recipes. Default is now a clustered elkstack.
+- Tags and search/discovery all operate off 'elkstack' tag. There is no more 'elkstack_cluster' tag.
+- Fixed some of the rspec/chefspec unit tests as well.
+- The lumberjack protocol will no longer be the default for Logstash to communicate, due to hosted chef changes and golang runtime SSL changes (fixes #56, #14).
+- Don't test the lumberjack protocol with the server install by default, removes lumberjack test suite in .kitchen.yml
+- Default to tcp/udp for communication between logstash instances, added flag:
+     `node['elkstack']['config']['agent_protocol'] = 'tcp_udp' # could also be lumberjack`
+- Don't try to load lumberjack secrets by default for agent, don't fail if they aren't present (rename recipes/_secrets.rb -> recipes/_lumberjack_secrets.rb)
+- Remove tests for lumberjack.key/crt now from default test suites, remove extra data bags with lumberjack keypairs
+
 # 4.2.3
 
 - Update kibana configuration file to support more kibana 4 parameter names
