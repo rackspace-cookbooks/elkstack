@@ -13,7 +13,7 @@
       "elasticsearch"
     ],
     "tags": [
-      "elkstack_cluster"
+      "elkstack"
     ]
   },
   "normal": {

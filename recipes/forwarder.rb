@@ -9,15 +9,12 @@
 # base stack requirements for an all-in-one node
 include_recipe 'elkstack::_base'
 include_recipe 'chef-sugar'
-include_recipe 'golang'
 
 # override logstash values with forwarder ones, ensure directory exists, for _secrets.rb
-node.set['logstash']['instance_default']['user'] = node['logstash_forwarder']['user']
-node.set['logstash']['instance_default']['group'] = node['logstash_forwarder']['user']
 directory node['logstash']['instance_default']['basedir'] do
   user node['logstash']['instance_default']['user']
   group node['logstash']['instance_default']['group']
-  mode 0700
+  mode 0755
 end
 
 # find central servers and configure appropriately
@@ -31,26 +28,29 @@ elk_nodes.split(',').each do |new_node|
 end
 node.set['logstash_forwarder']['config']['network']['servers'] = forwarder_servers
 
-include_recipe 'elkstack::_secrets'
+include_recipe 'elkstack::_lumberjack_secrets'
 unless node.run_state['lumberjack_decoded_certificate'].nil? || node.run_state['lumberjack_decoded_certificate'].nil?
   node.set['logstash_forwarder']['config']['network']['ssl certificate'] = "#{node['logstash']['instance_default']['basedir']}/lumberjack.crt"
   node.set['logstash_forwarder']['config']['network']['ssl key'] = "#{node['logstash']['instance_default']['basedir']}/lumberjack.key"
   node.set['logstash_forwarder']['config']['network']['ssl ca'] = "#{node['logstash']['instance_default']['basedir']}/lumberjack.crt"
 end
 
-git node['logstash_forwarder']['app_dir'] do
-  repository node['logstash_forwarder']['git_repo']
-  revision node['logstash_forwarder']['git_revision']
-  action :checkout
-end
+case node['platform_family']
+when 'debian'
+  apt_repository 'logstash-forwarder' do
+    uri 'http://packages.elasticsearch.org/logstashforwarder/debian'
+    components ['stable', 'main']
+    key 'http://packages.elasticsearch.org/GPG-KEY-elasticsearch'
+  end
+  package 'logstash-forwarder'
+when 'rhel'
+  yum_repository 'logstash-forwarder' do
+    description 'logstash forwarder'
+    baseurl 'http://packages.elasticsearch.org/logstashforwarder/centos'
+    gpgkey 'http://packages.elasticsearch.org/GPG-KEY-elasticsearch'
+  end
 
-execute 'build_logstash_forwarder' do
-  cwd node['logstash_forwarder']['app_dir']
-  command '/usr/local/go/bin/go build'
-  action :run
-  user 'root'
-  group 'root'
-  not_if { ::File.exist?("#{node['logstash_forwarder']['app_dir']}/logstash-forwarder") }
+  package 'logstash-forwarder'
 end
 
 cookbook_file '/etc/init.d/logstash-forwarder' do

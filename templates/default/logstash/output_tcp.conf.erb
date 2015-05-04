@@ -1,0 +1,12 @@
+filter {
+  mutate {
+    replace => [ "output_chef_environment", "<%= @chef_environment %>" ]
+  }
+}
+
+output {
+  tcp {
+    port => "<%= @output_tcp_port %>"
+    host => "<%= @output_tcp_host %>"
+  }
+}

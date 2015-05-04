@@ -2,7 +2,7 @@
 
 require_relative 'spec_helper'
 
-describe 'elkstack::cluster' do
+describe 'elkstack::default' do
   let(:chef_run) do
     stub_resources
     ChefSpec::SoloRunner.new(platform: 'redhat', version: '6.5') do |node|

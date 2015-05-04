@@ -15,7 +15,6 @@ describe 'elkstack::agent' do
       node.set['rackspace']['cloud_credentials']['api_key'] = '123abc'
       node.set['filesystem'] = []
 
-      node.set['elkstack']['config']['cluster'] = false
       node.set['elkstack']['config']['iptables'] = false
       node.set['elasticsearch']['discovery']['zen']['ping']['unicast']['hosts'] = '127.0.0.1'
     end.converge(described_recipe)

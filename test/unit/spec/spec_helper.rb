@@ -13,7 +13,7 @@ def stub_resources
   allow(Chef::Search::Query).to receive(:new).and_return(chef_search_query)
 
   # elkstack search
-  elk_query_str = 'tags:elkstack_cluster AND chef_environment:_default AND elasticsearch_cluster_name:elasticsearch AND NOT name:fauxhai.local'
+  elk_query_str = 'tags:elkstack AND chef_environment:_default AND elasticsearch_cluster_name:elasticsearch AND NOT name:fauxhai.local'
   allow(chef_search_query).to receive(:search).with(:node, elk_query_str).and_return({}) # stub this search
 
   # logstash search

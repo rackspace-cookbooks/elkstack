@@ -2,7 +2,7 @@
 
 require_relative 'spec_helper'
 
-describe 'elkstack::cluster' do
+describe 'elkstack::default' do
   let(:chef_run) do
     ChefSpec::SoloRunner.new(platform: 'redhat', version: '6.5') do |node|
       stub_resources
@@ -15,7 +15,6 @@ describe 'elkstack::cluster' do
       node.set['rackspace']['cloud_credentials']['api_key'] = '123abc'
       node.set['filesystem'] = []
 
-      node.set['elkstack']['config']['cluster'] = false
       node.set['elkstack']['config']['iptables'] = false
     end.converge(described_recipe)
   end

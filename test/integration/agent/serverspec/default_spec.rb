@@ -34,16 +34,6 @@ describe 'logstash had a valid configuration file that passes its own checks' do
   describe command('/opt/logstash/agent/bin/logstash agent -f /opt/logstash/agent/etc/conf.d/ -t 2>&1 | grep -s "Configuration OK"') do
     its(:exit_status) { should eq 0 }
   end
-
-  describe 'lumberjack keypair' do
-    describe file('/opt/logstash/lumberjack.crt') do
-      it { should be_file }
-    end
-
-    describe file('/opt/logstash/lumberjack.key') do
-      it { should be_file }
-    end
-  end
 end
 
 describe 'on supplying a custom logstash configuration file' do

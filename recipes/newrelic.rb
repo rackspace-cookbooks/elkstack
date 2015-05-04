@@ -8,7 +8,7 @@
 
 unless node['newrelic']['license'].nil?
   node.default['newrelic_meetme_plugin']['license'] = node['newrelic']['license']
-  if tagged?('elkstack') || tagged?('elkstack_cluster')
+  if tagged?('elkstack')
     node.override['newrelic_meetme_plugin']['services'] = {
       'elasticsearch' => {
         'name' => node['elasticsearch']['cluster']['name'],
@@ -23,13 +23,6 @@ unless node['newrelic']['license'].nil?
 
   user node['newrelic_meetme_plugin']['user']
 
-  include_recipe 'python::package'
-  include_recipe 'python::pip'
-  python_pip 'setuptools' do
-    action :upgrade
-    version node['python']['setuptools_version']
-  end
-
-  include_recipe 'python'
+  include_recipe 'stack_commons::python'
   include_recipe 'newrelic_meetme_plugin'
 end

@@ -22,9 +22,9 @@ upstream attributes have been exposed/overriden for our needs.
 
 - This cookbook requires java. Because not everyone has the same desires for
 java versions, concurrently installed versions, or particular vendor versions,
-this cookbook simply assumes you have already satisfied this requirement. If you
-want just 'some java', feel free to use the `::java` recipe and it will include
-the community java cookbook with default values.
+this cookbook simply assumes you have already satisfied this requirement. This
+cookbook _does_ ship with default attributes to make the community cookbook use
+Java 7 over the default of Java 6.
 
 - You must update your Berksfile to use this cookbook. Due to the upstream
 changes constantly occuring, you should consult the `Berksfile` in this cookbook
@@ -114,12 +114,6 @@ CentOS 6.5
     <td>String</td>
     <td>Default logstash instance name</td>
     <td><tt>server</tt></td>
-  </tr>
-  <tr>
-    <td><tt>['elkstack']['config']['cluster']</tt></td>
-    <td>Boolean</td>
-    <td>Whether to search for and connect Elasticsearch to cluster nodes</td>
-    <td><tt>false</tt></td>
   </tr>
   <tr>
     <td><tt>['elasticsearch']['discovery']['search_query']</tt></td>
@@ -228,19 +222,9 @@ To override anything else, set the appropriate node hash (`logstash`, `kibana`, 
 
 ### elkstack::default
 
-Default recipe, does not do anything.
-
-### elkstack::single
-
 A simple wrapper recipe that sets up Elasticsearch, Logstash, and Kibana. Also
 configures an rsyslog sink into logstash on the local box. Everything except
 Logstash and Kibana is locked down to listen only on localhost.
-
-### elkstack::cluster
-
-A simple wrapper recipe that sets up Elasticsearch, Logstash, and Kibana. Also
-configures an rsyslog sink into logstash on the local box. Sets the cluster flag
-so that the elasticsearch recipe builds it in a cluster-friendly way.
 
 ### elkstack::agent
 
@@ -284,18 +268,11 @@ Leans on the upstream `lusis/chef-kibana` cookbook for most of its work. Sets up
 an nginx site for kibana by default. By default, it also does not pass through
 most of the http paths directly to elasticsearch (whitelist).
 
-### elkstack::java
-
-Wrapper for a java recipe. This is not included on the run list normally, so if
-you don't already, you must include this recipe or get another JVM installed
-before including anything else in this cookbook.
-
 ### elkstack::newrelic
 
 Validates if there is a newrelic license set and based on that, see if the node
-is tagged as 'elkstack' or 'elkstack_cluster' and creates a file with
-elasticsearch details. Installs python, pip and setuptools packages in order to
-support newrelic_meetme_plugin
+is tagged as 'elkstack' and creates a file with elasticsearch details. Installs
+python, pip and setuptools packages in order to support newrelic_meetme_plugin
 
 ## elkstack::acl
 

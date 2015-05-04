@@ -3,10 +3,6 @@ default['logstash_forwarder']['config_file'] = '/etc/logstash-forwarder'
 default['logstash_forwarder']['user'] = 'root'
 default['logstash_forwarder']['group'] = 'root'
 
-default['logstash_forwarder']['app_dir'] = '/opt/logstash-forwarder'
-default['logstash_forwarder']['git_repo'] = 'https://github.com/elastic/logstash-forwarder.git'
-default['logstash_forwarder']['git_revision'] = 'v0.3.1'
-
 default['logstash_forwarder']['config']['network']['servers'] = []
 default['logstash_forwarder']['config']['network']['ssl certificate'] = './logstash-forwarder.crt'
 default['logstash_forwarder']['config']['network']['ssl key'] = './logstash-forwarder.key'

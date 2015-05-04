@@ -75,8 +75,6 @@ template kibana_config do
 end
 
 if install_type == 'file'
-
-  include_recipe 'java::default' if node['kibana']['install_java']
   include_recipe 'runit::default'
 
   runit_service 'kibana' do
@@ -104,9 +102,6 @@ kibana_web 'kibana' do
   not_if { node['kibana']['webserver'] == '' }
 end
 # end replaces 'kibana::install'
-
-# see https://github.com/rackspace-cookbooks/elkstack/issues/103
-include_recipe 'elkstack::kibana4_workarounds' if node['elkstack']['kibana4_workaround']
 
 # include_recipe 'nginx' # so service[nginx] exists, the one from the LWRP above is not created until runtime
 service 'nginx' do
