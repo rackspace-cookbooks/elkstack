@@ -47,25 +47,20 @@ else
   Chef::Log.warn('Unable to complete lumberjack keypair configuration')
 end
 
-logstash_basedir = node.deep_fetch('logstash', 'instance_default', 'basedir')
-attribute_name = "node['logstash']['instance_default']['basedir']"
-err_msg = "#{attribute_name} was not set; please ensure you are using the racker/chef-logstash version until lusis/chef-logstash/pull/336 is merged"
-fail err_msg unless logstash_basedir
-
 # if we had overrode basedir value, we'd need to use the new value here too
-file "#{logstash_basedir}/lumberjack.key" do
+file node['logstash_forwarder']['config']['network']['ssl key'] do
   content node.run_state['lumberjack_decoded_key']
-  owner node['logstash']['instance_default']['user']
-  group node['logstash']['instance_default']['group']
+  owner node['logstash_forwarder']['user']
+  group node['logstash_forwarder']['group']
   mode '0600'
   not_if { node.run_state['lumberjack_decoded_key'].nil? }
 end
 
 # if we had overrode basedir value, we'd need to use the new value here too
-file "#{logstash_basedir}/lumberjack.crt" do
+file node['logstash_forwarder']['config']['network']['ssl certificate'] do
   content node.run_state['lumberjack_decoded_certificate']
-  owner node['logstash']['instance_default']['user']
-  group node['logstash']['instance_default']['group']
+  owner node['logstash_forwarder']['user']
+  group node['logstash_forwarder']['group']
   mode '0600'
   not_if { node.run_state['lumberjack_decoded_certificate'].nil? }
 end

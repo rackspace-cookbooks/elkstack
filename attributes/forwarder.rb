@@ -4,9 +4,9 @@ default['logstash_forwarder']['user'] = 'root'
 default['logstash_forwarder']['group'] = 'root'
 
 default['logstash_forwarder']['config']['network']['servers'] = []
-default['logstash_forwarder']['config']['network']['ssl certificate'] = './logstash-forwarder.crt'
-default['logstash_forwarder']['config']['network']['ssl key'] = './logstash-forwarder.key'
-default['logstash_forwarder']['config']['network']['ssl ca'] = './logstash-forwarder.crt'
+default['logstash_forwarder']['config']['network']['ssl certificate'] = '/etc/lumberjack.crt'
+default['logstash_forwarder']['config']['network']['ssl key'] = '/etc/lumberjack.key'
+default['logstash_forwarder']['config']['network']['ssl ca'] = '/etc/lumberjack.crt'
 default['logstash_forwarder']['config']['network']['timeout'] = 15
 
 # we could glob for these patterns, e.g. "/var/log/*.log", but it picks up some of our non-syslog formatted stuff if we do

@@ -21,7 +21,7 @@ describe 'elkstack::agent' do
   end
 
   it 'creates lumberjack keypairs when no data bags exist' do
-    expect(chef_run).to create_file('/opt/logstash/lumberjack.key')
-    expect(chef_run).to create_file('/opt/logstash/lumberjack.crt')
+    expect(chef_run).to_not create_file('/etc/lumberjack.key')
+    expect(chef_run).to_not create_file('/etc/lumberjack.crt')
   end
 end

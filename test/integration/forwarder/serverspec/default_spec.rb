@@ -16,20 +16,20 @@ describe 'logstash-forwarder service' do
 end
 
 describe 'lumberjack keypair' do
-  describe file('/opt/logstash/lumberjack.crt') do
+  describe file('/etc/lumberjack.crt') do
     it { should be_file }
   end
 
-  describe file('/opt/logstash/lumberjack.key') do
+  describe file('/etc/lumberjack.key') do
     it { should be_file }
   end
 end
 
 describe file('/etc/logstash-forwarder') do
   it { should be_file }
-  it { should contain '"ssl certificate": "/opt/logstash/lumberjack.crt"' }
-  it { should contain '"ssl key": "/opt/logstash/lumberjack.key"' }
-  it { should contain '"ssl ca": "/opt/logstash/lumberjack.crt"' }
+  it { should contain '"ssl certificate": "/etc/lumberjack.crt"' }
+  it { should contain '"ssl key": "/etc/lumberjack.key"' }
+  it { should contain '"ssl ca": "/etc/lumberjack.crt"' }
 
   it { should contain '"1.2.3.4:5960"' }
   it { should contain '"1.2.3.5:5960"' }
