@@ -1,3 +1,7 @@
+# 5.0.1
+
+- Move default lumberjack certs/keys to /etc from /opt/logstash, RE: #145.
+
 # 5.0.0
 
 - Remove the kibana.yml Kibana 4 workaround, now that kibana works again out of the box.
