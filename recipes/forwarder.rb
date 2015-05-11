@@ -10,13 +10,6 @@
 include_recipe 'elkstack::_base'
 include_recipe 'chef-sugar'
 
-# override logstash values with forwarder ones, ensure directory exists, for _secrets.rb
-directory node['logstash']['instance_default']['basedir'] do
-  user node['logstash']['instance_default']['user']
-  group node['logstash']['instance_default']['group']
-  mode 0755
-end
-
 # find central servers and configure appropriately
 include_recipe 'elasticsearch::search_discovery'
 elk_nodes = node['elasticsearch']['discovery']['zen']['ping']['unicast']['hosts']
@@ -30,9 +23,9 @@ node.set['logstash_forwarder']['config']['network']['servers'] = forwarder_serve
 
 include_recipe 'elkstack::_lumberjack_secrets'
 unless node.run_state['lumberjack_decoded_certificate'].nil? || node.run_state['lumberjack_decoded_certificate'].nil?
-  node.set['logstash_forwarder']['config']['network']['ssl certificate'] = "#{node['logstash']['instance_default']['basedir']}/lumberjack.crt"
-  node.set['logstash_forwarder']['config']['network']['ssl key'] = "#{node['logstash']['instance_default']['basedir']}/lumberjack.key"
-  node.set['logstash_forwarder']['config']['network']['ssl ca'] = "#{node['logstash']['instance_default']['basedir']}/lumberjack.crt"
+  node.set['logstash_forwarder']['config']['network']['ssl certificate'] = '/etc/lumberjack.crt'
+  node.set['logstash_forwarder']['config']['network']['ssl key'] = '/etc/lumberjack.key'
+  node.set['logstash_forwarder']['config']['network']['ssl ca'] = '/etc/lumberjack.crt'
 end
 
 case node['platform_family']

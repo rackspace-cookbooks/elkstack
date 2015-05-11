@@ -81,6 +81,4 @@ suites:
     data_bags_path: "test/integration/forwarder/data_bags"
     encrypted_data_bag_secret_key_path: "test/integration/forwarder/encrypted_data_bag_secret"
     run_list:
-      - recipe[java::default]
-      - recipe[elkstack::default]
       - recipe[elkstack::forwarder]

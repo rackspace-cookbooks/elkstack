@@ -22,15 +22,17 @@ describe 'elkstack::forwarder' do
   it 'create service for the forwarder' do
     expect(chef_run).to enable_service('logstash-forwarder')
     expect(chef_run).to start_service('logstash-forwarder')
+    expect(chef_run).to render_file('/etc/init.d/logstash-forwarder')
   end
 
   it 'creates lumberjack key and certificate files' do
-    expect(chef_run).to create_file('/opt/logstash/lumberjack.key')
-    expect(chef_run).to create_file('/opt/logstash/lumberjack.crt')
+    expect(chef_run).to create_file('/etc/lumberjack.key')
+    expect(chef_run).to create_file('/etc/lumberjack.crt')
   end
 
   it 'installs logstash-forwarder pkg' do
     expect(chef_run).to install_package('logstash-forwarder')
+    expect(chef_run).to add_apt_repository('logstash-forwarder')
   end
 
   it 'creates logstash-forwarder configuration file' do
