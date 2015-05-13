@@ -48,19 +48,19 @@ else
 end
 
 # if we had overrode basedir value, we'd need to use the new value here too
-file node['logstash_forwarder']['config']['network']['ssl key'] do
+file node['lumberjack']['ssl key'] do
   content node.run_state['lumberjack_decoded_key']
-  owner node['logstash_forwarder']['user']
-  group node['logstash_forwarder']['group']
+  owner node['lumberjack']['user']
+  group node['lumberjack']['group']
   mode '0600'
   not_if { node.run_state['lumberjack_decoded_key'].nil? }
 end
 
 # if we had overrode basedir value, we'd need to use the new value here too
-file node['logstash_forwarder']['config']['network']['ssl certificate'] do
+file node['lumberjack']['ssl certificate'] do
   content node.run_state['lumberjack_decoded_certificate']
-  owner node['logstash_forwarder']['user']
-  group node['logstash_forwarder']['group']
+  owner node['lumberjack']['user']
+  group node['lumberjack']['group']
   mode '0600'
   not_if { node.run_state['lumberjack_decoded_certificate'].nil? }
 end

@@ -11,15 +11,20 @@ include_recipe 'elkstack::_base'
 include_recipe 'chef-sugar'
 
 # find central servers and configure appropriately
-include_recipe 'elasticsearch::search_discovery'
-elk_nodes = node['elasticsearch']['discovery']['zen']['ping']['unicast']['hosts']
-elk_nodes = [] if elk_nodes.nil?
+#include_recipe 'elasticsearch::search_discovery'
+#elk_nodes = node['elasticsearch']['discovery']['zen']['ping']['unicast']['hosts']
+#elk_nodes = [] if elk_nodes.nil?
 
-forwarder_servers = []
-elk_nodes.split(',').each do |new_node|
-  forwarder_servers << "#{new_node}:5960"
-end
-node.set['logstash_forwarder']['config']['network']['servers'] = forwarder_servers
+#forwarder_servers = []
+#elk_nodes.split(',').each do |new_node|
+#  forwarder_servers << "#{new_node}:5960"
+#end
+#node.set['logstash_forwarder']['config']['network']['servers'] = forwarder_servers
+
+node.set['lumberjack']['ssl key'] = node['logstash_forwarder']['config']['network']['ssl key']
+node.set['lumberjack']['ssl certificate'] = node['logstash_forwarder']['config']['network']['ssl certificate']
+node.set['lumberjack']['user'] = node['logstash_forwarder']['user']
+node.set['lumberjack']['group'] = node['logstash_forwarder']['group']
 
 include_recipe 'elkstack::_lumberjack_secrets'
 unless node.run_state['lumberjack_decoded_certificate'].nil? || node.run_state['lumberjack_decoded_certificate'].nil?

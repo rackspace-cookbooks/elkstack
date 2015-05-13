@@ -48,6 +48,13 @@ template_variables = {
   chef_environment: node.chef_environment
 }
 
+
+
+node.set['lumberjack']['ssl key'] = "#{node['logstash']['instance_default']['basedir']}/lumberjack.key"
+node.set['lumberjack']['ssl certificate'] = "#{node['logstash']['instance_default']['basedir']}/lumberjack.crt"
+node.set['lumberjack']['user'] = node['logstash']['instance_default']['user']
+node.set['lumberjack']['group'] = node['logstash']['instance_default']['group']
+
 # also receive lumberjack if a keypair is available
 include_recipe 'elkstack::_lumberjack_secrets'
 unless node.run_state['lumberjack_decoded_certificate'].nil? || node.run_state['lumberjack_decoded_certificate'].nil?
