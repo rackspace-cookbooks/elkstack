@@ -6,6 +6,7 @@
 # Copyright 2014, Rackspace
 #
 
+include_recipe 'chef-sugar'
 add_iptables_rule('INPUT', '-i lo -j ACCEPT', 9900, 'allow services on loopback to talk to any interface')
 
 # main point of elkstack, open syslog and lumberjack ports
@@ -14,8 +15,10 @@ add_iptables_rule('INPUT', '-p tcp --dport 5960 -j ACCEPT', 9997, 'allow lumberj
 add_iptables_rule('INPUT', '-p tcp --dport 5961 -j ACCEPT', 9997, 'allow tcp protocol inbound')
 add_iptables_rule('INPUT', '-p tcp --dport 5962 -j ACCEPT', 9997, 'allow udp protocol inbound')
 
-include_recipe 'elasticsearch::search_discovery'
-es_nodes = node['elasticsearch']['discovery']['zen']['ping']['unicast']['hosts']
+include_recipe 'elasticsearch::search_discovery' unless Chef::Config[:solo]
+es_nodes = node.deep_fetch('elasticsearch', 'discovery', 'zen', 'ping', 'unicast', 'hosts')
+es_nodes = '' if es_nodes.nil?
+
 es_nodes.split(',').each do |host|
   add_iptables_rule('INPUT', "-p tcp -s #{host} --dport 9300 -j ACCEPT", 9996, "allow ES host #{host} to connect")
 end

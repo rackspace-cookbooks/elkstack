@@ -11,9 +11,9 @@ include_recipe 'elkstack::_base'
 include_recipe 'chef-sugar'
 
 # find central servers and configure appropriately
-include_recipe 'elasticsearch::search_discovery'
-elk_nodes = node['elasticsearch']['discovery']['zen']['ping']['unicast']['hosts']
-elk_nodes = [] if elk_nodes.nil?
+include_recipe 'elasticsearch::search_discovery' unless Chef::Config[:solo]
+elk_nodes = node.deep_fetch('elasticsearch', 'discovery', 'zen', 'ping', 'unicast', 'hosts')
+elk_nodes = '' if elk_nodes.nil?
 
 forwarder_servers = []
 elk_nodes.split(',').each do |new_node|
