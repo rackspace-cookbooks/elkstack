@@ -1,3 +1,7 @@
+# 5.0.2
+
+- Make elkstack more chef-solo friendly. We now check for solo before doing includes of elasticsearch::search_discovery, as well as better error checking on empty values when search has not been used, RE: #144.
+
 # 5.0.1
 
 - Move default lumberjack certs/keys to /etc from /opt/logstash, RE: #145.
