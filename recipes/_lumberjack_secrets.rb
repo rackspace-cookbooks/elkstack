@@ -37,8 +37,8 @@ end
 
 # now try to use the data bag
 if !lumberjack_secrets.nil? && lumberjack_secrets['key'] && lumberjack_secrets['certificate']
-  node.run_state['lumberjack_decoded_key'] = Base64.decode64(lumberjack_secrets['key'])
-  node.run_state['lumberjack_decoded_certificate'] = Base64.decode64(lumberjack_secrets['certificate'])
+  node.run_state['lumberjack_decoded_key'] = Base64.decode64(lumberjack_secrets['key'].to_s)
+  node.run_state['lumberjack_decoded_certificate'] = Base64.decode64(lumberjack_secrets['certificate'].to_s)
 elsif !lumberjack_secrets.nil?
   Chef::Log.warn('Found a data bag for lumberjack secrets, but it was missing \'key\' and \'certificate\' data bag items')
 elsif lumberjack_secrets.nil?
