@@ -14,5 +14,5 @@ include_recipe 'build-essential'
 
 include_recipe 'chef-sugar'
 
-# everybody loves python! (this is a shortening of python::default)
-include_recipe 'stack_commons::python'
+# everybody loves python! (this is a shortening(with fix) of python::default)
+include_recipe 'elkstack::_python'

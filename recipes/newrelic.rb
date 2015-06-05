@@ -23,6 +23,6 @@ unless node['newrelic']['license'].nil?
 
   user node['newrelic_meetme_plugin']['user']
 
-  include_recipe 'stack_commons::python'
+  include_recipe 'elkstack::_python'
   include_recipe 'newrelic_meetme_plugin'
 end
