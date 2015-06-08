@@ -20,7 +20,10 @@ depends 'openssl'
 depends 'newrelic_meetme_plugin'
 depends 'nginx'
 depends 'platformstack'
+depends 'python'
 depends 'rsyslog'
 depends 'runit'
-depends 'stack_commons', '>= 0.0.39'
 depends 'yum'
+
+# Pinned down poise waiting for https://github.com/lusis/chef-kibana/pull/91
+depends 'poise', '~> 1.0.12'
