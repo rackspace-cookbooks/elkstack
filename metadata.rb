@@ -24,6 +24,3 @@ depends 'python'
 depends 'rsyslog'
 depends 'runit'
 depends 'yum'
-
-# Pinned down poise waiting for https://github.com/lusis/chef-kibana/pull/91
-depends 'poise', '~> 1.0.12'
