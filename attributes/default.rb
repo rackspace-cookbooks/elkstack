@@ -16,8 +16,9 @@ default['elkstack']['config']['backups']['enabled'] = true
 # setup a backup in cron.d?
 default['elkstack']['config']['backups']['cron'] = true
 
-# default to include iptables rules
-default['elkstack']['config']['iptables'] = true
+# default to not include iptables rules
+default['elkstack']['config']['iptables']['enabled'] = false
+
 
 # default vhost stuff and SSL cert/key name
 default['elkstack']['config']['site_name'] = 'kibana'

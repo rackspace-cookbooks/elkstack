@@ -51,6 +51,8 @@ provisioner:
           minimum_master_nodes: 1 # since search returns more than one, but they are fake
     elkstack:
       config:
+        iptables:
+          enabled: true
         kibana:
           password: 'kibana'
 
