@@ -134,7 +134,19 @@ CentOS 6.5
     <td><tt>false</tt></td>
   </tr>
   <tr>
-    <td><tt>['elkstack']['config']['iptables']</tt></td>
+    <td><tt>['elkstack']['config']['agent']['enabled']</tt></td>
+    <td>Boolean</td>
+    <td>Enable/Disable agent functionality</td>
+    <td><tt>true</tt></td>
+  </tr>
+  <tr>
+    <td><tt>['elkstack']['config']['cloud_monitoring']['enabled']</tt></td>
+    <td>Boolean</td>
+    <td>Enable/Disable cloud_monitoring functionality</td>
+    <td><tt>true</tt></td>
+  </tr>
+  <tr>
+    <td><tt>['elkstack']['config']['iptables']['enabled']</tt></td>
     <td>Boolean</td>
     <td>Enable/Disable iptables functionality</td>
     <td><tt>true</tt></td>
@@ -211,11 +223,6 @@ your cookbook using `['kibana']['nginx']['template_cookbook']` and
 `['kibana']['nginx']['template']`. You can also override just the password for
 the reverse proxy using `node.run_state['elkstack_kibana_password']`.
 
-By default, platformstack will call the ``::agent` recipe here. If you have a
-need for the forwarder recipe instead, just please note that you should turn off
-the platformstack flag for logging, and include the `elkstack::agent` recipe
-directly.
-
 To override anything else, set the appropriate node hash (`logstash`, `kibana`, or `elasticsearch`).
 
 ## Usage
@@ -230,14 +237,15 @@ Logstash and Kibana is locked down to listen only on localhost.
 
 A simple wrapper recipe that sets up a logstash agent on the local box. Also
 configures an rsyslog sink into logstash on the local box.
+You need `node['elkstack']['config']['agent']['enabled']` set to `true` if you want to use this recipe (default to true).
 
 ### elkstack::forwarder
 
-A [go-based alternative](https://github.com/elastic/logstash-forwarder) to the normal 
-agent, configured simply to watch logs forward them directly on to the cluster. This 
-project is in heavy development, and is not publishing releases very often, so the 
-packaged versions may be quite old or buggy. As of the addition of the recipe, the 
-package was almost a year behind current development, but only because there also 
+A [go-based alternative](https://github.com/elastic/logstash-forwarder) to the normal
+agent, configured simply to watch logs forward them directly on to the cluster. This
+project is in heavy development, and is not publishing releases very often, so the
+packaged versions may be quite old or buggy. As of the addition of the recipe, the
+package was almost a year behind current development, but only because there also
 had been no releases either.
 
 ### elkstack::elasticsearch
@@ -254,7 +262,7 @@ search criteria.
 Most of this is configurable using the upstream Elasticsearch cookbook's
 attributes, including the chef search itself. There is not an easy toggle to
 turn off the search, however.
-Enables iptables rules if `node['elkstack']['iptables']['enabled']` is not `nil`.
+Enables iptables rules if `node['elkstack']['config']['iptables']['enabled']` is not `nil`.
 
 ### elkstack::logstash
 
@@ -281,7 +289,7 @@ are set.
 
 ## elkstack::agent_acl
 
-Adds agent node basic iptables rules if appropriate attributes are set.
+Adds agent node basic iptables rules.
 
 ## elkstack::disk_setup
 
@@ -297,7 +305,7 @@ monitoring work to make the original recipes cleaner.
 The wrapper recipes are `single` and `cluster`. These change attributes and then
 invoke `elasticsearch`, `logstash`, `kibana`, and `rsyslog`. Finally, there are
 utility recipes like `java` and `newrelic` (not invoked otherwise), as well as
-`acl` which is called by `_base` if `node['elkstack']['iptables']['enabled']`.
+`acl` which is called by `_base` if `node['elkstack']['config']['iptables']['enabled']`.
 
 ## Contributing
 

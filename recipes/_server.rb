@@ -52,7 +52,7 @@ end
 # end nasty logic for logstash & kibana to find es
 
 # if iptables toggle is set, include host based firewall rules
-iptables_enabled = node.deep_fetch('elkstack', 'config', 'iptables')
+iptables_enabled = node.deep_fetch('elkstack', 'config', 'iptables', 'enabled')
 if !iptables_enabled.nil? && iptables_enabled
   include_recipe 'elkstack::acl'
 end

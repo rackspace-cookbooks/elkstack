@@ -12,9 +12,10 @@ describe 'elkstack::default' do
       node.set['chef_environment'] = '_default' # be a dummy env for htpasswd.curl
       node.set['rackspace']['cloud_credentials']['username'] = 'joe-test'
       node.set['rackspace']['cloud_credentials']['api_key'] = '123abc'
+      # enable cloud monitoring
+      node.set['elkstack']['config']['cloud_monitoring']['enabled'] = true
       node.set['filesystem'] = []
-    end.converge(described_recipe, 'platformstack::monitors')
-    # converge WITH platformstack so we can test our templates are created
+    end.converge(described_recipe)
   end
 
   it 'installs ruby' do
@@ -36,13 +37,13 @@ describe 'elkstack::default' do
     # it seems like this should exist, but it's done inside ruby lwrps, so maybe we can't test it
     # expect(chef_run).to append_if_no_line('make sure a line is in /etc/hosts')
 
-    expect(chef_run).to create_template('/etc/rackspace-monitoring-agent.conf.d/monitoring-service-tcp-elasticsearch-9200.yaml')
-    expect(chef_run).to create_template('/etc/rackspace-monitoring-agent.conf.d/monitoring-service-tcp-elasticsearch-9300.yaml')
+    expect(chef_run).to disable_rackspace_monitoring_check('tcp-elasticsearch-9200')
+    expect(chef_run).to disable_rackspace_monitoring_check('tcp-elasticsearch-9300')
   end
 
   it 'monitors nginx' do
-    expect(chef_run).to create_template('/etc/rackspace-monitoring-agent.conf.d/monitoring-service-tcp-monitor-nginx-80.yaml')
-    expect(chef_run).to create_template('/etc/rackspace-monitoring-agent.conf.d/monitoring-service-tcp-monitor-nginx-443.yaml')
+    expect(chef_run).to enable_rackspace_monitoring_check('tcp-nginx-80')
+    expect(chef_run).to enable_rackspace_monitoring_check('tcp-nginx-443')
   end
 
   it 'installs and configures logstash' do
@@ -57,7 +58,7 @@ describe 'elkstack::default' do
     # config lwrp
     expect(chef_run).to create_logstash_config('server')
 
-    expect(chef_run).to create_template('/etc/rackspace-monitoring-agent.conf.d/monitoring-service-tcp-monitor-logstash-5959.yaml')
+    expect(chef_run).to enable_rackspace_monitoring_check('tcp-logstash-5959')
 
     # we may eventually want some patterns defined
     # expect(chef_run).to create_logstash_pattern('server')

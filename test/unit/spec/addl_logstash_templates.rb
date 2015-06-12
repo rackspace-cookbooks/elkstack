@@ -10,7 +10,7 @@ describe 'elkstack::agent' do
       node.set['memory']['total'] = 4096
       node.set['public_info']['remote_ip'] = '127.0.0.1'
       node.set['filesystem'] = []
-      node.set['platformstack']['elkstack_logging']['enabled'] = true
+      node.set['elkstack']['config']['cloud_monitoring']['enabled'] = true
 
       # force a node to exist
       node.set['elasticsearch']['discovery']['zen']['ping']['unicast']['hosts'] = '127.0.0.1'
@@ -37,7 +37,7 @@ describe 'elkstack::logstash' do
       node.set['memory']['total'] = 4096
       node.set['public_info']['remote_ip'] = '127.0.0.1'
       node.set['filesystem'] = []
-      node.set['platformstack']['elkstack_logging']['enabled'] = true
+      node.set['elkstack']['config']['cloud_monitoring']['enabled'] = true
 
       # stub an additional template
       node.set['elkstack']['config']['custom_logstash']['name'] = ['foo']

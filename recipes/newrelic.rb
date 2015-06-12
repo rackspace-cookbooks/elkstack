@@ -6,7 +6,10 @@
 # Copyright 2014, Rackspace
 #
 
-unless node['newrelic']['license'].nil?
+include_recipe 'chef-sugar'
+newrelic_licence = node.deep_fetch('newrelic', 'license')
+
+if newrelic_licence && !newrelic_licence.nil?
   node.default['newrelic_meetme_plugin']['license'] = node['newrelic']['license']
   if tagged?('elkstack')
     node.override['newrelic_meetme_plugin']['services'] = {

@@ -1,6 +1,9 @@
 # the name for the logstash instance, affects initscript names and other things
 default['elkstack']['config']['logstash']['instance_name'] = 'server'
 
+# enable logging with logstash using ELK stack
+default['elkstack']['config']['agent']['enabled'] = true
+
 # the name for an agent logstash instance, affects initscript names and other things
 default['elkstack']['config']['logstash']['agent_name'] = 'agent'
 
@@ -16,8 +19,11 @@ default['elkstack']['config']['backups']['enabled'] = true
 # setup a backup in cron.d?
 default['elkstack']['config']['backups']['cron'] = true
 
-# default to include iptables rules
-default['elkstack']['config']['iptables'] = true
+# default to not include iptables rules
+default['elkstack']['config']['iptables']['enabled'] = false
+
+# default to not include rackspace monitoring
+default['elkstack']['config']['cloud_monitoring']['enabled'] = false
 
 # default vhost stuff and SSL cert/key name
 default['elkstack']['config']['site_name'] = 'kibana'
