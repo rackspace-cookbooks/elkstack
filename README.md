@@ -140,6 +140,12 @@ CentOS 6.5
     <td><tt>true</tt></td>
   </tr>
   <tr>
+    <td><tt>['elkstack']['config']['cloud_monitoring']['enabled']</tt></td>
+    <td>Boolean</td>
+    <td>Enable/Disable cloud_monitoring functionality</td>
+    <td><tt>true</tt></td>
+  </tr>
+  <tr>
     <td><tt>['elkstack']['config']['iptables']['enabled']</tt></td>
     <td>Boolean</td>
     <td>Enable/Disable iptables functionality</td>

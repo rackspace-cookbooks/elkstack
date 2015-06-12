@@ -84,3 +84,22 @@ suites:
     encrypted_data_bag_secret_key_path: "test/integration/forwarder/encrypted_data_bag_secret"
     run_list:
       - recipe[elkstack::forwarder]
+
+<% if ENV['RACKSPACE_MONITORING_USERNAME'] && ENV['RACKSPACE_MONITORING_API_KEY'] %>
+<%# Disabling backup as elasticsearch_backup seems to fail if you don't give the good credentials %>
+  - name: monitoring # server
+    run_list:
+      - recipe[java::default]
+      - recipe[elkstack::default]
+    attributes:
+      elkstack:
+        config:
+          backups:
+            enabled: false
+          cloud_monitoring:
+            enabled: true
+      rackspace:
+        cloud_credentials:
+          username: <%= ENV['RACKSPACE_MONITORING_USERNAME'] %>
+          api_key: <%= ENV['RACKSPACE_MONITORING_API_KEY'] %>
+<% end %>

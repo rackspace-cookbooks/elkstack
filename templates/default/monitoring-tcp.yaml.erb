@@ -3,7 +3,7 @@
 #
 
 type: remote.tcp
-label: Remote check for port <%= @port %>
+label: Remote check for port <%= @variables['port'] %>
 disabled: <%= @disabled %>
 period: <%= @period %>
 timeout: <%= @timeout %>
@@ -13,15 +13,15 @@ monitoring_zones_poll:
   - mzord
   - mziad
 details:
-  port: <%= @port %>
+  port: <%= @variables['port'] %>
 <% if @alarm %>
 alarms:
-  port-check-<%= @port %>:
-    label: Remote check for port <%= @port %>
+  port-check-<%= @variables['port'] %>:
+    label: Remote check for port <%= @variables['port'] %>
     notification_plan_id: npTechnicalContactsEmail
     criteria: |
       if (metric['tt_connect'] >= 1000) {
-        return new AlarmStatus(CRITICAL, 'Could not connect to port <%= @port %> within 1000 milliseconds.');
+        return new AlarmStatus(CRITICAL, 'Could not connect to port <%= @variables['port'] %> within 1000 milliseconds.');
       }
-      return new AlarmStatus(OK, 'Connected to port <%= @port %> within 1000 milliseconds.');
+      return new AlarmStatus(OK, 'Connected to port <%= @variables['port'] %> within 1000 milliseconds.');
 <% end %>

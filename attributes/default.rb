@@ -22,6 +22,8 @@ default['elkstack']['config']['backups']['cron'] = true
 # default to not include iptables rules
 default['elkstack']['config']['iptables']['enabled'] = false
 
+# default to not include rackspace monitoring
+default['elkstack']['config']['cloud_monitoring']['enabled'] = false
 
 # default vhost stuff and SSL cert/key name
 default['elkstack']['config']['site_name'] = 'kibana'
