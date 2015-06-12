@@ -10,17 +10,7 @@
 include_recipe 'elkstack::_base'
 agent_name = node['elkstack']['config']['logstash']['agent_name']
 
-# switch for platformstack
-enable_attr = node.deep_fetch('platformstack', 'elkstack_logging', 'enabled')
-logging_enabled = !enable_attr.nil? && enable_attr # ensure this is binary logic, not nil
-unless logging_enabled
-  Chef::Log.warn('Logging with logstash using ELK stack was explicitly enabled')
-end
-
-if enable_attr.nil?
-  Chef::Log.warn('Logging with logstash using ELK stack was implicitly enabled since platformstack is not on the runlist')
-  logging_enabled = enable_attr.nil?
-end
+logging_enabled = node['elkstack']['config']['agent']['enabled']
 
 # find central servers
 include_recipe 'elasticsearch::search_discovery' unless Chef::Config[:solo]

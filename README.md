@@ -134,6 +134,12 @@ CentOS 6.5
     <td><tt>false</tt></td>
   </tr>
   <tr>
+    <td><tt>['elkstack']['config']['agent']['enabled']</tt></td>
+    <td>Boolean</td>
+    <td>Enable/Disable agent functionality</td>
+    <td><tt>true</tt></td>
+  </tr>
+  <tr>
     <td><tt>['elkstack']['config']['iptables']['enabled']</tt></td>
     <td>Boolean</td>
     <td>Enable/Disable iptables functionality</td>
@@ -211,11 +217,6 @@ your cookbook using `['kibana']['nginx']['template_cookbook']` and
 `['kibana']['nginx']['template']`. You can also override just the password for
 the reverse proxy using `node.run_state['elkstack_kibana_password']`.
 
-By default, platformstack will call the ``::agent` recipe here. If you have a
-need for the forwarder recipe instead, just please note that you should turn off
-the platformstack flag for logging, and include the `elkstack::agent` recipe
-directly.
-
 To override anything else, set the appropriate node hash (`logstash`, `kibana`, or `elasticsearch`).
 
 ## Usage
@@ -230,6 +231,7 @@ Logstash and Kibana is locked down to listen only on localhost.
 
 A simple wrapper recipe that sets up a logstash agent on the local box. Also
 configures an rsyslog sink into logstash on the local box.
+You need `node['elkstack']['config']['agent']['enabled']` set to `true` if you want to use this recipe (default to true).
 
 ### elkstack::forwarder
 

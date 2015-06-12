@@ -1,6 +1,9 @@
 # the name for the logstash instance, affects initscript names and other things
 default['elkstack']['config']['logstash']['instance_name'] = 'server'
 
+# enable logging with logstash using ELK stack
+default['elkstack']['config']['agent']['enabled'] = true
+
 # the name for an agent logstash instance, affects initscript names and other things
 default['elkstack']['config']['logstash']['agent_name'] = 'agent'
 
