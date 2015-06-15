@@ -1,3 +1,13 @@
+# 6.0.0
+
+- Remove dependencies on stack_commons and platformstack.
+  * Platformstack attributes are not supported anymore
+  * ACL(iptables) are disabled by default
+  * `node['elkstack']['config']['iptables']` has been replaced by `node['elkstack']['config']['iptables']['enabled']` for concistency
+  * `node['elkstack']['config']['cloud_monitoring']['enabled']` should be used to enabled/disabled cloud monitoring
+  * `node['elkstack']['cloud_monitoring'][CHECK]['alarm']` is now a flag, `node['elkstack']['cloud_monitoring'][CHECK]['alarm_criteria']` should be used to configure the alarm itself.
+  * `node['elkstack']['cloud_monitoring'][CHECK]['period|timeout']` expects a FIXNUM
+
 # 5.0.2
 
 - Make elkstack more chef-solo friendly. We now check for solo before doing includes of elasticsearch::search_discovery, as well as better error checking on empty values when search has not been used, RE: #144.
