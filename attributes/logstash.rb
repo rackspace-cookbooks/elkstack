@@ -46,3 +46,4 @@ default_unless['elkstack']['config']['custom_logstash']['name'] = []
 # default['elkstack']['config']['custom_logstash'][<name>]['source'] = 'my_logstashconfig.conf.erb'
 # default['elkstack']['config']['custom_logstash'][<name>]['cookbook'] = 'your_cookbook'
 # default['elkstack']['config']['custom_logstash'][<name>]['variables'] = { :warning => 'foo' }
+

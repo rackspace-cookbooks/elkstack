@@ -10,7 +10,7 @@ server {
 
   <% if node['elkstack']['config']['kibana']['redirect'] %>
   if ( $scheme = http ){
-    rewrite ^ https://<%= @server_name %>$request_uri? permanent;
+    rewrite ^ https://$host$request_uri? permanent;
   }
   <% end %>
 
