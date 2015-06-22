@@ -22,16 +22,16 @@ describe command('/opt/logstash/server/bin/logstash agent -f /opt/logstash/serve
   its(:exit_status) { should eq 0 }
 end
 
-describe 'lumberjack keypairs forwarder and agent' do
-  describe file('/opt/logstash/server/lumberjack.crt') do
+describe 'lumberjack keypairs' do
+  describe file('/opt/logstash/lumberjack.crt') do
     it { should be_file }
   end
-  describe file('/opt/logstash/server/lumberjack.key') do
+  describe file('/opt/logstash/lumberjack.key') do
     it { should be_file }
   end
 end
 
 describe file('/opt/logstash/server/log/logstash.log') do
   it { should be_file }
-  it { should_not contain 'Permission denied - /etc/lumberjack' }
+  it { should_not contain 'Permission denied' }
 end

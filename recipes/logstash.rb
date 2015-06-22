@@ -49,7 +49,7 @@ template_variables = {
 }
 
 # set lumberjack key locations and perms
-node.default['lumberjack']['ssl_dir'] = '/opt/logstash/server'
+node.default['lumberjack']['ssl_dir'] = node['logstash']['instance_default']['basedir']
 node.default['lumberjack']['ssl_key_path'] = "#{node['lumberjack']['ssl_dir']}/#{node['lumberjack']['ssl key']}"
 node.default['lumberjack']['ssl_cert_path'] = "#{node['lumberjack']['ssl_dir']}/#{node['lumberjack']['ssl certificate']}"
 node.default['lumberjack']['user'] = node['logstash']['instance_default']['user']

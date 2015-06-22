@@ -51,6 +51,13 @@ template_variables = {
   chef_environment: node.chef_environment
 }
 
+# set lumberjack key locations and perms
+node.default['lumberjack']['ssl_dir'] = node['logstash']['instance_default']['basedir']
+node.default['lumberjack']['ssl_key_path'] = "#{node['lumberjack']['ssl_dir']}/#{node['lumberjack']['ssl key']}"
+node.default['lumberjack']['ssl_cert_path'] = "#{node['lumberjack']['ssl_dir']}/#{node['lumberjack']['ssl certificate']}"
+node.default['lumberjack']['user'] = node['logstash']['instance_default']['user']
+node.default['lumberjack']['group'] = node['logstash']['instance_default']['group']
+
 # preload any lumberjack key or cert that might be available
 include_recipe 'elkstack::_lumberjack_secrets'
 lumberjack_keypair = node.run_state['lumberjack_decoded_key'] && node.run_state['lumberjack_decoded_certificate']

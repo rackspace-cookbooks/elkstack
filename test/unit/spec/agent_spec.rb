@@ -33,8 +33,8 @@ describe 'elkstack::agent' do
   end
 
   it 'creates lumberjack key and certificate files' do
-    expect(chef_run).to create_file('/etc/lumberjack.key')
-    expect(chef_run).to create_file('/etc/lumberjack.crt')
+    expect(chef_run).to create_file('/opt/logstash/lumberjack.key')
+    expect(chef_run).to create_file('/opt/logstash/lumberjack.crt')
   end
 end
 
