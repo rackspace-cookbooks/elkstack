@@ -48,12 +48,27 @@ template_variables = {
   chef_environment: node.chef_environment
 }
 
+# set lumberjack key locations and perms
+node.default['lumberjack']['ssl_dir'] = '/opt/logstash/server'
+node.default['lumberjack']['ssl_key_path'] = "#{node['lumberjack']['ssl_dir']}/#{node['lumberjack']['ssl key']}"
+node.default['lumberjack']['ssl_cert_path'] = "#{node['lumberjack']['ssl_dir']}/#{node['lumberjack']['ssl certificate']}"
+node.default['lumberjack']['user'] = node['logstash']['instance_default']['user']
+node.default['lumberjack']['group'] = node['logstash']['instance_default']['group']
+
 # also receive lumberjack if a keypair is available
 include_recipe 'elkstack::_lumberjack_secrets'
-unless node.run_state['lumberjack_decoded_certificate'].nil? || node.run_state['lumberjack_decoded_certificate'].nil?
+unless node.run_state['lumberjack_decoded_certificate'].nil? || node.run_state['lumberjack_decoded_certificate'].nil?\
+ || node['elkstack']['config']['agent_protocol'] != 'lumberjack'
   my_templates['input_lumberjack'] = 'logstash/input_lumberjack.conf.erb'
-  template_variables['input_lumberjack_ssl_certificate'] = "#{node['logstash']['instance_default']['basedir']}/lumberjack.crt"
-  template_variables['input_lumberjack_ssl_key'] = "#{node['logstash']['instance_default']['basedir']}/lumberjack.key"
+  template_variables['input_lumberjack_ssl_certificate'] = node['lumberjack']['ssl_cert_path']
+  template_variables['input_lumberjack_ssl_key'] = node['lumberjack']['ssl_key_path']
+end
+
+# put logstash user into group for cert access
+group 'logstash-certs' do
+  action :manage
+  append true
+  members [node['logstash']['instance_default']['user']]
 end
 
 logstash_config instance_name do

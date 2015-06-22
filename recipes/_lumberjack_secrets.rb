@@ -47,20 +47,36 @@ else
   Chef::Log.warn('Unable to complete lumberjack keypair configuration')
 end
 
-# if we had overrode basedir value, we'd need to use the new value here too
-file node['logstash_forwarder']['config']['network']['ssl key'] do
+# logstash secrets
+file node['lumberjack']['ssl_key_path'] do
   content node.run_state['lumberjack_decoded_key']
-  owner node['logstash_forwarder']['user']
-  group node['logstash_forwarder']['group']
+  owner node['lumberjack']['user']
+  group node['lumberjack']['group']
   mode '0600'
   not_if { node.run_state['lumberjack_decoded_key'].nil? }
 end
 
-# if we had overrode basedir value, we'd need to use the new value here too
-file node['logstash_forwarder']['config']['network']['ssl certificate'] do
+file node['lumberjack']['ssl_cert_path'] do
   content node.run_state['lumberjack_decoded_certificate']
-  owner node['logstash_forwarder']['user']
-  group node['logstash_forwarder']['group']
+  owner node['lumberjack']['user']
+  group node['lumberjack']['group']
   mode '0600'
   not_if { node.run_state['lumberjack_decoded_certificate'].nil? }
 end
+
+# # logstash fowarder secrets
+# file node['lumberjack']['ssl_key_path']['forwarder'] do
+#   content node.run_state['lumberjack_decoded_key']
+#   owner node['logstash_forwarder']['user']
+#   group node['logstash_forwarder']['group']
+#   mode '0600'
+#   not_if { node.run_state['lumberjack_decoded_key'].nil? }
+# end
+
+# file node['lumberjack']['ssl_cert_path']['forwarder'] do
+#   content node.run_state['lumberjack_decoded_certificate']
+#   owner node['logstash_forwarder']['user']
+#   group node['logstash_forwarder']['group']
+#   mode '0600'
+#   not_if { node.run_state['lumberjack_decoded_certificate'].nil? }
+# end
