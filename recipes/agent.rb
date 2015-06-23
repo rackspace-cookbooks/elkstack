@@ -36,6 +36,8 @@ end
 logstash_service agent_name do
   action :enable
   only_if { logging_enabled }
+  retries 2
+  retry_delay 5
 end
 
 my_templates = {
