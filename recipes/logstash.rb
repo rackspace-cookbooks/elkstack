@@ -64,13 +64,6 @@ unless node.run_state['lumberjack_decoded_certificate'].nil? || node.run_state['
   template_variables['input_lumberjack_ssl_key'] = node['lumberjack']['ssl_key_path']
 end
 
-# put logstash user into group for cert access
-group 'logstash-certs' do
-  action :manage
-  append true
-  members [node['logstash']['instance_default']['user']]
-end
-
 logstash_config instance_name do
   action 'create'
   templates_cookbook 'elkstack'

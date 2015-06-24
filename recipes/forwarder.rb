@@ -75,13 +75,6 @@ file node['logstash_forwarder']['config_file'] do
   notifies :restart, 'service[logstash-forwarder]'
 end
 
-# put logstash user into group for cert access
-group 'logstash-certs' do
-  action :manage
-  append true
-  members [node['logstash_forwarder']['user']]
-end
-
 service 'logstash-forwarder' do
   supports status: true, restart: true
   action [:enable, :start]
