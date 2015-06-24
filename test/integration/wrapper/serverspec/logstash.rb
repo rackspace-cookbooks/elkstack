@@ -7,6 +7,14 @@ describe port(5959) do
   it { should be_listening }
 end
 
+describe port(5960) do
+  it { should be_listening }
+end
+
+describe port(5961) do
+  it { should be_listening }
+end
+
 describe service('logstash_server') do
   it { should be_running }
 end

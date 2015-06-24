@@ -69,6 +69,8 @@ platforms:
 
 suites:
   - name: default # server
+    data_bags_path: "test/integration/forwarder/data_bags"
+    encrypted_data_bag_secret_key_path: "test/integration/forwarder/encrypted_data_bag_secret"
     run_list:
       - recipe[java::default]
       - recipe[elkstack::default]
@@ -84,6 +86,12 @@ suites:
     encrypted_data_bag_secret_key_path: "test/integration/forwarder/encrypted_data_bag_secret"
     run_list:
       - recipe[elkstack::forwarder]
+
+  - name: wrapper
+    data_bags_path: "test/integration/forwarder/data_bags"
+    encrypted_data_bag_secret_key_path: "test/integration/forwarder/encrypted_data_bag_secret"
+    run_list:
+      - recipe[wrapper::elk]
 
 <% if ENV['RACKSPACE_MONITORING_USERNAME'] && ENV['RACKSPACE_MONITORING_API_KEY'] %>
 <%# Disabling backup as elasticsearch_backup seems to fail if you don't give the good credentials %>

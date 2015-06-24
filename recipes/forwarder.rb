@@ -21,11 +21,18 @@ elk_nodes.split(',').each do |new_node|
 end
 node.set['logstash_forwarder']['config']['network']['servers'] = forwarder_servers
 
+# set lumberjack key locations and perms
+node.default['lumberjack']['ssl_dir'] = '/etc'
+node.default['lumberjack']['ssl_key_path'] = "#{node['lumberjack']['ssl_dir']}/#{node['lumberjack']['ssl key']}"
+node.default['lumberjack']['ssl_cert_path'] = "#{node['lumberjack']['ssl_dir']}/#{node['lumberjack']['ssl certificate']}"
+node.default['lumberjack']['user'] = 'root'
+node.default['lumberjack']['group'] = 'root'
+
 include_recipe 'elkstack::_lumberjack_secrets'
 unless node.run_state['lumberjack_decoded_certificate'].nil? || node.run_state['lumberjack_decoded_certificate'].nil?
-  node.set['logstash_forwarder']['config']['network']['ssl certificate'] = '/etc/lumberjack.crt'
-  node.set['logstash_forwarder']['config']['network']['ssl key'] = '/etc/lumberjack.key'
-  node.set['logstash_forwarder']['config']['network']['ssl ca'] = '/etc/lumberjack.crt'
+  node.set['logstash_forwarder']['config']['network']['ssl certificate'] = node['lumberjack']['ssl_cert_path']
+  node.set['logstash_forwarder']['config']['network']['ssl key'] = node['lumberjack']['ssl_key_path']
+  node.set['logstash_forwarder']['config']['network']['ssl ca'] = node['lumberjack']['ssl_cert_path']
 end
 
 case node['platform_family']
