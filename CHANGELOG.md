@@ -1,3 +1,6 @@
+# 6.0.1
+- Fix for github issue #153. Lumberjack certificate placement not matching logstash agent input.
+
 # 6.0.0
 
 - Remove dependencies on stack_commons and platformstack.
