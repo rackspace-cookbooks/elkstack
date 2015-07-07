@@ -38,6 +38,11 @@ describe 'elasticsearch' do
     its(:stdout) { should match(/.*"status" : "green".*/) }
   end
 
+  # time to obey the previous command
+  describe command('sleep 10') do
+    its(:exit_status) { should eq 0 }
+  end
+
   # can't use process() matcher because of two java processes
   describe command('ps aux | grep -v grep | grep -si org.elasticsearch.bootstrap.Elasticsearch') do
     its(:exit_status) { should eq 0 }
