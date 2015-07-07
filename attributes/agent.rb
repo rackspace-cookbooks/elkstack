@@ -1,4 +1,14 @@
 agent_name = node['elkstack']['config']['logstash']['agent_name']
+
+default['elkstack']['config']['logstash']['agent']['my_templates'] = {
+  'input_syslog'         => 'logstash/input_syslog.conf.erb'
+}
+
+# node.default['elkstack']['config']['logstash']['my_templates'] = {
+#   'input_syslog'         => 'logstash/input_syslog.conf.erb',
+#   'output_stdout'        => 'logstash/output_stdout.conf.erb'
+# }
+
 agent = normal['logstash']['instance'][agent_name]
 
 agent['bind_host_interface'] = '127.0.0.1'

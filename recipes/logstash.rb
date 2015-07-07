@@ -26,16 +26,6 @@ directory node['logstash']['instance_default']['basedir'] do
   mode '0755'
 end
 
-# by default, these are the inputs and outputs on the server
-# we receive anything from any protocol we might know about
-my_templates = {
-  'input_syslog'         => 'logstash/input_syslog.conf.erb',
-  'input_tcp'            => 'logstash/input_tcp.conf.erb',
-  'input_udp'            => 'logstash/input_udp.conf.erb',
-  'output_stdout'        => 'logstash/output_stdout.conf.erb',
-  'output_elasticsearch' => 'logstash/output_elasticsearch.conf.erb'
-}
-
 template_variables = {
   input_lumberjack_host: '0.0.0.0',
   input_lumberjack_port: 5960,
@@ -59,7 +49,7 @@ node.default['lumberjack']['group'] = node['logstash']['instance_default']['grou
 include_recipe 'elkstack::_lumberjack_secrets'
 unless node.run_state['lumberjack_decoded_certificate'].nil? || node.run_state['lumberjack_decoded_certificate'].nil?\
  || node['elkstack']['config']['agent_protocol'] != 'lumberjack'
-  my_templates['input_lumberjack'] = 'logstash/input_lumberjack.conf.erb'
+  node.default['elkstack']['config']['logstash']['server']['my_templates']['input_lumberjack'] = 'logstash/input_lumberjack.conf.erb'
   template_variables['input_lumberjack_ssl_certificate'] = node['lumberjack']['ssl_cert_path']
   template_variables['input_lumberjack_ssl_key'] = node['lumberjack']['ssl_key_path']
 end
@@ -67,7 +57,7 @@ end
 logstash_config instance_name do
   action 'create'
   templates_cookbook 'elkstack'
-  templates my_templates
+  templates node['elkstack']['config']['logstash']['server']['my_templates']
   variables(template_variables)
   notifies :restart, "logstash_service[#{instance_name}]", :delayed
 end
