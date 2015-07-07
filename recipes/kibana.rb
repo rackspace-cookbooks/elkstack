@@ -99,6 +99,7 @@ kibana_web 'kibana' do
   es_port node['kibana']['es_port']
   server_name node['kibana']['server_name']
   server_aliases node['kibana']['server_aliases']
+  action :create
   not_if { node['kibana']['webserver'] == '' }
 end
 # end replaces 'kibana::install'
