@@ -26,18 +26,6 @@ directory node['logstash']['instance_default']['basedir'] do
   mode '0755'
 end
 
-template_variables = {
-  input_lumberjack_host: '0.0.0.0',
-  input_lumberjack_port: 5960,
-  input_syslog_host: '0.0.0.0',
-  input_syslog_port: 5959,
-  input_tcp_host: '0.0.0.0',
-  input_tcp_port: 5961,
-  input_udp_host: '0.0.0.0',
-  input_udp_port: 5962,
-  chef_environment: node.chef_environment
-}
-
 # set lumberjack key locations and perms
 node.default['lumberjack']['ssl_dir'] = node['logstash']['instance_default']['basedir']
 node.default['lumberjack']['ssl_key_path'] = "#{node['lumberjack']['ssl_dir']}/#{node['lumberjack']['ssl key']}"
@@ -50,15 +38,15 @@ include_recipe 'elkstack::_lumberjack_secrets'
 unless node.run_state['lumberjack_decoded_certificate'].nil? || node.run_state['lumberjack_decoded_certificate'].nil?\
  || node['elkstack']['config']['agent_protocol'] != 'lumberjack'
   node.default['elkstack']['config']['logstash']['server']['my_templates']['input_lumberjack'] = 'logstash/input_lumberjack.conf.erb'
-  template_variables['input_lumberjack_ssl_certificate'] = node['lumberjack']['ssl_cert_path']
-  template_variables['input_lumberjack_ssl_key'] = node['lumberjack']['ssl_key_path']
+  node.default['elkstack']['config']['logstash']['server']['my_template_variables']['input_lumberjack_ssl_certificate'] = node['lumberjack']['ssl_cert_path']
+  node.default['elkstack']['config']['logstash']['server']['my_template_variables']['input_lumberjack_ssl_key'] = node['lumberjack']['ssl_key_path']
 end
 
 logstash_config instance_name do
   action 'create'
-  templates_cookbook node['elkstack']['config']['logstash']['server']['my_template_cookbook']
+  templates_cookbook node['elkstack']['config']['logstash']['server']['my_templates_cookbook']
   templates node['elkstack']['config']['logstash']['server']['my_templates']
-  variables(template_variables)
+  variables(node['elkstack']['config']['logstash']['server']['my_template_variables'])
   notifies :restart, "logstash_service[#{instance_name}]", :delayed
 end
 

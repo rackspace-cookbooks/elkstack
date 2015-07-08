@@ -32,6 +32,18 @@ server['config_templates_cookbook'] = 'logstash'
 
 default['elkstack']['config']['logstash']['server']['my_templates_cookbook'] = 'elkstack'
 
+default['elkstack']['config']['logstash']['server']['my_template_variables'] = {
+  input_lumberjack_host: '0.0.0.0',
+  input_lumberjack_port: 5960,
+  input_syslog_host: '0.0.0.0',
+  input_syslog_port: 5959,
+  input_tcp_host: '0.0.0.0',
+  input_tcp_port: 5961,
+  input_udp_host: '0.0.0.0',
+  input_udp_port: 5962,
+  chef_environment: node.chef_environment
+}
+
 # templates
 # by default, these are the inputs and outputs on the server
 # we receive anything from any protocol we might know about
