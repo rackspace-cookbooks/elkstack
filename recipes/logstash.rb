@@ -56,7 +56,7 @@ end
 
 logstash_config instance_name do
   action 'create'
-  templates_cookbook 'elkstack'
+  templates_cookbook node['elkstack']['config']['logstash']['server']['my_template_cookbook']
   templates node['elkstack']['config']['logstash']['server']['my_templates']
   variables(template_variables)
   notifies :restart, "logstash_service[#{instance_name}]", :delayed

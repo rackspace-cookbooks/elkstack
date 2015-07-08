@@ -30,6 +30,8 @@ server['pattern_templates_cookbook'] = 'logstash'
 server['base_config_cookbook'] = 'logstash'
 server['config_templates_cookbook'] = 'logstash'
 
+default['elkstack']['config']['logstash']['server']['my_templates_cookbook'] = 'elkstack'
+
 # templates
 # by default, these are the inputs and outputs on the server
 # we receive anything from any protocol we might know about
