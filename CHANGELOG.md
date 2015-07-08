@@ -1,3 +1,6 @@
+# 6.0.2
+- stdout logstash config is now optional. Moved from hardcode to attribute.
+
 # 6.0.1
 - Fix for github issue #153. Lumberjack certificate placement not matching logstash agent input.
 
