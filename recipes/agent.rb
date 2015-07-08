@@ -40,11 +40,6 @@ logstash_service agent_name do
   retry_delay 5
 end
 
-my_templates = {
-  'input_syslog'         => 'logstash/input_syslog.conf.erb',
-  'output_stdout'        => 'logstash/output_stdout.conf.erb'
-}
-
 template_variables = {
   output_lumberjack_hosts: elk_nodes.split(','),
   output_lumberjack_port: 5960,
@@ -67,9 +62,8 @@ lumberjack_keypair = node.run_state['lumberjack_decoded_key'] && node.run_state[
 # default is 'tcp_udp'
 if node['elkstack']['config']['agent_protocol'] == 'tcp_udp'
   # TODO: udp and tcp senders
-
-  my_templates['output_tcp'] = 'logstash/output_tcp.conf.erb'
-  my_templates['output_udp'] = 'logstash/output_udp.conf.erb'
+  node.default['elkstack']['config']['logstash']['agent']['my_templates']['output_tcp'] = 'logstash/output_tcp.conf.erb'
+  node.default['elkstack']['config']['logstash']['agent']['my_templates']['output_udp'] = 'logstash/output_udp.conf.erb'
 
   template_variables[:output_tcp_host] = elk_nodes.split(',').first
   template_variables[:output_tcp_port] = 5961
@@ -78,7 +72,7 @@ if node['elkstack']['config']['agent_protocol'] == 'tcp_udp'
 
 # if flag is set *and* key & cert are available
 elsif node['elkstack']['config']['agent_protocol'] == 'lumberjack' && lumberjack_keypair
-  my_templates['output_lumberjack'] = 'logstash/output_lumberjack.conf.erb'
+  node.default['elkstack']['config']['logstash']['agent']['my_templates']['output_lumberjack'] = 'logstash/output_lumberjack.conf.erb'
   template_variables['output_lumberjack_ssl_certificate'] = "#{node['logstash']['instance_default']['basedir']}/lumberjack.crt"
   # template_variables['output_lumberjack_ssl_key'] = "#{node['logstash']['instance_default']['basedir']}/lumberjack.key"
 end
@@ -90,7 +84,7 @@ end
 
 logstash_config agent_name do
   templates_cookbook 'elkstack'
-  templates my_templates
+  templates node['elkstack']['config']['logstash']['agent']['my_templates']
   variables(template_variables)
   notifies :restart, "logstash_service[#{agent_name}]", :delayed
   action [:create]
