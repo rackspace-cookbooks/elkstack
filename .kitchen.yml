@@ -30,15 +30,6 @@ provisioner:
       sudo:
         users: ['vagrant']
         passwordless: true
-    platformstack:
-      iptables:
-        allow_ssh_from_world: true
-      cloud_backup:
-        enabled: false
-      cloud_monitoring:
-        enabled: false
-      omnibus_updater:
-        enabled: false
     elasticsearch:
       network:
         host: '127.0.0.1'
