@@ -16,7 +16,7 @@ include_recipe 'chef-sugar'
 # main point of elkstack, open syslog and lumberjack ports
 { 'syslog' => 5959,
   'lumberjack' => 5960,
-  'tcp' =>  5961,
+  'tcp' => 5961,
   # allow web clients to hit kibana on port 80 and 443
   'nginx SSL' => 443,
   'nginx' => 80

@@ -35,4 +35,4 @@ default['elasticsearch']['discovery']['zen']['ping']['multicast']['enabled'] = f
 default['elasticsearch']['custom_config']['script.disable_dynamic'] = false
 
 # get on a much newer java, required by ES
-default['java']['jdk_version']           = '7' # newer ES requires
+default['java']['jdk_version'] = '7' # newer ES requires

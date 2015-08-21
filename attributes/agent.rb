@@ -1,7 +1,7 @@
 agent_name = node['elkstack']['config']['logstash']['agent_name']
 
 default['elkstack']['config']['logstash']['agent']['my_templates'] = {
-  'input_syslog'         => 'logstash/input_syslog.conf.erb'
+  'input_syslog' => 'logstash/input_syslog.conf.erb'
 }
 
 # node.default['elkstack']['config']['logstash']['my_templates'] = {
