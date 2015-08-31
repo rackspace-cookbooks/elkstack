@@ -20,6 +20,9 @@ provisioner:
   client_rb:
     environment: _default
   attributes:
+    firewall:
+      ubuntu_iptables: true
+      allow_ssh: true
     openssh:
       server:
         password_authentication: 'yes'
