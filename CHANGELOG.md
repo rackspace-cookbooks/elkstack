@@ -1,3 +1,7 @@
+$ 6.0.3
+- fix firewall after upstream releases
+- Unpin some dependencies due to upstream fixes
+
 # 6.0.2
 - stdout logstash config is now optional. Moved from hardcode to attribute.
 
