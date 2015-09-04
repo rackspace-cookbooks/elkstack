@@ -158,6 +158,12 @@ CentOS 6.5
     <td><tt>kibana</tt></td>
   </tr>
   <tr>
+    <td><tt>['elkstack']['config']['kibana']['prepare_ssl']</tt></td>
+    <td>Boolean</td>
+    <td>Enable/disable automatic creation of an SSL certificate and private key and htpassword file for Kibana's nginx reverse-proxy. If disabled, you are responsible for placing these items in the correct location or supplying your own nginx vhost configuration for Kibana. See the `kibana_ssl` recipe for details.</td>
+    <td><tt>true</tt></td>
+  </tr>
+  <tr>
     <td><tt>['elkstack']['config']['kibana']['redirect']</tt></td>
     <td>Boolean</td>
     <td>Enable/Disable nginx redirect for kibana from port 80 to port 443</td>

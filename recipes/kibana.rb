@@ -13,7 +13,7 @@ include_recipe 'elkstack::_server'
 node.override['nginx']['repo_source'] = 'epel' if rhel?
 
 # configure / prepare an SSL cert and default htpassword
-include_recipe 'elkstack::kibana_ssl'
+include_recipe 'elkstack::kibana_ssl' if node['elkstack']['config']['kibana']['prepare_ssl']
 
 # nginx cookbook doesn't remove this when !node['nginx']['default_site_enabled']
 # (the main config file template includes both sites-enabled/* and conf.d/*)
