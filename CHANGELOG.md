@@ -1,4 +1,9 @@
-$ 6.0.3
+# 6.0.4
+- Pin back rubocop, problems with 0.34, RE: https://github.com/bbatsov/rubocop/issues/2218
+- Add attribute to disable kibana_ssl recipe.
+- Do not allow SSLv3 and use modern cipher suite.
+
+# 6.0.3
 - fix firewall after upstream releases
 - Unpin some dependencies due to upstream fixes
 
