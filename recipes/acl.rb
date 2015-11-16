@@ -40,7 +40,3 @@ es_nodes.split(',').each do |host|
     source      host
   end
 end
-
-firewall_rule 'open_loopback' do
-  raw '-A INPUT -i lo -j ACCEPT -m comment --comment "allow services on loopback to talk to any interface"'
-end
