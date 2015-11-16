@@ -40,3 +40,8 @@ es_nodes.split(',').each do |host|
     source      host
   end
 end
+
+firewall_rule 'open_loopback' do
+  interface 'lo'
+  protocol :none
+end

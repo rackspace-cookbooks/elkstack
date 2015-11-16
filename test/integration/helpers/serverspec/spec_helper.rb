@@ -1,5 +1,6 @@
 # Encoding: utf-8
 require 'serverspec'
+require_relative 'helpers'
 
 set :backend, :exec
 
