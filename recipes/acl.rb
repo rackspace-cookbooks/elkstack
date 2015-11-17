@@ -42,5 +42,6 @@ es_nodes.split(',').each do |host|
 end
 
 firewall_rule 'open_loopback' do
-  raw '-A INPUT -i lo -j ACCEPT -m comment --comment "allow services on loopback to talk to any interface"'
+  interface 'lo'
+  protocol :none
 end

@@ -18,10 +18,6 @@ describe 'logstash was installed and started as a service' do
     it { should be_listening }
   end
 
-  describe service('logstash_agent') do
-    it { should be_running }
-  end
-
   describe 'should be running Logstash main class' do
     describe command('ps aux | grep -v grep | grep -s logstash/runner.rb') do
       # can't use process() matcher because of two java processes

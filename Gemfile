@@ -7,7 +7,11 @@ group :lint do
 end
 
 group :unit do
-  gem 'berkshelf', '~> 3'
+  # For when I need berkshelf to actually resolve:
+  # gem 'berkshelf', path: '/home/mart6985/src/berkshelf'
+  # gem 'solve', path: '/home/mart6985/src/solve'
+  # gem 'molinillo', path: '/home/mart6985/src/molinillo'
+  gem 'berkshelf', '~> 4'
   gem 'chefspec', '~> 4'
   gem 'chef-sugar'
 end

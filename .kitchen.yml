@@ -57,13 +57,18 @@ platforms:
   - name: ubuntu-12.04
     run_list:
     - recipe[apt]
-  - name: centos-6.6
+  - name: centos-6
     run_list:
     - recipe[yum]
     attributes:
       java:
         jdk_version: 8
-
+  - name: centos-7
+    run_list:
+    - recipe[yum]
+    attributes:
+      java:
+        jdk_version: 8
 
 suites:
   - name: default # server
