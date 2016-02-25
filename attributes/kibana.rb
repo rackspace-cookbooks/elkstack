@@ -1,10 +1,13 @@
 default['kibana']['web_dir'] = '/opt/kibana/current'
 default['kibana']['webserver_port'] = 443
 default['kibana']['webserver_scheme'] = 'https://'
+default['nginx']['disable_http'] = true
 default['nginx']['ssl_key'] = '/etc/nginx/ssl/kibana.key'
 default['nginx']['ssl_cert'] = '/etc/nginx/ssl/kibana.pem'
-default['nginx']['ssl_protocols'] = 'TLSv1 TLSv1.1 TLSv1.2'
+default['nginx']['ssl_protocols'] = 'TLSv1.1 TLSv1.2'
 default['nginx']['ssl_cipher_list'] = 'EECDH+AESGCM:EDH+AESGCM:AES256+EECDH:AES256+EDH'
+default['nginx']['ssl_prefer_server_ciphers'] = 'on'
+
 default['kibana']['nginx']['template_cookbook'] = 'elkstack'
 default['kibana']['nginx']['template'] = 'kibana-nginx.conf.erb'
 default['kibana']['config']['request_timeout'] = 300_000
