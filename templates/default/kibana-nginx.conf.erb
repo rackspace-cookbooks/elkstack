@@ -1,5 +1,7 @@
 server {
+<%- unless node['nginx']['disable_http'] -%>
   listen                80;
+<%- end -%>
   listen                443 ssl;
 
   server_name           <%= @server_name %> <%= @server_aliases.join(" ") %>;
@@ -7,12 +9,15 @@ server {
 
   ssl_certificate_key <%= node['nginx']['ssl_key'] %>;
   ssl_certificate <%= node['nginx']['ssl_cert'] %>;
+  ssl_protocols <%= node['nginx']['ssl_protocols'] %>;
+  ssl_ciphers <%= node['nginx']['ssl_cipher_list'] %>;
+  ssl_prefer_server_ciphers <%= node['nginx']['ssl_prefer_server_ciphers'] %>;
 
-  <% if node['elkstack']['config']['kibana']['redirect'] %>
+  <%- if node['elkstack']['config']['kibana']['redirect'] -%>
   if ( $scheme = http ){
     rewrite ^ https://<%= @server_name %>$request_uri? permanent;
   }
-  <% end %>
+  <%- end -%>
 
   location / {
     proxy_pass http://localhost:<%= @kibana_port %>;
