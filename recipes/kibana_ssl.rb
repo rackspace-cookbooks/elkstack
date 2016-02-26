@@ -61,3 +61,13 @@ openssl_x509 cert_file do
   country 'US'
   key_file key_file
 end
+
+if node['nginx']['use_dhparam']
+  template node['nginx']['ssl_dhparam'] do
+    source 'dhparam.pem.erb'
+    owner 'root'
+    group 'root'
+    mode '0600'
+    action :create_if_missing
+  end
+end
