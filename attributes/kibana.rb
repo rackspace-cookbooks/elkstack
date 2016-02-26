@@ -1,13 +1,13 @@
 default['kibana']['web_dir'] = '/opt/kibana/current'
 default['kibana']['webserver_port'] = 443
 default['kibana']['webserver_scheme'] = 'https://'
-default['nginx']['disable_http'] = true
+default['nginx']['disable_http'] = false
 default['nginx']['ssl_key'] = '/etc/nginx/ssl/kibana.key'
 default['nginx']['ssl_cert'] = '/etc/nginx/ssl/kibana.pem'
 default['nginx']['ssl_protocols'] = 'TLSv1.1 TLSv1.2'
 default['nginx']['ssl_cipher_list'] = 'EECDH+AESGCM:EDH+AESGCM:AES256+EECDH:AES256+EDH'
 default['nginx']['ssl_prefer_server_ciphers'] = 'on'
-default['nginx']['use_dhparam'] = true
+default['nginx']['use_dhparam'] = false
 default['nginx']['ssl_dhparam'] = '/etc/nginx/ssl/dhparam.pem'
 default['nginx']['ssl_dhparam_bits'] = 2048
 
