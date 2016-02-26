@@ -8,7 +8,7 @@ dependencies:
   cache_directories:
     - "~/bundle"
   pre:
-    - ssh-keygen -y -f ~/.ssh/build_key.rsa > ~/.ssh/id_rsa.pub
+    - ssh-keygen -f ~/.ssh/id_rsa -q -N ""
   override:
     - bundle install --path=~/bundle --jobs=4 --retry=3:
         timeout: 600
