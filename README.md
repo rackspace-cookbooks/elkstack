@@ -188,8 +188,8 @@ CentOS 6.5
     <td><tt>lumberjack</tt></td>
   </tr>
   <tr>
-    <td><tt>['elkstack']['config']['custom_logstash']['name']</tt></td>
-    <td>Array of strings</td>
+    <td><tt>['elkstack']['config']['custom_logstash']</tt></td>
+    <td>Hash</td>
     <td>See `attributes/logstash.rb` for an explanation of how to use this attribute to populate additional logstash configuration file templates</td>
     <td><tt>[]</tt></td>
   </tr>

@@ -62,11 +62,10 @@ config_templates_variables['elasticsearch_protocol'] = server['elasticsearch_pro
 server['config_templates_variables'] = config_templates_variables
 
 # arbitrary data structure for any arbitrary logstash config
-default_unless['elkstack']['config']['custom_logstash']['name'] = []
+default_unless['elkstack']['config']['custom_logstash'] = {}
 # Currently for arbitrary logstash configs, the recipe that sets up the logstash file should add:
 # node.default['elkstack']['config']['custom_logstash']['name'].push('<service_name>')
-# and then populate node['elkstack']['config']['custom_logstash'][service_name][setting] with your values
-# default['elkstack']['config']['custom_logstash'][<name>]['name'] = 'my_logstashconfig'
-# default['elkstack']['config']['custom_logstash'][<name>]['source'] = 'my_logstashconfig.conf.erb'
-# default['elkstack']['config']['custom_logstash'][<name>]['cookbook'] = 'your_cookbook'
-# default['elkstack']['config']['custom_logstash'][<name>]['variables'] = { :warning => 'foo' }
+# and then populate node['elkstack']['config']['custom_logstash'][source_filename][setting] with your values
+# default['elkstack']['config']['custom_logstash']['my_logstashconfig']['source'] = 'my_logstashconfig_alt.conf.erb'
+# default['elkstack']['config']['custom_logstash']['my_logstashconfig']['cookbook'] = 'your_cookbook'
+# default['elkstack']['config']['custom_logstash']['my_logstashconfig']['variables'] = { :warning => 'foo' }
