@@ -88,6 +88,8 @@ not a PKI trust model, but an [explicit trust model](https://spaces.internet2.ed
 There exists a make-lumberjack-key.sh to help you make this. For Go 1.3+, you may be required
 by the standard libraries to create a SAN cert [as described here](https://github.com/elastic/logstash-forwarder/issues/221#issuecomment-48823952).
 
+There exists a make-lumberjack-key.sh to help you make this.
+
 ## [Changelog](CHANGELOG.md)
 
 See CHANGELOG.md for additional information about changes to this stack over time.
