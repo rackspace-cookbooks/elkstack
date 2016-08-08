@@ -7,6 +7,7 @@ require 'chef/application'
 
 Dir['./test/unit/spec/support/**/*.rb'].sort.each { |f| require f }
 
+# rubocop:disable AbcSize
 def stub_resources
   # overall search stub
   chef_search_query = double('Chef::Search::Query', test_search: { foo: false })
@@ -47,3 +48,4 @@ def stub_resources
 end
 
 at_exit { ChefSpec::Coverage.report! }
+# rubocop:enable AbcSize
