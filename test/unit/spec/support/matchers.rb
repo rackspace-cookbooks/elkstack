@@ -1,7 +1,7 @@
 # elkstack/libraries/matchers.rb
 
 if defined?(ChefSpec)
-  # ChefSpec::Runner.define_runner_method(:heat_nginx_vhost)
+  # ChefSpec.define_matcher(:heat_nginx_vhost)
 
   # Logstash matchers
   def create_logstash_service(resource)
