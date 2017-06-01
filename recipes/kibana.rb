@@ -104,7 +104,7 @@ kibana_web 'kibana' do
 end
 # end replaces 'kibana::install'
 
-# include_recipe 'nginx' # so service[nginx] exists, the one from the LWRP above is not created until runtime
+# include_recipe 'chef_nginx' # so service[nginx] exists, the one from the LWRP above is not created until runtime
 service 'nginx' do
   action :nothing
 end
